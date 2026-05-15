@@ -1,5 +1,5 @@
-import { fork } from "child_process"
-import { readdirSync } from "fs"
+import { fork } from "node:child_process"
+import { readdirSync } from "node:fs"
 import { basename } from "path"
 
 function forkSync(modulePath: string, i = 0) {

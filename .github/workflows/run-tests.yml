@@ -2,23 +2,23 @@ name: Run Tests
 run-name: Running Tests
 on: [workflow_dispatch, workflow_call]
 permissions:
-    packages: read
+  packages: read
 jobs:
-    test:
-        name: Run Tests
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout Repo
-              uses: actions/checkout@v4
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v6
 
-            - name: Install Node.js
-              uses: actions/setup-node@v4
-              with:
-                  node-version: 22.0.0
+      - name: Install Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24.15.0
 
-            - name: Run Tests
-              run: |
-                  npm ci
-                  npm run all
-                  cd tests/out
-                  node all.js
+      - name: Run Tests
+        run: |
+          npm ci
+          npm run all
+          cd tests/out
+          node all.js

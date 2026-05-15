@@ -1,31 +1,29 @@
 {
 	"name": "@hgargg-0710/one",
-	"author": "hgargg-0710",
 	"version": "0.5.0",
-	"description": "A tiny npm library purposed for providing beautiful solutions to frequent miniature (one-line/one-expression) tasks for various JS datatypes.",
+	"description": "A utility npm library that provides beautiful solutions to routine tasks over JavaScript types.",
+	"keywords": [
+		"utils"
+	],
+	"homepage": "https://github.com/HGARgG-0710/one#readme",
+	"bugs": {
+		"url": "https://github.com/HGARgG-0710/one/issues"
+	},
+	"license": "MIT",
+	"author": "hgargg-0710",
 	"type": "module",
 	"main": "./dist/main.js",
 	"types": "./dist/main.d.ts",
 	"scripts": {
-		"build": "tsc --project .",
-		"test": "cd tests && tsc --project . && cd ..",
-		"debug": "tsc --project ./ts/debug.json",
-		"test-debug": "cd tests && tsc --project ../ts/test-debug.json && cd ..",
+		"build": "npx tsc --project .",
+		"test": "cd tests && npx tsc --project . && cd ..",
+		"debug": "npx tsc --project ./ts/debug.json",
+		"test-debug": "cd tests && npx tsc --project ../ts/test-debug.json && cd ..",
 		"all": "npm run build && npm run test",
 		"debug-all": "npm run debug && npm run test-debug"
 	},
-	"license": "MIT",
-	"bugs": {
-		"url": "https://github.com/HGARgG-0710/one/issues"
-	},
-	"homepage": "https://github.com/HGARgG-0710/one#readme",
-	"keywords": [
-		"one-line",
-		"types",
-		"common",
-		"object"
-	],
 	"devDependencies": {
-		"@types/node": "^22.12.0"
+		"@types/node": "^22.19.19",
+		"typescript": "^6.0.3"
 	}
 }

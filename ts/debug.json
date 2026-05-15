@@ -1,14 +1,16 @@
 {
 	"compilerOptions": {
-		"baseUrl": "../",
+		"rootDir": "../",
 		"outDir": "../dist",
 		"lib": ["ESNext"],
 		"target": "ESNext",
 		"module": "NodeNext",
+		"types": ["node"],
 		"moduleResolution": "nodenext",
 		"declaration": true,
 		"strictNullChecks": true,
-		"sourceMap": true
+		"sourceMap": true,
+		"strict": false
 	},
 	"include": ["../**/*.ts"],
 	"exclude": ["../node_modules", "../tests", "../dist"]

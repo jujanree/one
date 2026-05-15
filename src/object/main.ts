@@ -34,7 +34,10 @@ export type ShapeArg =
 /**
  * Returns the pair of keys and values of the given object
  */
-export const kv = (obj: object): [(string | symbol)[], any[]] => [keys(obj), values(obj)]
+export const kv = (obj: object): [(string | symbol)[], any[]] => [
+	keys(obj),
+	values(obj),
+]
 
 /**
  * Creates a new object using the pair of keys and values
@@ -115,9 +118,11 @@ export function structCheck<Type extends object = object>(
 	properties: ShapeArg,
 	lacks: KeyArray = [],
 	optional: KeyArray = [],
-	isStrict = false
+	isStrict = false,
 ): TypePredicate<Type> {
-	const props = isArray(properties) ? Array.from(new Set(properties)) : keys(properties)
+	const props = isArray(properties)
+		? Array.from(new Set(properties))
+		: keys(properties)
 	const propsPredicateArrays = isArray(properties) ? [] : values(properties)
 	return (x: any): x is Type => {
 		if (
@@ -201,7 +206,7 @@ export const recursiveSymbolValues = (object: object) =>
  */
 export const ownProperties = (object: object): [FinalKeys, any[]] => [
 	ownKeys(object),
-	ownValues(object)
+	ownValues(object),
 ]
 
 /**
@@ -236,7 +241,7 @@ export const copy = <T extends object = object>(x: T) => ({ ...x })
  */
 export function propertyDescriptors(
 	object: object,
-	commonPrototype: object = Object.prototype
+	commonPrototype: object = Object.prototype,
 ) {
 	let currPrototype = object
 	let final = Object.getOwnPropertyDescriptors(object)
@@ -247,9 +252,9 @@ export function propertyDescriptors(
 			...findOwnMissing(
 				final,
 				Object.getOwnPropertyDescriptors(
-					(currPrototype = prototype(currPrototype))
-				)
-			)
+					(currPrototype = prototype(currPrototype)),
+				),
+			),
 		}
 
 	return final
@@ -284,7 +289,7 @@ export const allocator =
 export const same = (
 	x: object,
 	y: object,
-	pred?: (x?: any, y?: any, i?: number) => boolean
+	pred?: (x?: any, y?: any, i?: number) => boolean,
 ) => array_same(keys(x), keys(y)) && array_same(values(x), values(y), pred)
 
 /**
@@ -296,7 +301,7 @@ export const same = (
 export function recursiveSame(
 	x: object,
 	y: object,
-	pred: (x?: any, y?: any, i?: number) => boolean = equals
+	pred: (x?: any, y?: any, i?: number) => boolean = equals,
 ): boolean {
 	const yvals = values(y)
 	return (
@@ -304,7 +309,7 @@ export function recursiveSame(
 		values(x).every((x, i) =>
 			isStruct(x) && isStruct(yvals[i])
 				? recursiveSame(x, yvals[i], pred)
-				: pred(x, yvals[i], i)
+				: pred(x, yvals[i], i),
 		)
 	)
 }
@@ -325,7 +330,10 @@ export function withoutProperties(...props: ObjectKey[]) {
 /**
  * Returns a function for obtaining `x[name]`
  */
-export const prop = (name: string) => (x: object) => x[name]
+export const prop =
+	(name: string) =>
+	(x: object): any =>
+		x[name]
 
 /**
  * Alias of 'Object.defineProperty'
@@ -344,7 +352,7 @@ export const propsDefine = Object.defineProperties
 export const protoProp = (
 	Extended: Constructor,
 	name: PropertyKey,
-	value: PropertyDescriptor
+	value: PropertyDescriptor,
 ) => propDefine(Extended.prototype, name, value)
 
 /**
@@ -352,7 +360,7 @@ export const protoProp = (
  */
 export const extendPrototype = (
 	Extended: Constructor,
-	properties: PropertyDescriptorMap
+	properties: PropertyDescriptorMap,
 ) => propsDefine(Extended.prototype, properties)
 
 export * as classes from "./classes.js"

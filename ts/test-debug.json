@@ -1,14 +1,16 @@
 {
 	"compilerOptions": {
-		"baseUrl": "../tests/src/modules",
+		"rootDir": "../tests/src",
 		"outDir": "../tests/out",
 		"lib": ["ESNext"],
 		"strictNullChecks": true,
+		"types": ["node"],
 		"target": "ESNext",
 		"module": "NodeNext",
 		"moduleResolution": "NodeNext",
-		"verbatimModuleSyntax": true, 
-		"sourceMap": true
+		"verbatimModuleSyntax": true,
+		"sourceMap": true,
+		"strict": false
 	},
 	"include": ["../tests/**/*.ts"]
 }
