@@ -308,3 +308,14 @@ export const numbers = (n: number) =>
 
 export const from = <T = any>(length: number, f: (i: number) => T) =>
 	Array.from({ length: length }, (_v, i) => f(i))
+
+export const repeat = <T = any>(source: readonly T[], times: number) => {
+	assert(times >= 0)
+	if (times === 0) return []
+
+	const origLen = source.length
+	const newLen = origLen * times
+	const repeated = Array<T>(newLen)
+	for (let i = 0; i < newLen; ++i) repeated[i] = source[i % origLen]
+	return repeated
+}
