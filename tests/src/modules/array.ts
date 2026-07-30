@@ -1,5 +1,5 @@
-import test, { suite } from "node:test"
 import assert from "assert"
+import test, { suite } from "node:test"
 import { array } from "../../../dist/main.js"
 import { isArray } from "../../../dist/src/type/type.js"
 
@@ -19,10 +19,6 @@ const {
 	first,
 	propPreserve,
 	copy,
-	map,
-	filter,
-	reduce,
-	reduceRight,
 	empty,
 	uniqueArr,
 	and,
@@ -32,7 +28,7 @@ const {
 	substitute,
 	sort,
 	keys,
-	numbers
+	numbers,
 } = array
 
 const getArray = () => [0, 1, 2, 3]
@@ -118,7 +114,7 @@ suite("array", () => {
 		const mapPropPreserve = propPreserve((x: ArrHaving) => x.arr, ["length"])
 		const X1 = mapPropPreserve({
 			T: 90,
-			arr: [40, 40, 19]
+			arr: [40, 40, 19],
 		})
 
 		assert.strictEqual(X1.T, 90)
@@ -127,7 +123,7 @@ suite("array", () => {
 		const X2 = mapPropPreserve({
 			length: 90,
 			R: 20,
-			arr: ["a", "b", "c"]
+			arr: ["a", "b", "c"],
 		})
 
 		assert.strictEqual(X2.length, 3)
@@ -142,30 +138,6 @@ suite("array", () => {
 		assert.notStrictEqual(X, XC)
 	})
 
-	test("map", () => {
-		const X = getArray()
-		const square = (x: number) => x ** 2
-		assert(same(X.map(square), map(X, square)))
-	})
-
-	test("filter", () => {
-		const X = getArray()
-		const pred = (x: number) => x % 2 === 1
-		assert(same(X.filter(pred), filter(X, pred)))
-	})
-
-	test("reduce", () => {
-		const X = getArray()
-		const reductor = (x: number, y: number) => x - y
-		assert.strictEqual(X.reduce(reductor), reduce(X, reductor))
-	})
-
-	test("reduceRight", () => {
-		const X = getArray()
-		const reductor = (x: number, y: number) => x - y + x ** y
-		assert.strictEqual(X.reduceRight(reductor), reduceRight(X, reductor))
-	})
-
 	test("empty", () => {
 		assert(same(empty(), []))
 		assert.notStrictEqual(empty(), empty())
@@ -178,8 +150,8 @@ suite("array", () => {
 			same(
 				X.map((x) => x ** 3),
 				X,
-				(x, y) => x === y ** 3
-			)
+				(x, y) => x === y ** 3,
+			),
 		)
 	})
 
@@ -228,8 +200,8 @@ suite("array", () => {
 			recursiveSame(
 				homogenousItems,
 				homogenousItemsSquared,
-				(x: number, y: number) => x ** 2 === y
-			)
+				(x: number, y: number) => x ** 2 === y,
+			),
 		)
 
 		assert(!recursiveSame([1, 2], [1, 2, 3]))
@@ -250,8 +222,8 @@ suite("array", () => {
 		assert(
 			same(
 				sort([1, 2, 3], (a: number, b: number) => b - a),
-				[3, 2, 1]
-			)
+				[3, 2, 1],
+			),
 		)
 	})
 

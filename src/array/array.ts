@@ -2,7 +2,7 @@ import { equals } from "../boolean/boolean.js"
 import { constant } from "../functional/constant.js"
 import { difference } from "../number/number.js"
 import { ownProperties } from "../object/main.js"
-import { isArray, isNumberConvertible, isUndefined } from "../type/type.js"
+import { isArray, isNumberConvertible } from "../type/type.js"
 
 export type Pair<A = any, B = A> = [A, B]
 export type Pairs<A = any, B = A> = Pair<A, B>[]
@@ -170,70 +170,6 @@ export const propPreserve = (
  * Creates a copy of the given array
  */
 export const copy = <Type = any>(x: readonly Type[]) => ([] as Type[]).concat(x)
-
-/**
- * Creates and returns a new array. Same functionality as `array.map(f)`.
- *
- * Better performance for much larger inputs (no engine input size optimizations)
- */
-export function map<TypeFrom = any, TypeTo = any>(
-	array: readonly TypeFrom[],
-	f: (item?: TypeFrom, index?: number, array?: readonly TypeFrom[]) => TypeTo,
-) {
-	const mapped: TypeTo[] = Array(array.length)
-	let i = array.length
-	while (i--) mapped[i] = f(array[i], i, array)
-	return mapped
-}
-
-/**
- * Creates and returns a new array. Same functionality as `array.prop(f)`.
- *
- * Better performance for much larger inputs (no engine input size optimizations)
- */
-export function filter<Type = any>(
-	array: Type[],
-	prop: (item?: Type, index?: number, array?: readonly Type[]) => boolean,
-) {
-	const filtered: Type[] = []
-	for (let i = 0; i < array.length; ++i)
-		if (prop(array[i], i, array)) filtered.push(array[i])
-	return filtered
-}
-
-/**
- * Creates and returns a new array. Same functionality as `array.reduce(f, init)`.
- *
- * Better performance for much larger inputs (no engine input size optimizations)
- */
-export function reduce<Type = any>(
-	array: Type[],
-	f: (item?: any, curr?: Type, i?: number) => any,
-	init?: any,
-) {
-	const initLacking = isUndefined(init)
-	let result = initLacking ? array[0] : init
-	for (let i = +initLacking; i < array.length; ++i)
-		result = f(result, array[i], i)
-	return result
-}
-
-/**
- * Creates and returns a new array. Same functionality as `array.reduceRight(f, init)`
- *
- * Better performance for much larger inputs (no engine input size optimizations)
- */
-export function reduceRight<Type = any>(
-	array: Type[],
-	f: (item?: any, curr?: Type, i?: number) => any,
-	init?: any,
-) {
-	const initLacking = isUndefined(init)
-	let result = initLacking ? last(array) : init
-	let i = array.length - +initLacking
-	while (i--) result = f(result, array[i], i)
-	return result
-}
 
 /**
  * Allocates and returns a new empty array.
