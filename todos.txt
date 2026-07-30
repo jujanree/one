@@ -23,6 +23,7 @@
 		16. map.keys
 		17. map.values
 		18. array.fill
+		19. array.from
 
 	* To JSDoc:
 		1. string.id.camelCase
@@ -43,6 +44,7 @@
 		16. map.keys
 		17. map.values
 		18. array.fill
+		19. array.from
 
 	Add:
 		2. object:

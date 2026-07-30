@@ -305,3 +305,6 @@ export const numbers = (n: number) =>
 	Array(n)
 		.fill(0)
 		.map((_x, i) => i)
+
+export const from = <T = any>(length: number, f: (i: number) => T) =>
+	Array.from({ length: length }, (_v, i) => f(i))
