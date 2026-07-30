@@ -44,3 +44,9 @@ export const makeEven = (x: number) => 2 * x
  * Returns difference of `a` (defaults to 0) with sum of `b`
  */
 export const difference = (a: number = 0, ...b: number[]) => a - sum(...b)
+
+export const isPositive = (x: number) => x > 0
+
+export const isNegative = (x: number) => x < 0
+
+export const isZero = (x: number) => x === 0

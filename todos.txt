@@ -17,6 +17,9 @@
 		10. boolean.ge
 		11. boolean.le
 		12. boolean.leq
+		13. number.isPositive
+		14. number.isNegative
+		15. number.isZero
 
 	* To JSDoc:
 		1. string.id.camelCase
@@ -31,6 +34,9 @@
 		10. boolean.ge
 		11. boolean.le
 		12. boolean.leq
+		13. number.isPositive
+		14. number.isNegative
+		15. number.isZero
 
 	0. prior to all this, however...
 		Add:
@@ -61,10 +67,6 @@
 					This fills the "gaps" inside the array.
 				3. repeat(array, n):
 					creates a new array repeated n times using `array`;
-
-			6. number:
-				1. isPositive = (x: number) => x > 0
-				2. isNegative = (x: number) => x < 0
 
 			7. `map`:
 				1. `keys`
