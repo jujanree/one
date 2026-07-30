@@ -38,9 +38,8 @@
 		14. number.isNegative
 		15. number.isZero
 
-	0. prior to all this, however...
-		Add:
-			2. object:
+	Add:
+		2. object:
 				1. descriptor:
 					1. GetterDescriptor - ({get}), WITHOUT the '.set';
 				2. classes:
@@ -49,13 +48,13 @@
 				3. propCall = (name: string, n: number = Infinity) => (x: object) => (...args: any[]) x[name](...args)
 					Note: in practice, one also needs applying the 'argWaster' on this.
 
-			3. types
+		3. types
 				1. add 'Constructor<Signature extends any[] = [], Type = any> = new (...s: Signature) => Type'
 				2. add 'AbstractConstructor<Signature extends any[] = [], Type = any> = abstract new (...s: Signature) => Type'
 				3. add `isIterable` - defines whether a given something is one of:
 					returns: x is an entity (not NECESSARILY an object...) with '[Symbol.iterator]: isFunction'
 
-			5. array:
+		5. array:
 				1. from = (n: number, f: Function) => Array.from({ length: n }, f)
 					A VERY common construct.
 				2. fill(indexes, values, array):
@@ -68,14 +67,14 @@
 				3. repeat(array, n):
 					creates a new array repeated n times using `array`;
 
-			7. `map`:
+		7. `map`:
 				1. `keys`
 					(m: Map) => Array.from(map.keys())
 
 				2. `values`
 					(m: Map) => Array.from(map.values())
 
-		Fix:
+	Fix:
 			2. functional:
 				* copy - add generics 'FunctionType extends Function':
 					1. Do so for EVERY function in the library that accepts function-like objects,
@@ -85,13 +84,3 @@
 				Fix bad jsdoc:
 					1. fix the copypaste (example: 'object.empty' jsdoc is copypaste of 'array.empty');
 					2. make it more descriptive
-
-	1. functional programming library in JavaScript:
-		Let the 'functional' module be moved there...
-		The purpose of one.js is:
-
-			1. to provide refactoring for some simple/elementary expressions (like 'array.out')
-			2. to serve as a "clarifier" for existing JS API that is far too complex (the '.splice' method for instance...)
-			3. to provide solutions to simple algortihms (like 'set.uniqueArr')
-
-		Even though the 'trivialCompose' IS extremely common-place, it is still (technically) a functional utility;
