@@ -17,7 +17,7 @@ export const capitalize = (x: string = "") =>
 export const extract = (
 	string: string,
 	toExtract: string | RegExp,
-	toReplaceWith: string = ""
+	toReplaceWith: string = "",
 ) => string.split(toExtract).join(toReplaceWith)
 
 /**
@@ -60,7 +60,7 @@ export const cover = (...strings: string[]) =>
 	strings.reduce(
 		(covering: string, covered: string) =>
 			`${covering}${covered.slice(covering.length)}`,
-		""
+		"",
 	)
 
 /**
@@ -88,4 +88,41 @@ export const multiSplit = (x: string, splitBy: string[]) => {
 	for (let i = 0; i < splitBy.length - 1; ++i)
 		orig = extract(orig, splitBy[i], finalDelim)
 	return orig.split(finalDelim)
+}
+
+export namespace id {
+	export const camelCase = (...words: string[]) => {
+		if (words.length === 0) return ""
+		let result: string = words[0].toLowerCase()
+		for (const word of words) result += capitalize(word)
+		return result
+	}
+
+	export const PascalCase = (...words: string[]) => {
+		return words.map((x) => capitalize(x)).join("")
+	}
+
+	export const kebabcase = (...words: string[]) => {
+		return words.map((x) => x.toLowerCase()).join("-")
+	}
+
+	export const snake_case = (...words: string[]) => {
+		return words.map((x) => x.toLowerCase()).join("_")
+	}
+
+	export const MACRO_CASE = (...words: string[]) => {
+		return words.map((x) => x.toUpperCase()).join("_")
+	}
+
+	export const flatcase = (...words: string[]) => {
+		return words.map((x) => x.toLowerCase()).join("")
+	}
+
+	export const TRAIN_CASE = (...words: string[]) => {
+		return words.map((x) => x.toUpperCase()).join("_")
+	}
+
+	export const HttpCase = (...words: string[]) => {
+		return words.map((x) => capitalize(x)).join("-")
+	}
 }
