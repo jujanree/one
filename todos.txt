@@ -63,13 +63,12 @@
 
 		Fix:
 			2. functional:
-				1. argWaster - change places the 'n' and 'f' arguments
-				2. copy - add generics 'FunctionType extends Function':
+				* copy - add generics 'FunctionType extends Function':
 					1. Do so for EVERY function in the library that accepts function-like objects,
 						and which keeps the function's Shape;
 
 			3. array:
-				1. last, lastIndex: make the argument `readonly`
+				* last, lastIndex: make the argument `readonly`
 					THE SAME applies in general to ALL the micro-functions that
 						handle arrays that DO NOT need to be written to
 					Reason: IF the given array IS `readonly`, it prevents a need for manual conversion

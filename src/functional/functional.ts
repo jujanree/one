@@ -69,10 +69,10 @@ export const arrayCompose =
  */
 export const cache = <
 	KeyType = any,
-	FunctionType extends (...args: any[]) => any = (...args: any[]) => any
+	FunctionType extends (...args: any[]) => any = (...args: any[]) => any,
 >(
 	f: FunctionType,
-	keys: KeyType[]
+	keys: KeyType[],
 ): Map<KeyType, ReturnType<typeof f>> => new Map(keys.map((x) => [x, f(x)]))
 
 /**
@@ -162,20 +162,20 @@ export const copy = (f: Function, bound: any = null): Function => f.bind(bound)
 export const has = (set: Set<any>) => (x: any) => set.has(x)
 
 /**
- * Returns a function that removes last `n` arguments
- * (or, all of them, if it is greater than `args.length`) from `args`,
- * and calls `f` on the result
+ * Returns a function that removes last `max(n, args.length)` arguments
+ * and calls `f` on the result. Default `n` is `Infinity`.
  */
 export const argWaster =
-	(f: Function) =>
 	(n: number = Infinity) =>
+	(f: Function) =>
 	(...args: any[]) =>
 		f(...args.slice(0, max(0, args.length - n)))
 
 /**
  * Returns `(...x) => !f(...x)`
  */
-export const negate = (f: (...args: any[]) => any): ((...args: any[]) => boolean) =>
-	trivialCompose(not, f)
+export const negate = (
+	f: (...args: any[]) => any,
+): ((...args: any[]) => boolean) => trivialCompose(not, f)
 
 export * from "./constant.js"

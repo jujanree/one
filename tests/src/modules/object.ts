@@ -1,12 +1,17 @@
-import test, { suite } from "node:test"
 import assert from "node:assert"
+import test, { suite } from "node:test"
 
-import type { KeyValues } from "../../../dist/src/object/main.js"
-import { isArray, isNumber, isString, isTruthy } from "../../../dist/src/type/type.js"
 import {
 	recursiveSame as array_recursiveSame,
-	same as array_same
+	same as array_same,
 } from "../../../dist/src/array/array.js"
+import type { KeyValues } from "../../../dist/src/object/main.js"
+import {
+	isArray,
+	isNumber,
+	isString,
+	isTruthy,
+} from "../../../dist/src/type/type.js"
 
 import { object } from "../../../dist/main.js"
 import { argWaster } from "../../../dist/src/functional/functional.js"
@@ -33,7 +38,7 @@ const {
 	protoProp,
 	extendPrototype,
 	propertyDescriptors,
-	propDefine
+	propDefine,
 } = object
 
 const {
@@ -42,7 +47,7 @@ const {
 	mixin,
 	delegateMethod,
 	delegateProperty,
-	calledDelegate
+	calledDelegate,
 } = object.classes
 
 const { GetSetDescriptor, ConstDescriptor } = object.descriptor
@@ -52,7 +57,7 @@ const subObject = { K: null }
 const getObject = () => ({
 	A: 10,
 	[s]: true,
-	T: subObject
+	T: subObject,
 })
 
 const methFunction = () => console.log("rumpus")
@@ -62,7 +67,7 @@ const getPrototypeObject = () => {
 	const protoObj = {
 		[bs]: "55",
 		1919: "kr40al",
-		meth: methFunction
+		meth: methFunction,
 	}
 	Object.setPrototypeOf(protoObj, getObject())
 	return protoObj
@@ -71,35 +76,35 @@ const getPrototypeObject = () => {
 const kvTests = {
 	own: [
 		["A", "T", s],
-		[10, subObject, true]
+		[10, subObject, true],
 	],
 	prototype: [
 		["1919", "meth", "A", "T", bs, s],
-		["kr40al", methFunction, 10, subObject, "55", true]
+		["kr40al", methFunction, 10, subObject, "55", true],
 	],
 	string: {
 		own: [
 			["A", "T"],
-			[10, subObject]
+			[10, subObject],
 		],
 		prototype: [
 			["1919", "meth", "A", "T"],
-			["kr40al", methFunction, 10, subObject]
-		]
+			["kr40al", methFunction, 10, subObject],
+		],
 	},
 	symbol: {
 		own: [[s], [true]],
 		prototype: [
 			[bs, s],
-			["55", true]
-		]
+			["55", true],
+		],
 	},
 	ownOnly: {
 		prototype: [
 			["1919", "meth", bs],
-			["kr40al", methFunction, "55"]
-		]
-	}
+			["kr40al", methFunction, "55"],
+		],
+	},
 }
 
 suite("object", () => {
@@ -125,10 +130,13 @@ suite("object", () => {
 		const [s, t] = symbolProps
 		const shapeKeys = [...stringProps, ...symbolProps]
 		const shapePredicates = [isNumber, isString, isArray, isTruthy] as ((
-			x: any
+			x: any,
 		) => boolean)[]
 
-		const shape_kv: KeyValues<(x: any) => boolean> = [shapeKeys, shapePredicates]
+		const shape_kv: KeyValues<(x: any) => boolean> = [
+			shapeKeys,
+			shapePredicates,
+		]
 		const shapeObj = dekv(shape_kv)
 
 		const meat = Symbol("meat")
@@ -143,33 +151,35 @@ suite("object", () => {
 			rao: 22,
 			[s]: [],
 			[t]: 20,
-			word: "Sairo"
+			word: "Sairo",
 		})
 
 		const getStructInvalid = () => ({
 			...getStructValid(),
-			word: 22
+			word: 22,
 		})
 
 		const getStructExcessive = () => ({
 			...getStructValid(),
-			bb: 429
+			bb: 429,
 		})
 
 		const getStructOptional = () => ({
 			...getStructValid(),
 			[meat]: true,
-			raf: 17
+			raf: 17,
 		})
 
 		const getStructViolating = () => ({
 			...getStructValid(),
 			board: 20,
-			[r]: null
+			[r]: null,
 		})
 
-		const emptyForbidding = (pred: (x: any) => boolean) => assert(!pred(getEmpty()))
-		const emptyAllowing = (pred: (x: any) => boolean) => assert(pred(getEmpty()))
+		const emptyForbidding = (pred: (x: any) => boolean) =>
+			assert(!pred(getEmpty()))
+		const emptyAllowing = (pred: (x: any) => boolean) =>
+			assert(pred(getEmpty()))
 		const insufficientForbidding = (pred: (x: any) => boolean) => {
 			assert(!pred({ [s]: [] }))
 			assert(!pred({ [s]: [], [t]: 20 }))
@@ -203,7 +213,9 @@ suite("object", () => {
 		}
 
 		test("with empty structs [isStrict = false]", {}, () => {
-			const [emptyStructArr, emptyStructObj] = [[], {}].map((x) => structCheck(x))
+			const [emptyStructArr, emptyStructObj] = [[], {}].map((x) =>
+				structCheck(x),
+			)
 
 			const emptyTest = (emptyStruct: (x: any) => boolean) => {
 				emptyAllowing(emptyStruct)
@@ -323,8 +335,8 @@ suite("object", () => {
 		assert(
 			array_same(
 				recursiveStringKeys(getPrototypeObject()),
-				kvTests.string.prototype[0]
-			)
+				kvTests.string.prototype[0],
+			),
 		)
 	})
 
@@ -333,8 +345,8 @@ suite("object", () => {
 		assert(
 			array_same(
 				recursiveSymbolKeys(getPrototypeObject()),
-				kvTests.symbol.prototype[0]
-			)
+				kvTests.symbol.prototype[0],
+			),
 		)
 	})
 
@@ -343,19 +355,23 @@ suite("object", () => {
 		assert(
 			array_recursiveSame(
 				ownProperties(getPrototypeObject()),
-				kvTests.ownOnly.prototype
-			)
+				kvTests.ownOnly.prototype,
+			),
 		)
 	})
 
 	test("ownKeys", () => {
 		assert(array_same(ownKeys(getObject()), kvTests.own[0]))
-		assert(array_same(ownKeys(getPrototypeObject()), kvTests.ownOnly.prototype[0]))
+		assert(
+			array_same(ownKeys(getPrototypeObject()), kvTests.ownOnly.prototype[0]),
+		)
 	})
 
 	test("ownValues", () => {
 		assert(array_same(ownValues(getObject()), kvTests.own[1]))
-		assert(array_same(ownValues(getPrototypeObject()), kvTests.ownOnly.prototype[1]))
+		assert(
+			array_same(ownValues(getPrototypeObject()), kvTests.ownOnly.prototype[1]),
+		)
 	})
 
 	test("copy", () => {
@@ -370,7 +386,7 @@ suite("object", () => {
 		}
 		const propDescSimple = {
 			method: { value: method, writable: true },
-			X: { value: 99 }
+			X: { value: 99 },
 		}
 
 		const expectedRetained = {
@@ -378,8 +394,8 @@ suite("object", () => {
 				value: 99,
 				writable: false,
 				enumerable: false,
-				configurable: false
-			}
+				configurable: false,
+			},
 		}
 
 		const expectedDescSimple = {
@@ -387,9 +403,9 @@ suite("object", () => {
 				value: method,
 				writable: true,
 				enumerable: false,
-				configurable: false
+				configurable: false,
 			},
-			...expectedRetained
+			...expectedRetained,
 		}
 
 		class T {}
@@ -399,8 +415,8 @@ suite("object", () => {
 			assert(
 				recursiveSame(
 					withoutConstructor(propertyDescriptors(T.prototype)),
-					expectedDescSimple
-				)
+					expectedDescSimple,
+				),
 			))
 
 		const method2 = function () {
@@ -409,7 +425,7 @@ suite("object", () => {
 		const s99 = Symbol("99")
 		const propsAddition = {
 			method: { value: method2 },
-			L: { value: s99 }
+			L: { value: s99 },
 		}
 
 		const overridenPortion = {
@@ -417,8 +433,8 @@ suite("object", () => {
 				value: method2,
 				writable: false,
 				enumerable: false,
-				configurable: false
-			}
+				configurable: false,
+			},
 		}
 
 		const expectedPropsAddition = {
@@ -426,14 +442,14 @@ suite("object", () => {
 				value: s99,
 				writable: false,
 				enumerable: false,
-				configurable: false
-			}
+				configurable: false,
+			},
 		}
 
 		const expectedNewDescriptors = {
 			...overridenPortion,
 			...expectedPropsAddition,
-			...expectedRetained
+			...expectedRetained,
 		}
 
 		class R extends T {}
@@ -443,8 +459,8 @@ suite("object", () => {
 			assert(
 				recursiveSame(
 					withoutConstructor(propertyDescriptors(R.prototype)),
-					expectedNewDescriptors
-				)
+					expectedNewDescriptors,
+				),
 			))
 	})
 
@@ -456,13 +472,13 @@ suite("object", () => {
 					A: "17",
 					B: false,
 					[Symbol.iterator]: iterator,
-					[s]: 11
+					[s]: 11,
 				}),
 				{
 					B: false,
-					[Symbol.iterator]: iterator
-				}
-			)
+					[Symbol.iterator]: iterator,
+				},
+			),
 		)
 	})
 
@@ -484,19 +500,19 @@ suite("object", () => {
 		const numObject = {
 			x: 1,
 			y: 20,
-			z: 47
+			z: 47,
 		}
 
 		const squareObject = {
 			x: 1,
 			y: 400,
-			z: 2209
+			z: 2209,
 		}
 
 		const nonSquareObject = {
 			y: 400,
 			z: 2209,
-			x: 1
+			x: 1,
 		}
 
 		const firstSquared = (x: number, y: number) => x ** 2 === y
@@ -522,10 +538,10 @@ suite("object", () => {
 				b: 40,
 				r: 90,
 				l: {
-					m: 3
-				}
+					m: 3,
+				},
 			},
-			k: 7
+			k: 7,
 		}
 
 		const addObject = {
@@ -533,10 +549,10 @@ suite("object", () => {
 				b: 43,
 				r: 93,
 				l: {
-					m: 6
-				}
+					m: 6,
+				},
 			},
-			k: 10
+			k: 10,
 		}
 
 		const nonAddObject1 = {
@@ -545,9 +561,9 @@ suite("object", () => {
 				b: 43,
 				r: 93,
 				l: {
-					m: 6
-				}
-			}
+					m: 6,
+				},
+			},
 		}
 
 		const nonAddObject2 = {
@@ -555,8 +571,8 @@ suite("object", () => {
 			s: {
 				b: 43,
 				r: 93,
-				l: {}
-			}
+				l: {},
+			},
 		}
 
 		const addedThree = (x: number, y: number) => x + 3 === y
@@ -572,7 +588,7 @@ suite("object", () => {
 			C: 20,
 			[s]: 440,
 			N: "Ah?",
-			[bs]: "T"
+			[bs]: "T",
 		}
 
 		const sans = withoutProperties("A", s, "B", "C")
@@ -619,8 +635,8 @@ suite("object", () => {
 				},
 				get: function () {
 					return this.k - 11
-				}
-			}
+				},
+			},
 		})
 
 		c1.d = 10
@@ -641,7 +657,7 @@ suite("object", () => {
 				}
 			}
 
-			const t = argWaster(classWrapper(C))(1) as (...args: any[]) => C
+			const t = argWaster(1)(classWrapper(C)) as (...args: any[]) => C
 
 			const c = t()
 			const c1 = t(11)
@@ -749,7 +765,10 @@ suite("object", () => {
 			}
 
 			class C {
-				constructor(public b: B, public r: number) {}
+				constructor(
+					public b: B,
+					public r: number,
+				) {}
 			}
 
 			const b1 = new B(7)
@@ -778,8 +797,8 @@ suite("object", () => {
 					},
 					function (x: any) {
 						return (this.T = x)
-					}
-				)
+					},
+				),
 			)
 
 			assert.strictEqual(c.M, 12)

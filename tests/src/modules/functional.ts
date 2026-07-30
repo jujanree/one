@@ -1,9 +1,9 @@
-import test, { suite } from "node:test"
 import assert from "node:assert"
+import test, { suite } from "node:test"
 
-import { isNumber, isString } from "../../../dist/src/type/type.js"
-import { max, product, sum } from "../../../dist/src/number/number.js"
 import { same } from "../../../dist/src/array/array.js"
+import { max, product, sum } from "../../../dist/src/number/number.js"
+import { isNumber, isString } from "../../../dist/src/type/type.js"
 
 import { functional } from "../../../dist/main.js"
 
@@ -24,7 +24,7 @@ const {
 	copy,
 	has,
 	argWaster,
-	argFiller
+	argFiller,
 } = functional
 
 suite("functional", () => {
@@ -58,7 +58,7 @@ suite("functional", () => {
 	test("and", () => {
 		const and1 = and(
 			(...x: any[]) => x.some(isNumber),
-			(...x: any[]) => x.some(isString)
+			(...x: any[]) => x.some(isString),
 		)
 
 		const and2 = and(id)
@@ -81,9 +81,9 @@ suite("functional", () => {
 			trivialCompose(
 				(x: number) => x - 7,
 				(x: number) => x ** 2,
-				(...x: number[]) => max(...x) + 5
+				(...x: number[]) => max(...x) + 5,
 			)(20, 11, -94),
-			618
+			618,
 		)
 	})
 
@@ -103,9 +103,9 @@ suite("functional", () => {
 				[1].concat(
 					Array(20)
 						.fill(0)
-						.map((_, i) => 2 ** (i + 1))
-				)
-			)
+						.map((_, i) => 2 ** (i + 1)),
+				),
+			),
 		))
 
 	test("repeat", () => {
@@ -118,7 +118,7 @@ suite("functional", () => {
 		const f = arrayCompose(
 			(x: number, y: number, z: number) => (x + y + z) / 2,
 			(x: number, y: number) => [x ** 2, x * y + 3, (x + y) ** 2],
-			(x: number) => [x + 3, x ** 2]
+			(x: number) => [x + 3, x ** 2],
 		)
 
 		assert.strictEqual(f(1), 24)
@@ -128,7 +128,7 @@ suite("functional", () => {
 	test("cache", () => {
 		const prequoted = cache(
 			(quote: string) => (a: string) => `${quote}${a}`,
-			["'", '"']
+			["'", '"'],
 		)
 
 		assert.strictEqual(prequoted.get("'")!("stapleton"), "'stapleton")
@@ -161,7 +161,7 @@ suite("functional", () => {
 		const s1 = picked(null, (x) => x % 2 === 1)
 		const s2 = picked(
 			(x, i: number) => i < 3,
-			(x, i: number) => x > 7 && i % 2 === 0
+			(x, i: number) => x > 7 && i % 2 === 0,
 		)
 
 		assert(same(s1(1, 2, 3, 4, 5), [15, 15]))
@@ -212,13 +212,11 @@ suite("functional", () => {
 			return a * b + c ** 2
 		}
 
-		const SWaster = argWaster(S)
-
-		assert.strictEqual(argWaster(F)()(5), 35)
-		assert.strictEqual(SWaster()(5, 2, 3), 848)
-		assert.strictEqual(SWaster(2)(5, 2, 3), 584)
-		assert.strictEqual(SWaster(1)(5, 2, 3), 539)
-		assert.strictEqual(SWaster(0)(5, 2, 3), 19)
+		assert.strictEqual(argWaster()(F)(5), 35)
+		assert.strictEqual(argWaster()(S)(5, 2, 3), 848)
+		assert.strictEqual(argWaster(2)(S)(5, 2, 3), 584)
+		assert.strictEqual(argWaster(1)(S)(5, 2, 3), 539)
+		assert.strictEqual(argWaster(0)(S)(5, 2, 3), 19)
 	})
 
 	test("argFiller", () => {
