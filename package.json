@@ -1,16 +1,14 @@
 {
-	"name": "@hgargg-0710/one",
+	"name": "@jujanree/one",
 	"version": "0.5.0",
 	"description": "A utility npm library that provides beautiful solutions to routine tasks over JavaScript types.",
-	"keywords": [
-		"utils"
-	],
-	"homepage": "https://github.com/HGARgG-0710/one#readme",
+	"keywords": ["utils"],
+	"homepage": "https://github.com/jujanree/one#readme",
 	"bugs": {
-		"url": "https://github.com/HGARgG-0710/one/issues"
+		"url": "https://github.com/jujanree/one/issues"
 	},
 	"license": "MIT",
-	"author": "hgargg-0710",
+	"author": "jujanree",
 	"type": "module",
 	"main": "./dist/main.js",
 	"types": "./dist/main.d.ts",

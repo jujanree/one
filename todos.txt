@@ -1,8 +1,8 @@
-8. Future [v0.5.1]: 
+8. Future [v1.0.0]:
 
 	0. prior to all this, however...
-		Add: 
-			1. string: 
+		Add:
+			1. string:
 				1. camelCase - works on a spread list of words, combines them using camelCase
 				2. PascalCase - works like camelCase
 				3. kebab_case - [kebab-case] works like camelCase
@@ -15,166 +15,77 @@
 				10. Http_Case - [Http-Case] works like camelCase
 				11. camel_Snake_Case - works like camelCase
 
-			2. object: 
-				1. descriptor: 
-					1. GetterDescriptor - ({get}), WITHOUT the '.set'; 
-				2. classes: 
+			2. object:
+				1. descriptor:
+					1. GetterDescriptor - ({get}), WITHOUT the '.set';
+				2. classes:
 					1. attachConst = (x: Prototypal, name: PropertyKey, value: any) => protoProp(x, name, ConstDescriptor(value))
 					2. attachGetter = (x: Prototypal, name: PropertyKey, value: any) => protoProp(x, name, GetterDescriptor(value))
 				3. propCall = (name: string, n: number = Infinity) => (x: object) => (...args: any[]) x[name](...args)
-					Note: in practice, one also needs applying the 'argWaster' on this. 	
+					Note: in practice, one also needs applying the 'argWaster' on this.
 
 			3. types
 				1. add 'Constructor<Signature extends any[] = [], Type = any> = new (...s: Signature) => Type'
 				2. add 'AbstractConstructor<Signature extends any[] = [], Type = any> = abstract new (...s: Signature) => Type'
-				3. add `isIterable` - defines whether a given something is one of: 
+				3. add `isIterable` - defines whether a given something is one of:
 					returns: x is an entity (not NECESSARILY an object...) with '[Symbol.iterator]: isFunction'
 
-			4. boolean: 
+			4. boolean:
 				[AND their curried versions...]
 				1. leq = (x, y) => x <= y
 				2. geq = (x, y) => x >= y
 				3. ge = (x, y) => x > y
 				4. le = (x, y) => x < y
 
-			5. array: 
+			5. array:
 				1. from = (n: number, f: Function) => Array.from({ length: n }, f)
-					A VERY common construct. 
-				2. fill(indexes, values, array): 
-					REFACTOR from out the `substitute` function: 
+					A VERY common construct.
+				2. fill(indexes, values, array):
+					REFACTOR from out the `substitute` function:
 						fill = function (indexes, values, array) {
-							for (let i = 0 ; i < indexes.length; ++i) 
+							for (let i = 0 ; i < indexes.length; ++i)
 								array[indexes[i]] = values[i]
 						}
-					This fills the "gaps" inside the array. 
-				3. repeat(array, n): 
+					This fills the "gaps" inside the array.
+				3. repeat(array, n):
 					creates a new array repeated n times using `array`;
 
-			6. number: 
+			6. number:
 				1. isPositive = (x: number) => x > 0
 				2. isNegative = (x: number) => x < 0
 
-			7. `map`: 
+			7. `map`:
 				1. `keys`
 					(m: Map) => Array.from(map.keys())
-					
+
 				2. `values`
 					(m: Map) => Array.from(map.values())
 
-		Fix: 	
-
-			1. string: 
-				1. extract - add a 'global' call from the 'parsers.js' 'regex' submodule;
-					Reason - it's impossible to use '.split' with non-global 'regex'; 
-
-					For this to be good - SEPARATE the 'regex' submodule of 'parsers.js' into 'make-regex' npm package, 
-						which would (basically) be a whole new module. 
-
-					Then - one.js can import it [and subsequently EXPORT it, as part of the "combination-package" thing], TOGETHER
-						with 'parsers.js' [due to: 1. how conviniently it fits with parsers.js functionality; 2. that it already IS a dependency - why not export it as well?]
-			
-			2. functional: 
+		Fix:
+			2. functional:
 				1. argWaster - change places the 'n' and 'f' arguments
-				2. copy - add generics 'FunctionType extends Function': 
-					1. Do so for EVERY function in the library that accepts function-like objects, 
-						and which keeps the function's Shape; 
+				2. copy - add generics 'FunctionType extends Function':
+					1. Do so for EVERY function in the library that accepts function-like objects,
+						and which keeps the function's Shape;
 
-			3. array: 
+			3. array:
 				1. last, lastIndex: make the argument `readonly`
-					THE SAME applies in general to ALL the micro-functions that 
+					THE SAME applies in general to ALL the micro-functions that
 						handle arrays that DO NOT need to be written to
-					Reason: IF the given array IS `readonly`, it prevents a need for manual conversion 
-						to `T[]` from `readonly T[]`. 
-					
-			4. JSDOC: 
-				Fix bad jsdoc: 
-					1. fix the copypaste (example: 'object.empty' jsdoc is copypaste of 'array.empty'); 
-					2. make it more descriptive
-		
-		Also: 
-			1. Refactor back into the `parsers.js` [there are STILL a few imperfect places...]; 
+					Reason: IF the given array IS `readonly`, it prevents a need for manual conversion
+						to `T[]` from `readonly T[]`.
 
-	1. functional programming library in JavaScript: 
+			4. JSDOC:
+				Fix bad jsdoc:
+					1. fix the copypaste (example: 'object.empty' jsdoc is copypaste of 'array.empty');
+					2. make it more descriptive
+
+	1. functional programming library in JavaScript:
 		Let the 'functional' module be moved there...
-		The purpose of one.js is: 
+		The purpose of one.js is:
 
 			1. to provide refactoring for some simple/elementary expressions (like 'array.out')
 			2. to serve as a "clarifier" for existing JS API that is far too complex (the '.splice' method for instance...)
 			3. to provide solutions to simple algortihms (like 'set.uniqueArr')
-		
-		Even though the 'trivialCompose' IS extremely common-place, it is still (technically) a functional utility; 
 
-	2. create a new library called 'shape.js', which would elaborate on the idea of 'structCheck'. 
-		Particularly: 
-
-			1. It would introduce a new class called Shape, which would be the basis for 'structCheck' [rename to 'Shape.is']
-				The shapes would also be [method enumeration]: 
-
-					1. comparable [checkable for equality]
-					2. intersectable [intersections of different shapes would be findable]
-					3. disjoinable [possible if it's impossible for a given object to have 2 types at the same time]
-
-					4. constructable: 	
-						There would be the '.or' and '.and' predicate-methods for constructing new shapes from current ones. 
-					
-					5. constructor-like: 
-						It would be possible to construct new object of given shape using specialized 'Shape.prototype.construct' method
-
-			2. There would be the 'is' function, that would take a list of 'Shape's, then return a set of 'Shape's that 
-				the given object possesses.
-	
-	3. create a new library 'object.js', based off the 'one.js/object' submodule
-		The 'object.js' library would (then) become the 'one.js/object' submodule [library-level refactoring]
-
-	4. refactor all the stuff from 'type' submodule into a specialized 'typeof.js' module. 
-		This 'typeof.js' module would then become a dependency of 'one.js' that is exported;
-
-	5. refactor all the stuff from 'array' and 'inplace' submodules into 'array.js' module. 
-		Then - split the dependency of 'one.js' that is the 'array.js' into 'inplace' and 'array'
-
-	6. add a new package 'bits' for "common" functions for working with binary data, binary interfaces
-		Later (when it grows large enough), refactor into another library 'bits.js'
-	
-	NOTE: after all this - the 'one.js' [more or less] finishes its development, one never touches its "structCheck" part again. 
-		And - the package [more or less] does not update anymore, only occasionally - to work on the remaining "small" modules:
-
-			1. boolean
-			2. map
-			3. number
-			4. string
-
-		7. IDEA: [possibly] try to put these small functions into respective submodules, 
-			so that nothing would be "lost". 
-
-			BUT - here, retain the ordering [in that - the code would come from FEWER libraries, but the number of submodules would remain the same]. 
-			Libraries-modules distribution would be: 
-
-				1. boolean -> functional 
-				2. number -> functional 
-				3. map -> object/map [note: this is a submodule of the 'object.js' separate module]
-				4. string -> functional/string [note: this is a submodule of the functional library]
-
-	8. 'scale.js' - a scalable utility library. 
-		It would contain various functions, such as 'array.map', 'array.filter' [which execute BETTER than '.map' and '.filter' WHEN the inputs are large enough/have certain properties].
-			The library would provide 'fastMap', 'fastFilter', ..., to work with large pieces of data [for which it is more optimal to choose these manual solutions than the builtin Array.prototype methods]; 
-			THIS WAY, let the 'array.js' [and other such libraries] be USED by the 'scale.js'; 
-
-			TODO: create more similar functions for non-Array datatypes
-
-	9. About 'npm run paranoid' - [note for self: generally, when trying out the WSL - introduce into this scheme 2 more items: 
-		1. pre-testing [via pre-npm-run-test + a specialized run-all script]
-		2. publishing ONLY if the tests pass successfully [possibly - write a specialized npm module/gist for that? So that the user may import the respective function into their own script and be done with it???]
-	]
-
-		Particularly, the 'npm run paranoid' should look something like in Bash: 
-
-			rm -rf dist && && npm run all && (npm pack > packing.txt)
-
-		With an updated 'npm run all' being: 	
-
-			npm run build && npm run test-compile && npm run test
-	
-	10. make the .yml files in the '.github/workflows' a GitHub Gist [expecting those to be rather frequently used...]; 
-
-	11. make the 'forkSync' function into a micro-module on 'npm': 
-		Call the package: 'fork_sync'
+		Even though the 'trivialCompose' IS extremely common-place, it is still (technically) a functional utility;
