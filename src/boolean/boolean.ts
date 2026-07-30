@@ -24,3 +24,11 @@ export const equals = (x: any, y: any) => x === y
  * The curried version of `equals`
  */
 export const eqcurry = (x: any) => (y: any) => equals(x, y)
+
+export const leq = <T = any>(x: T, y: T) => x <= y
+
+export const geq = <T = any>(x: T, y: T) => x >= y
+
+export const ge = <T = any>(x: T, y: T) => x > y
+
+export const le = <T = any>(x: T, y: T) => x < y
