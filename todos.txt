@@ -20,6 +20,8 @@
 		13. number.isPositive
 		14. number.isNegative
 		15. number.isZero
+		16. map.keys
+		17. map.values
 
 	* To JSDoc:
 		1. string.id.camelCase
@@ -37,6 +39,8 @@
 		13. number.isPositive
 		14. number.isNegative
 		15. number.isZero
+		16. map.keys
+		17. map.values
 
 	Add:
 		2. object:
@@ -66,13 +70,6 @@
 					This fills the "gaps" inside the array.
 				3. repeat(array, n):
 					creates a new array repeated n times using `array`;
-
-		7. `map`:
-				1. `keys`
-					(m: Map) => Array.from(map.keys())
-
-				2. `values`
-					(m: Map) => Array.from(map.values())
 
 	Fix:
 			2. functional:
