@@ -1,3 +1,4 @@
+import assert from "assert"
 import { equals } from "../boolean/boolean.js"
 import { constant } from "../functional/constant.js"
 import { difference } from "../number/number.js"
@@ -260,6 +261,16 @@ export const sort = <T = any>(
 	order: (a: any, b: any) => number = difference,
 ) => array.sort(order)
 
+export const fill = <T = any>(
+	target: T[],
+	writeIndexes: readonly number[],
+	values: readonly T[],
+) => {
+	assert.strictEqual(writeIndexes.length, values.length)
+	const { length } = writeIndexes
+	for (let i = 0; i < length; ++i) target[writeIndexes[i]] = values[i]
+}
+
 /**
  * Creates a new function, which creates a new array of length `n`, indexes of which
  * defined by the `indexes` array (note: which is pre-ordered), are filled with `values`,
@@ -268,17 +279,16 @@ export const sort = <T = any>(
 export const substitute = (n: number, indexes: readonly number[]) => {
 	const filledIndexes = indexes.toSorted().filter((x) => x < n)
 	const limIndexes = new Set(filledIndexes)
-	return (values: readonly any[]) => {
-		const protoArr = Array(n)
-		for (let i = 0; i < filledIndexes.length; ++i)
-			protoArr[filledIndexes[i]] = values[i]
+	return <T = any>(values: readonly T[]) => {
+		const protoArr = Array<T>(n)
+		fill(protoArr, filledIndexes, values)
 		const restIndexes = Array.from(
 			protoArr.keys().filter((x) => !limIndexes.has(x)),
 		)
-		return (x: readonly any[]) => {
-			const final = protoArr
-			for (let i = 0; i < restIndexes.length; ++i) final[restIndexes[i]] = x[i]
-			return copy(final)
+		return (remainder: readonly T[]) => {
+			const complete = copy(protoArr)
+			fill(complete, restIndexes, remainder)
+			return complete
 		}
 	}
 }

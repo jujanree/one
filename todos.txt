@@ -22,6 +22,7 @@
 		15. number.isZero
 		16. map.keys
 		17. map.values
+		18. array.fill
 
 	* To JSDoc:
 		1. string.id.camelCase
@@ -41,6 +42,7 @@
 		15. number.isZero
 		16. map.keys
 		17. map.values
+		18. array.fill
 
 	Add:
 		2. object:
@@ -61,14 +63,7 @@
 		5. array:
 				1. from = (n: number, f: Function) => Array.from({ length: n }, f)
 					A VERY common construct.
-				2. fill(indexes, values, array):
-					REFACTOR from out the `substitute` function:
-						fill = function (indexes, values, array) {
-							for (let i = 0 ; i < indexes.length; ++i)
-								array[indexes[i]] = values[i]
-						}
-					This fills the "gaps" inside the array.
-				3. repeat(array, n):
+				2. repeat(array, n):
 					creates a new array repeated n times using `array`;
 
 	Fix:
