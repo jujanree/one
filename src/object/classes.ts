@@ -2,14 +2,16 @@ import {
 	Constructor,
 	extendPrototype,
 	propertyDescriptors,
-	withoutProperties
+	withoutProperties,
 } from "./main.js"
 
 /**
  * Returns a function that returns `new X(...args)`
  */
 export const classWrapper =
-	<T = any, Signature extends any[] = any[]>(X: new (...args: Signature) => T) =>
+	<T = any, Signature extends readonly any[] = any[]>(
+		X: new (...args: Signature) => T,
+	) =>
 	(...args: Signature) =>
 		new X(...args)
 
@@ -25,10 +27,11 @@ export const delegateMethod =
 /**
  * Returns a method that returns `this[delegatePropName][propName]`
  */
-export const delegateProperty = (delegatePropName: string) => (propName: string) =>
-	function () {
-		return this[delegatePropName][propName]
-	}
+export const delegateProperty =
+	(delegatePropName: string) => (propName: string) =>
+		function () {
+			return this[delegatePropName][propName]
+		}
 
 /**
  * Calls `extendPrototype` for each of the passed `Constructor`s `classes`,
@@ -41,9 +44,9 @@ export const mixin = (Extended: Constructor, classes: Constructor[]) =>
 		extendPrototype(
 			Extended,
 			withoutConstructor(
-				propertyDescriptors(ParentClass.prototype)
-			) as PropertyDescriptorMap
-		)
+				propertyDescriptors(ParentClass.prototype),
+			) as PropertyDescriptorMap,
+		),
 	)
 
 /**

@@ -1,4 +1,14 @@
-8. Future [v1.0.0]:
+* Future [v1.0.0]:
+
+	[note: the version is major since it is breaking,
+		which is since it forbids certain previously
+		possible dubious mutating behaviours on a type-level]
+
+	* To remove:
+		1. array.filter
+		2. array.map
+		3. array.reduce
+		4. array.reduceRight
 
 	* To test:
 		1. string.id.camelCase
@@ -10,7 +20,7 @@
 		7. string.id.TRAIN_CASE
 		8. string.id.HttpCase
 
-	* To JSDoc: 	
+	* To JSDoc:
 		1. string.id.camelCase
 		2. string.id.PascalCase
 		3. string.id.kebabcase
@@ -73,13 +83,6 @@
 				* copy - add generics 'FunctionType extends Function':
 					1. Do so for EVERY function in the library that accepts function-like objects,
 						and which keeps the function's Shape;
-
-			3. array:
-				* last, lastIndex: make the argument `readonly`
-					THE SAME applies in general to ALL the micro-functions that
-						handle arrays that DO NOT need to be written to
-					Reason: IF the given array IS `readonly`, it prevents a need for manual conversion
-						to `T[]` from `readonly T[]`.
 
 			4. JSDOC:
 				Fix bad jsdoc:
