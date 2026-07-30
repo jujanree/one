@@ -3,7 +3,7 @@ import { equals } from "../boolean/boolean.js"
 import { constant } from "../functional/constant.js"
 import { difference } from "../number/number.js"
 import { ownProperties } from "../object/main.js"
-import { isArray, isNumberConvertible } from "../type/type.js"
+import { isArray, isNumberConvertible } from "../types/types.js"
 
 export type Pair<A = any, B = A> = [A, B]
 export type Pairs<A = any, B = A> = Pair<A, B>[]

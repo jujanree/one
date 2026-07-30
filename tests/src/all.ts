@@ -10,8 +10,15 @@ function forkSync(modulePath: string, i = 0) {
 	})
 }
 
+function getExtensions(path: string) {
+	return path.split(".").slice(1)
+}
+
 const codes: number[] = []
-const modules = readdirSync(`${import.meta.dirname}/modules`)
+const modules = readdirSync(`${import.meta.dirname}/modules`).filter(
+	(x) => !getExtensions(x).includes("map"),
+)
+
 for (let i = 0; i < modules.length; ++i) {
 	const testFileName = modules[i]
 	const code = await forkSync(`modules/${testFileName}`, i)

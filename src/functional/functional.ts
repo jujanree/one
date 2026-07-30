@@ -1,7 +1,7 @@
 import { last, lastOut, substitute, Tuple } from "../array/array.js"
 import { not, T } from "../boolean/boolean.js"
 import { max } from "../number/number.js"
-import { isUndefined } from "../type/type.js"
+import { isUndefined } from "../types/types.js"
 
 /**
  * Provided with a list of functions, lazily executes them in sequence

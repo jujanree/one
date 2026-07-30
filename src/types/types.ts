@@ -1,4 +1,5 @@
 import { not } from "../boolean/boolean.js"
+import { structCheck } from "../object/main.js"
 import { isEmpty } from "../string/string.js"
 
 /**
@@ -75,8 +76,9 @@ export const isSet = <Type = any>(x: any): x is Set<Type> => x instanceof Set
 /**
  * Returns whether `x` is a `Map`
  */
-export const isMap = <KType = any, VType = any>(x: any): x is Map<KType, VType> =>
-	x instanceof Map
+export const isMap = <KType = any, VType = any>(
+	x: any,
+): x is Map<KType, VType> => x instanceof Map
 
 /**
  * Returns a bool indicating whether it is possible to call `Number(x)` without:
@@ -108,3 +110,7 @@ export const isFalsy = not as (x: any) => x is Falsy
  * Returns either `x` if it's a non-`null` object, or `false`, if it isn't
  */
 export const isStruct = (x: any) => isObject(x) && x
+
+export const isIterable = structCheck<Iterable<any>>({
+	[Symbol.iterator]: isFunction,
+})

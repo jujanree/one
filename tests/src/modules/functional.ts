@@ -3,7 +3,7 @@ import test, { suite } from "node:test"
 
 import { same } from "../../../dist/src/array/array.js"
 import { max, product, sum } from "../../../dist/src/number/number.js"
-import { isNumber, isString } from "../../../dist/src/type/type.js"
+import { isNumber, isString } from "../../../dist/src/types/types.js"
 
 import { functional } from "../../../dist/main.js"
 

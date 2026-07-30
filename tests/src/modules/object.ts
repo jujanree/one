@@ -11,7 +11,7 @@ import {
 	isNumber,
 	isString,
 	isTruthy,
-} from "../../../dist/src/type/type.js"
+} from "../../../dist/src/types/types.js"
 
 import { object } from "../../../dist/main.js"
 import { argWaster } from "../../../dist/src/functional/functional.js"

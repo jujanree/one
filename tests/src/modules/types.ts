@@ -1,7 +1,6 @@
-import test, { suite } from "node:test"
 import assert from "node:assert"
-
-import { type } from "../../../dist/main.js"
+import test, { suite } from "node:test"
+import { types } from "../../../dist/main.js"
 
 const {
 	isNumber,
@@ -19,8 +18,8 @@ const {
 	isMap,
 	isNumberConvertible,
 	isTruthy,
-	isFalsy
-} = type
+	isFalsy,
+} = types
 
 suite("type", () => {
 	test("isNumber", () => {

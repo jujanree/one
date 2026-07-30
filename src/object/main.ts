@@ -1,5 +1,5 @@
 import { equals, T } from "../boolean/boolean.js"
-import { isArray, isStruct, TypePredicate } from "../type/type.js"
+import { isArray, isStruct, TypePredicate } from "../types/types.js"
 
 import { same as array_same, Pair } from "../array/array.js"
 
@@ -34,10 +34,9 @@ export type ShapeArg =
 /**
  * Returns the pair of keys and values of the given object
  */
-export const kv = (obj: object): [(string | symbol)[], any[]] => [
-	keys(obj),
-	values(obj),
-]
+export function kv(obj: object): [(string | symbol)[], any[]] {
+	return [keys(obj), values(obj)]
+}
 
 /**
  * Creates a new object using the pair of keys and values
@@ -120,28 +119,26 @@ export function structCheck<Type extends object = object>(
 	optional: KeyArray = [],
 	isStrict = false,
 ): TypePredicate<Type> {
-	const props = isArray(properties)
-		? Array.from(new Set(properties))
-		: keys(properties)
-	const propsPredicateArrays = isArray(properties) ? [] : values(properties)
-	return (x: any): x is Type => {
-		if (
-			!(
-				isStruct(x) &&
-				props.every((p) => p in x) &&
-				lacks.every((p) => !(p in x)) &&
-				propsPredicateArrays.every((pred, i) => (pred || T)(x[props[i]]))
-			)
-		)
-			return false
+	const isPropArr = isArray(properties)
+	const [props, propsPredicateArrays] = (
+		isPropArr ? [Array.from(new Set(properties)), []] : kv(properties)
+	) as [PropertyKey[], ((x: any) => any)[]]
 
+	const predicatesPresent = (x: object) =>
+		propsPredicateArrays.every((pred, i) => (pred || T)(x[props[i]]))
+
+	return (x: any): x is Type => {
+		if (!isStruct(x)) return false
+		if (!props.every((p) => p in x)) return false
+		if (lacks.some((p) => p in x)) return false
+		if (!predicatesPresent(x)) return false
 		if (!isStrict) return true
 
 		const currKeys = keys(x)
-		const keyslen = keys(x).length
-		const proplen = props.length
-		if (proplen === keyslen) return true
-		if (keyslen - proplen > optional.length) return false
+		const keyCount = currKeys.length
+		const propCount = props.length
+		if (propCount === keyCount) return true
+		if (keyCount - propCount > optional.length) return false
 
 		const difference = Array.from(new Set(currKeys).difference(new Set(props)))
 		return difference.every((key) => optional.includes(key))
@@ -198,8 +195,9 @@ export function recursiveSymbolKeys(object: object) {
 /**
  * Returns the array of values of a given object at symbol keys [includes the prototypes]
  */
-export const recursiveSymbolValues = (object: object) =>
-	recursiveSymbolKeys(object).map((key) => object[key])
+export function recursiveSymbolValues(object: object) {
+	return recursiveSymbolKeys(object).map((key) => object[key])
+}
 
 /**
  * Returns the pair of own keys and own properties of a given object
@@ -228,7 +226,9 @@ export function ownValues(object: object) {
 /**
  * Alias of 'Object.getPrototypeOf'
  */
-export const prototype = Object.getPrototypeOf
+export function prototype(o: any): any {
+	return Object.getPrototypeOf(o)
+}
 
 /**
  * Makes a shallow copy of a given object

@@ -1,8 +1,11 @@
 * Future [v1.0.0]:
 
 	[note: the version is major since it is breaking,
-		which is since it forbids certain previously
-		possible dubious mutating behaviours on a type-level]
+		which is since:
+
+		1. it forbids certain previously possible dubious mutating behaviours on a type-level
+		2. rename `type` => `types` [breaking imports]
+	]
 
 	* To test:
 		1. string.id.camelCase
