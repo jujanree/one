@@ -46,16 +46,18 @@ export const iterations = (f: Function, n: number, j = 1) =>
  * that is then filled with `n` iterations of `f(last(X), i, X)`,
  * and returned
  */
-export const sequence = (f: Function, n: number) => (init: any) => {
-	const seqres = [init]
-	for (let i = 0; i < n; ++i) seqres.push(f(last(seqres), i, seqres))
-	return seqres
-}
+export const sequence =
+	<T = any>(f: (v: T, i: number, seq: T[]) => T, n: number) =>
+	(init: T) => {
+		const seqres = [init]
+		for (let i = 0; i < n; ++i) seqres.push(f(last(seqres), i, seqres))
+		return seqres
+	}
 
 /**
- * Makes the calls `f(0), f(1), ..., f(n)`
+ * Makes the calls `f(0), f(1), ..., f(n - 1)`
  */
-export const repeat = (f: Function, n: number) => {
+export const repeat = (f: (i: number) => void, n: number) => {
 	for (let i = 0; i < n; ++i) f(i)
 }
 
@@ -64,9 +66,12 @@ export const repeat = (f: Function, n: number) => {
  * intended to be spread out as inputs for the next function.
  */
 export const arrayCompose =
-	(...fs: Function[]) =>
-	(...x: any[]) =>
-		fs.reduceRight((last, curr) => curr(...last), x)
+	<FF extends (...args: any[]) => any, FL extends (...args: any[]) => any[]>(
+		...fs: [FF, ...((...args: any[]) => any[])[], FL]
+	) =>
+	(...x: Parameters<FL>): ReturnType<FF> => {
+		return fs.reduceRight((last: any[], curr) => curr(...last), x)
+	}
 
 /**
  * Creates and returns a `Map`, filled with key-value pairs of `[x, f(x)]` with `x` being in `keys`

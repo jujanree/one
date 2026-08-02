@@ -8,6 +8,7 @@
 		3. enforcing the call to `types.verifyConstructor` to work with non-class constructors
 			(cleaner and more concrete types then)
 		4. rename `array.uniqueArr` to `array.unique` [breaking imports]
+		5. removing `array.propPreserve` [breaking code that used it]
 	]
 
 	* To test:
