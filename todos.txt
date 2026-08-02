@@ -28,6 +28,7 @@
 		18. array.fill
 		19. array.from
 		20. array.repeat
+		21. object.descriptor.GetterDescriptor
 
 	* To JSDoc:
 		1. string.id.camelCase
@@ -50,22 +51,24 @@
 		18. array.fill
 		19. array.from
 		20. array.repeat
+		21. object.descriptor.GetterDescriptor
+
+	* TODO: fix the publish pipeline (replace the expired NPM_TOKEN secret, update version to 1.0.0 right before publishing)
 
 	Add:
 		2. object:
-				1. descriptor:
-					1. GetterDescriptor - ({get}), WITHOUT the '.set';
 				2. classes:
 					1. attachConst = (x: Prototypal, name: PropertyKey, value: any) => protoProp(x, name, ConstDescriptor(value))
 					2. attachGetter = (x: Prototypal, name: PropertyKey, value: any) => protoProp(x, name, GetterDescriptor(value))
+
 				3. propCall = (name: string, n: number = Infinity) => (x: object) => (...args: any[]) x[name](...args)
 					Note: in practice, one also needs applying the 'argWaster' on this.
+
+					??? Do we really need this ???
 
 		3. types
 				1. add 'Constructor<Signature extends any[] = [], Type = any> = new (...s: Signature) => Type'
 				2. add 'AbstractConstructor<Signature extends any[] = [], Type = any> = abstract new (...s: Signature) => Type'
-				3. add `isIterable` - defines whether a given something is one of:
-					returns: x is an entity (not NECESSARILY an object...) with '[Symbol.iterator]: isFunction'
 
 	Fix:
 			2. functional:

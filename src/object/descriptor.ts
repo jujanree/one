@@ -1,12 +1,12 @@
 /**
  * Returns a get-set `PropertyDescriptor`
  */
-export const GetSetDescriptor = (
-	get: () => any,
-	set: (v: any) => any
+export const GetSetDescriptor = <T = any>(
+	get: () => T,
+	set: (v: T) => void,
 ): PropertyDescriptor => ({
 	get,
-	set
+	set,
 })
 
 /**
@@ -21,7 +21,7 @@ export const Descriptor = (
 	value: any,
 	configurable = false,
 	writable = false,
-	enumerable = false
+	enumerable = false,
 ): PropertyDescriptor => ({ value, configurable, writable, enumerable })
 
 /**
@@ -30,7 +30,7 @@ export const Descriptor = (
 export const EnumerableDescriptor = (
 	value: any,
 	configurable?: boolean,
-	writable?: boolean
+	writable?: boolean,
 ) => Descriptor(value, configurable, writable, true)
 
 /**
@@ -39,7 +39,7 @@ export const EnumerableDescriptor = (
 export const ConfigurableDescriptor = (
 	value: any,
 	writable?: boolean,
-	enumerable?: boolean
+	enumerable?: boolean,
 ) => Descriptor(value, true, writable, enumerable)
 
 /**
@@ -48,5 +48,11 @@ export const ConfigurableDescriptor = (
 export const WritableDescriptor = (
 	value: any,
 	configurable?: boolean,
-	enumerable?: boolean
+	enumerable?: boolean,
 ) => Descriptor(value, configurable, true, enumerable)
+
+export const GetterDescriptor = <T = any>(
+	get: () => T,
+): PropertyDescriptor => ({
+	get,
+})
