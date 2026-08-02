@@ -68,15 +68,14 @@
 		26. types.AbstractConstructor
 		27. types.verifyAbstractConstructor
 		28. types.FunctionalConstructor
+		29. MapReturnType
+		30. AnyFunction
+		31. BasicFunction
+		32. ArrayMapper
 
 	* TODO: fix the publish pipeline (replace the expired NPM_TOKEN secret, update version to 1.0.0 right before publishing)
 
 	Fix:
-			2. functional:
-				* copy - add generics 'FunctionType extends Function':
-					1. Do so for EVERY function in the library that accepts function-like objects,
-						and which keeps the function's Shape;
-
 			4. JSDOC:
 				Fix bad jsdoc:
 					1. fix the copypaste (example: 'object.empty' jsdoc is copypaste of 'array.empty');

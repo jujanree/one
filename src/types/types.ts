@@ -4,8 +4,7 @@ import { structCheck } from "../object/main.js"
 import { isEmpty } from "../string/string.js"
 
 /**
- * A type for representing a class
- * (can be a Function, provided it's created with `types.makeConstructor`)
+ * A type for representing a non-abstract constructor
  */
 export type Constructor<
 	T extends object = any,
@@ -21,6 +20,18 @@ export type FunctionConstructor<
 	T extends object = any,
 	Args extends any[] = any[],
 > = (this: T, ...args: Args) => T | void
+
+export type MapReturnType<T extends readonly AnyFunction[]> = {
+	[K in keyof T]: ReturnType<T[K]>
+}
+
+export type AnyFunction = (...args: any[]) => any
+
+export type BasicFunction<In = any, Out = any> = (arg: In) => Out
+
+export type ArrayMapper<In extends any[] = any[], Out extends any[] = any[]> = (
+	...args: In
+) => Out
 
 /**
  * Type for signifying one-variable type predicates
@@ -40,7 +51,7 @@ export const isNumber = (x: any): x is number => typeof x === "number"
 /**
  * Returns whether `x` is a function
  */
-export const isFunction = <T extends Function = Function>(x: any): x is T =>
+export const isFunction = <T extends AnyFunction = AnyFunction>(x: any): x is T =>
 	typeof x === "function"
 
 /**

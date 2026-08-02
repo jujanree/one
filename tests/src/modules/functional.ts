@@ -155,19 +155,19 @@ suite("functional", () => {
 	})
 
 	test("tupleSlice", () => {
-		const f1 = (x: number, y = 3) => x + y
+		const f1 = (x: number, y = 3, z = 0) => x + y + z
 		const f2 = (x = 40, y = 90) => x * y
 		const f3 = (x = 20, y = 40) => x / y
 
 		const unsliced = tupleSlice(f1, f2, f3)
 
 		const s1 = unsliced([0, 1], [1, 3], [3, 4])
-		const s2 = unsliced([0, 2], [2, 2], [2, 4])
+		const s2 = unsliced([0, 3], [2, 2], [2, 4])
 		const s3 = unsliced([0, 2], null, [0, 2])
 
 		assert(same(s1(40, 20, 9, 90), [43, 180, 9 / 4]))
-		assert(same(s2(9, 20, 3, 3), [29, 3600, 1]))
-		assert(same(s2(19, -1, 3, 17), [18, 3600, 3 / 17]))
+		assert(same(s2(9, 20, 3, 3), [32, 3600, 1]))
+		assert(same(s2(19, -1, 3, 17), [21, 3600, 3 / 17]))
 		assert(same(s3(7, 3), [10, 21, 7 / 3]))
 	})
 
