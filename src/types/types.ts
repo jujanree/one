@@ -17,6 +17,11 @@ export type AbstractConstructor<
 	Args extends any[] = any[],
 > = (abstract new (...args: Args) => T) & { prototype: T }
 
+export type FunctionConstructor<
+	T extends object = any,
+	Args extends any[] = any[],
+> = (this: T, ...args: Args) => T | void
+
 /**
  * Type for signifying one-variable type predicates
  */
@@ -133,7 +138,7 @@ export const isIterable = structCheck<Iterable<any>>({
 function verifyPrototypePresence<
 	T extends object = any,
 	Args extends any[] = any[],
->(constructorMaker: () => (...args: Args) => T) {
+>(constructorMaker: () => FunctionConstructor<T, Args>) {
 	const constructor = constructorMaker()
 	assert(constructor.prototype)
 	return constructor
@@ -142,13 +147,15 @@ function verifyPrototypePresence<
 export function verifyConstructor<
 	T extends object = any,
 	Args extends any[] = any[],
->(constructorMaker: () => (...args: Args) => T): Constructor<T, Args> {
+>(constructorMaker: () => FunctionConstructor<T, Args>): Constructor<T, Args> {
 	return verifyPrototypePresence(constructorMaker) as any // we don't actually know `new`-calls are valid
 }
 
 export function verifyAbstractConstructor<
 	T extends object = any,
 	Args extends any[] = any[],
->(constructorMaker: () => (...args: Args) => T): AbstractConstructor<T, Args> {
+>(
+	constructorMaker: () => FunctionConstructor<T, Args>,
+): AbstractConstructor<T, Args> {
 	return verifyPrototypePresence(constructorMaker) as any
 }

@@ -66,6 +66,7 @@
 		25. array.zeros
 		26. types.AbstractConstructor
 		27. types.verifyAbstractConstructor
+		28. types.FunctionalConstructor
 
 	* TODO: fix the publish pipeline (replace the expired NPM_TOKEN secret, update version to 1.0.0 right before publishing)
 
