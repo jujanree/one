@@ -17,7 +17,6 @@ const {
 	out,
 	firstOut,
 	first,
-	propPreserve,
 	copy,
 	empty,
 	unique,
@@ -106,31 +105,6 @@ suite("array", () => {
 		assert.strictEqual(first(firstOut(X)), 1)
 	})
 
-	test("propPreserve", () => {
-		interface ArrHaving {
-			arr: any[]
-		}
-
-		const mapPropPreserve = propPreserve((x: ArrHaving) => x.arr, ["length"])
-		const X1 = mapPropPreserve({
-			T: 90,
-			arr: [40, 40, 19],
-		})
-
-		assert.strictEqual(X1.T, 90)
-		assert(isArray(X1))
-
-		const X2 = mapPropPreserve({
-			length: 90,
-			R: 20,
-			arr: ["a", "b", "c"],
-		})
-
-		assert.strictEqual(X2.length, 3)
-		assert.strictEqual(X2.R, 20)
-		assert(isArray(X2))
-	})
-
 	test("copy", () => {
 		const X = getArray()
 		const XC = copy(X)
@@ -150,7 +124,7 @@ suite("array", () => {
 			same(
 				X.map((x) => x ** 3),
 				X,
-				(x, y) => x === y ** 3,
+				(x, y) => x === y! ** 3,
 			),
 		)
 	})

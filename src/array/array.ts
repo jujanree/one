@@ -2,8 +2,7 @@ import assert from "assert"
 import { equals } from "../boolean/boolean.js"
 import { constant } from "../functional/constant.js"
 import { difference } from "../number/number.js"
-import { ownProperties } from "../object/main.js"
-import { isArray, isNumberConvertible } from "../types/types.js"
+import { isArray } from "../types/types.js"
 
 export type Pair<A = any, B = A> = [A, B]
 export type Pairs<A = any, B = A> = Pair<A, B>[]
@@ -143,29 +142,6 @@ export const firstOut = <Type = any>(x: readonly Type[], count = 1) =>
  * Gets the first item of the array
  */
 export const first = <Type = any>(x: readonly Type[]) => x[0]
-
-/**
- * Calls `f` on `x`, assigning all the own keys on `x`, that are not in `excluded` to `x`.
- *
- * Useful for creating "hybrid" arrays from existing objects.
- */
-export const propPreserve = (
-	f: Function,
-	excluded: readonly (string | symbol)[] = [],
-) => {
-	const excludedSet = new Set(excluded)
-	return (x: object) => {
-		const result = f(x)
-		const [keys, values] = ownProperties(x)
-		let i = keys.length
-		while (i--) {
-			const key = keys[i]
-			if (!isNumberConvertible(key) && !excludedSet.has(key))
-				result[key] = values[i]
-		}
-		return result
-	}
-}
 
 /**
  * Creates a copy of the given array

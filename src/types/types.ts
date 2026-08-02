@@ -40,7 +40,8 @@ export const isNumber = (x: any): x is number => typeof x === "number"
 /**
  * Returns whether `x` is a function
  */
-export const isFunction = (x: any): x is Function => typeof x === "function"
+export const isFunction = <T extends Function = Function>(x: any): x is T =>
+	typeof x === "function"
 
 /**
  * Returns whether `x` is a string primitive
@@ -96,9 +97,8 @@ export const isSet = <Type = any>(x: any): x is Set<Type> => x instanceof Set
 /**
  * Returns whether `x` is a `Map`
  */
-export const isMap = <KType = any, VType = any>(
-	x: any,
-): x is Map<KType, VType> => x instanceof Map
+export const isMap = <K = any, V = any>(x: any): x is Map<K, V> =>
+	x instanceof Map
 
 /**
  * Returns a bool indicating whether it is possible to call `Number(x)` without:

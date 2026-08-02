@@ -3,7 +3,11 @@ import test, { suite } from "node:test"
 
 import { same } from "../../../dist/src/array/array.js"
 import { max, product, sum } from "../../../dist/src/number/number.js"
-import { isNumber, isString } from "../../../dist/src/types/types.js"
+import {
+	isNumber,
+	isString,
+	type Falsy,
+} from "../../../dist/src/types/types.js"
 
 import { functional } from "../../../dist/main.js"
 
@@ -30,13 +34,23 @@ const {
 suite("functional", () => {
 	test("or", () => {
 		const isEveryNum = (...x: any[]) => x.every(isNumber)
+		type Or3 = [
+			number | string | boolean | Falsy,
+			boolean | Falsy,
+			string | boolean | Falsy,
+		]
+
+		const f31 = (...args: Or3) => args[0]
+		const f32 = (...args: Or3) => args[1]
+		const f33 = (...args: Or3) => args[2]
+
 		const or1 = or(isEveryNum, (...x: any[]) => x.every(isString))
 		const or2 = or(isEveryNum, isString)
-		const or3 = or(id)
+		const or3 = or(f31, f32, f33)
 
 		assert(or1())
 		assert(or2())
-		assert(!or3())
+		assert(!or3(false, null, ""))
 
 		assert(or1(3, 2, 1))
 		assert(or1("3", "2", "1"))
@@ -49,10 +63,9 @@ suite("functional", () => {
 		assert(or2("C", 2, 1))
 
 		assert(!or3(false, false, false))
-		assert.strictEqual(or3(null, false, false), null)
-		assert.strictEqual(or3(false, false), false)
+		assert.strictEqual(or3(null, false, ""), "")
 		assert(or3(true, false, false))
-		assert(or3(true, true, true))
+		assert.strictEqual(or3(2, true, "abc"), 2)
 	})
 
 	test("and", () => {
@@ -64,19 +77,25 @@ suite("functional", () => {
 		const and2 = and(id)
 
 		assert(!and1())
-		assert(!and2())
-
 		assert(and1(10, 90, "S", "R"))
 		assert(!and1(10, 90))
 		assert(!and1("S", "R"))
 
-		assert(and2(10, true, "S"))
+		assert(and2(10))
 		assert(!and2(false))
 		assert.strictEqual(and2(0), 0)
-		assert.strictEqual(and2(10, 19, 44), 10)
+		assert.strictEqual(and2(10), 10)
 	})
 
 	test("trivialCompose", () => {
+		assert.strictEqual(
+			trivialCompose(
+				(x: string) => x + "S",
+				(x: number) => String(x + 1),
+			)(8),
+			"9S",
+		)
+
 		assert.strictEqual(
 			trivialCompose(
 				(x: number) => x - 7,

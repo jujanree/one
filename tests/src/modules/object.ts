@@ -73,7 +73,7 @@ const getPrototypeObject = () => {
 	return protoObj
 }
 
-const kvTests = {
+const kvTests: any = {
 	own: [
 		["A", "T", s],
 		[10, subObject, true],

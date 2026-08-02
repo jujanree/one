@@ -1,7 +1,7 @@
 import { last, lastOut, substitute, Tuple } from "../array/array.js"
 import { not, T } from "../boolean/boolean.js"
 import { max } from "../number/number.js"
-import { isUndefined } from "../types/types.js"
+import { Falsy, isUndefined } from "../types/types.js"
 
 /**
  * Provided with a list of functions, lazily executes them in sequence
@@ -9,8 +9,8 @@ import { isUndefined } from "../types/types.js"
  * If all results are falsy - returns the last one
  */
 export const or =
-	(...fs: Function[]) =>
-	(...x: any[]) =>
+	<F extends (...args: any) => any>(...fs: F[]) =>
+	(...x: Parameters<F>): false | ReturnType<F> =>
 		fs.reduce((prev, curr) => (prev ? prev : curr(...x)), false)
 
 /**
@@ -19,17 +19,21 @@ export const or =
  * If all results are truthy - returns the last one
  */
 export const and =
-	(...fs: Function[]) =>
-	(...x: any[]) =>
+	<F extends (...args: any) => any>(...fs: F[]) =>
+	(...x: Parameters<F>): Falsy | ReturnType<F> =>
 		fs.reduce((prev, curr) => (prev ? curr(...x) : prev), true)
 
 /**
  * Returns the function composition of the `fs` functions.
  */
 export const trivialCompose =
-	(...fs: Function[]) =>
-	(...x: any[]) =>
-		lastOut(fs).reduceRight((last, curr) => curr(last), (last(fs) || id)(...x))
+	<FF extends (arg: any) => any, FL extends (...args: any[]) => any>(
+		...fs: [FF, ...Function[], FL]
+	) =>
+	(...x: Parameters<FL>): ReturnType<FF> => {
+		const start: ReturnType<FL> = ((last(fs) || id) as FL)(...x)
+		return lastOut(fs).reduceRight((last: any, curr: any) => curr(last), start)
+	}
 
 /**
  * Returns the array, containing the values of `f(j * i)` for `0 <= i <= floor(n / j)`
