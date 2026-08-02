@@ -1,12 +1,13 @@
 * Future [v1.0.0]:
 
 	[note: the version is major since it is breaking,
-		which is since:
+		which is due to:
 
-		1. it forbids certain previously possible dubious mutating behaviours on a type-level
+		1. it forbids certain previously possible dubious mutating behaviours on a type-level [generics, `readonly`]
 		2. rename `type` => `types` [breaking imports]
 		3. enforcing the call to `types.verifyConstructor` to work with non-class constructors
 			(cleaner and more concrete types then)
+		4. rename `array.uniqueArr` to `array.unique` [breaking imports]
 	]
 
 	* To test:
@@ -35,6 +36,7 @@
 		23. object.classes.attachGetter
 		24. types.verifyConstructor
 		25. array.zeros
+		26. types.verifyAbstractConstructor
 
 	* To JSDoc:
 		1. string.id.camelCase
@@ -62,14 +64,10 @@
 		23. object.classes.attachGetter
 		24. types.verifyConstructor
 		25. array.zeros
+		26. types.AbstractConstructor
+		27. types.verifyAbstractConstructor
 
 	* TODO: fix the publish pipeline (replace the expired NPM_TOKEN secret, update version to 1.0.0 right before publishing)
-
-	Add:
-
-		3. types
-			2. add 'AbstractConstructor<Signature extends any[] = [], Type = any> = abstract new (...s: Signature) => Type'
-				2.1. likewise, add `types.verifyAbstractConstructor` (analogous to `types.verifyConstructor`)
 
 	Fix:
 			2. functional:
@@ -82,3 +80,5 @@
 					1. fix the copypaste (example: 'object.empty' jsdoc is copypaste of 'array.empty');
 					2. make it more descriptive
 					3. add missing (listed above)
+
+	* Provide a new CHANGELOG, based off made commits' messages
