@@ -185,10 +185,10 @@ export const empty = (): [] => []
  *
  * `pred` defaults to `(x, y) => x === y`
  */
-export const same = (
-	a: Iterable<any>,
-	b: Iterable<any>,
-	pred: (x?: any, y?: any, i?: any) => boolean = equals,
+export const same = <T = any>(
+	a: Iterable<T>,
+	b: Iterable<T>,
+	pred: (x?: T, y?: T, i?: number) => boolean = equals,
 ) => {
 	const [aarr, barr] = [a, b].map((x) => Array.from(x))
 	return (
@@ -241,10 +241,10 @@ export const isEmpty = (array: readonly any[]) => !array.length
  * to the given arrays `a` and `b` (otherwise, applying `pred(a[i], b[i], i)`),
  * and returns the result.
  */
-export const recursiveSame = (
-	a: readonly any[],
-	b: readonly any[],
-	pred: (x?: any, y?: any, i?: number) => boolean = equals,
+export const recursiveSame = <T = any>(
+	a: readonly T[],
+	b: readonly T[],
+	pred: (x?: T, y?: T, i?: number) => boolean = equals,
 ) =>
 	a.length === b.length &&
 	a.every((ax, i) =>
