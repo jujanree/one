@@ -1,6 +1,6 @@
+import type { Constructor } from "../types/types.js"
 import { ConstDescriptor, GetterDescriptor } from "./descriptor.js"
 import {
-	Constructor,
 	extendPrototype,
 	propertyDescriptors,
 	protoProp,

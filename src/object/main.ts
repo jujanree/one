@@ -2,11 +2,7 @@ import { equals, T } from "../boolean/boolean.js"
 import { isArray, isStruct, TypePredicate } from "../types/types.js"
 
 import { same as array_same, Pair } from "../array/array.js"
-
-/**
- * A type for representing a class
- */
-export type Constructor<T extends object = any> = Function & { prototype: T }
+import type { Constructor } from "../types/types.js"
 
 /**
  * A type for representing a pair of object's keys-values

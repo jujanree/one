@@ -298,16 +298,15 @@ export const substitute = (n: number, indexes: readonly number[]) => {
  */
 export const keys = <T = any>(x: readonly T[]) => Array.from(x.keys())
 
+export const zeros = (n: number) => Array(n).fill(0)
+
 /**
  * Returns an Array of numbers from `0` to `n - 1`
  */
-export const numbers = (n: number) =>
-	Array(n)
-		.fill(0)
-		.map((_x, i) => i)
+export const numbers = (n: number) => zeros(n).map((_x, i) => i)
 
 export const from = <T = any>(length: number, f: (i: number) => T) =>
-	Array.from({ length: length }, (_v, i) => f(i))
+	Array.from({ length }, (_v, i) => f(i))
 
 export const repeat = <T = any>(source: readonly T[], times: number) => {
 	assert(times >= 0)

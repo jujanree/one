@@ -5,6 +5,8 @@
 
 		1. it forbids certain previously possible dubious mutating behaviours on a type-level
 		2. rename `type` => `types` [breaking imports]
+		3. enforcing the call to `types.verifyConstructor` to work with non-class constructors
+			(cleaner and more concrete types then)
 	]
 
 	* To test:
@@ -29,6 +31,10 @@
 		19. array.from
 		20. array.repeat
 		21. object.descriptor.GetterDescriptor
+		22. object.classes.attachConst
+		23. object.classes.attachGetter
+		24. types.verifyConstructor
+		25. array.zeros
 
 	* To JSDoc:
 		1. string.id.camelCase
@@ -52,13 +58,18 @@
 		19. array.from
 		20. array.repeat
 		21. object.descriptor.GetterDescriptor
+		22. object.classes.attachConst
+		23. object.classes.attachGetter
+		24. types.verifyConstructor
+		25. array.zeros
 
 	* TODO: fix the publish pipeline (replace the expired NPM_TOKEN secret, update version to 1.0.0 right before publishing)
 
 	Add:
+
 		3. types
-				1. add 'Constructor<Signature extends any[] = [], Type = any> = new (...s: Signature) => Type'
-				2. add 'AbstractConstructor<Signature extends any[] = [], Type = any> = abstract new (...s: Signature) => Type'
+			2. add 'AbstractConstructor<Signature extends any[] = [], Type = any> = abstract new (...s: Signature) => Type'
+				2.1. likewise, add `types.verifyAbstractConstructor` (analogous to `types.verifyConstructor`)
 
 	Fix:
 			2. functional:
@@ -70,3 +81,4 @@
 				Fix bad jsdoc:
 					1. fix the copypaste (example: 'object.empty' jsdoc is copypaste of 'array.empty');
 					2. make it more descriptive
+					3. add missing (listed above)

@@ -1,6 +1,16 @@
+import assert from "assert"
 import { not } from "../boolean/boolean.js"
 import { structCheck } from "../object/main.js"
 import { isEmpty } from "../string/string.js"
+
+/**
+ * A type for representing a class
+ * (can be a Function, provided it's created with `types.makeConstructor`)
+ */
+export type Constructor<
+	T extends object = any,
+	Args extends any[] = any[],
+> = (new (...args: Args) => T) & { prototype: T }
 
 /**
  * Type for signifying one-variable type predicates
@@ -114,3 +124,12 @@ export const isStruct = (x: any) => isObject(x) && x
 export const isIterable = structCheck<Iterable<any>>({
 	[Symbol.iterator]: isFunction,
 })
+
+export function verifyConstructor<
+	T extends object = any,
+	Args extends any[] = any[],
+>(constructorMaker: () => (...args: Args) => T): Constructor<T, Args> {
+	const constructor = constructorMaker()
+	assert(constructor.prototype)
+	return constructor as any // we don't actually know `new`-calls are valid
+}
