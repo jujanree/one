@@ -12,7 +12,9 @@ export const GetSetDescriptor = <T = any>(
 /**
  * Returns a non-configurable, non-writable, non-enumerable constant property descriptor
  */
-export const ConstDescriptor = (value: any): PropertyDescriptor => ({ value })
+export const ConstDescriptor = <T = any>(value: T): PropertyDescriptor => ({
+	value,
+})
 
 /**
  * Returns a new property descriptor using corresponding flags

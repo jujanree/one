@@ -1,7 +1,9 @@
+import { ConstDescriptor, GetterDescriptor } from "./descriptor.js"
 import {
 	Constructor,
 	extendPrototype,
 	propertyDescriptors,
+	protoProp,
 	withoutProperties,
 } from "./main.js"
 
@@ -62,3 +64,15 @@ export const calledDelegate =
 	(delegateMethodName: string) =>
 	(called: any, ...delegateArgs: any[]) =>
 		called[delegatePropName][delegateMethodName].call(called, ...delegateArgs)
+
+export const attachConst = <T = any>(
+	x: Constructor,
+	name: PropertyKey,
+	value: T,
+) => protoProp(x, name, ConstDescriptor(value))
+
+export const attachGetter = <T = any>(
+	x: Constructor,
+	name: PropertyKey,
+	get: () => T,
+) => protoProp(x, name, GetterDescriptor(get))
