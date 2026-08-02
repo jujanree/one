@@ -1,53 +1,56 @@
-## New expansion
+## Function Types Update
 
 ### Added: 
 
-1. array: 
-	1. substitute
-	2. sort
-	3. keys
-	4. numbers
-2. functional: 
-	1. argFiller
-	2. copy
-	3. argWaster
-	4. has
-	5. negate
-3. object: 
-	1. prop
-	2. classes [module]: 
-		1. classWrapper
-		2. withoutConstructor
-		3. mixin
-		4. delegateMethod
-		5. delegateProperty
-		6. calledDelegate
-	3. propDefine
-	4. Constructor
-	5. protoProp	
-	6. descriptor [module]: 
-		1. GetSetDescriptor
-		2. ConstDescriptor
-		3. Descriptor
-		4. EnumerableDescriptor
-		5. ConfigurableDescriptor
-		6. WritableDescriptor	
-	7. extendPrototype
-	8. propsDefine
-4. string: 
-	1. charCodeAt
-	2. multiSplit
+1. proper support for `readonly T[]` array types
+2. proper support for function-param generics for many functions
+3. string: 
+	1. id: 
+		1. camelCase
+		2. PascalCase
+		3. kebabcase
+		4. snake_case
+		5. MACRO_CASE
+		6. flatcase
+		7. TRAIN_CASE
+		8. HttpCase
+4. boolean: 
+	1. geq
+	2. ge
+	3. le
+	4. leq
 5. number: 
-	1. difference
-		
-### Removed [breaking]: 
+	1. isPositive
+	2. isNegative
+	3. isZero
+6. map: 
+	1. keys
+	2. values
+7. array: 
+	1. fill
+	2. from
+	3. repeat
+	4. zeros
+8. object: 
+	1. descriptor: 
+		1. GetterDescriptor
+	2. classes: 
+		1. attachConst
+		2. attachGetter
+9. types: 
+	1. verifyConstructor
+	2. verifyAbstractConstructor
+	3. AbstractConstructor
+	4. MapReturnType
+	5. BasicFunction
+	6. AnyFunction
+	7. ArrayMapper
+	
+### Breaking: 
 
-1. object: 
-	1. FullKey
-
-### Changed [breaking]: 
-
-1. object: 
-	[signature change - removal of 'Set' parameters in favour of spread/array]
-	1. withoutProperties
-	2. propPreserve
+1. this version forbids certain previously possible (but dubious) mutating behaviours on type-level
+2. renaming submodule `type` to `types` (no need for forced aliasing anymore)
+3. enforcing the call to `types.verifyConstructor` to work with non-class constructors (cleaner and more concrete types then)
+4. renaming `array.uniqueArr` to `array.unique` (breaking imports)
+5. removing `array.propPreserve` (breaking the code that uses it)
+6. moving `Constructor` type to `types`

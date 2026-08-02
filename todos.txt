@@ -1,16 +1,5 @@
 * Future [v1.0.0]:
-
-	[note: the version is major since it is breaking,
-		which is due to:
-
-		1. it forbids certain previously possible dubious mutating behaviours on a type-level [generics, `readonly`]
-		2. rename `type` => `types` [breaking imports]
-		3. enforcing the call to `types.verifyConstructor` to work with non-class constructors
-			(cleaner and more concrete types then)
-		4. rename `array.uniqueArr` to `array.unique` [breaking imports]
-		5. removing `array.propPreserve` [breaking code that used it]
-	]
-
+	[note: the version is maj
 	* To test:
 		1. string.id.camelCase
 		2. string.id.PascalCase
@@ -68,10 +57,10 @@
 		26. types.AbstractConstructor
 		27. types.verifyAbstractConstructor
 		28. types.FunctionalConstructor
-		29. MapReturnType
-		30. AnyFunction
-		31. BasicFunction
-		32. ArrayMapper
+		29. types.MapReturnType
+		30. types.AnyFunction
+		31. types.BasicFunction
+		32. types.ArrayMapper
 
 	* TODO: fix the publish pipeline (replace the expired NPM_TOKEN secret, update version to 1.0.0 right before publishing)
 
@@ -81,5 +70,3 @@
 					1. fix the copypaste (example: 'object.empty' jsdoc is copypaste of 'array.empty');
 					2. make it more descriptive
 					3. add missing (listed above)
-
-	* Provide a new CHANGELOG, based off made commits' messages
