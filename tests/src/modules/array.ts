@@ -20,7 +20,7 @@ const {
 	propPreserve,
 	copy,
 	empty,
-	uniqueArr,
+	unique,
 	and,
 	or,
 	allocator,
@@ -155,9 +155,9 @@ suite("array", () => {
 		)
 	})
 
-	test("uniqueArr", () => {
+	test("unique", () => {
 		const X = [0, 1, 1, 2, 2, 2, 3, 1]
-		assert(same(uniqueArr(X), getArray()))
+		assert(same(unique(X), getArray()))
 	})
 
 	test("and", () => {

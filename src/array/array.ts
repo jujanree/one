@@ -170,7 +170,7 @@ export const propPreserve = (
 /**
  * Creates a copy of the given array
  */
-export const copy = <Type = any>(x: readonly Type[]) => ([] as Type[]).concat(x)
+export const copy = <Type = any>(x: readonly Type[]) => x.slice()
 
 /**
  * Allocates and returns a new empty array.
@@ -200,7 +200,7 @@ export const same = (
  * Creates the array consisting of all the unique items of the given
  * Iterable, in the order in which they appear
  */
-export const uniqueArr = <T = any>(x: Iterable<T>) => Array.from(new Set<T>(x))
+export const unique = <T = any>(x: Iterable<T>) => Array.from(new Set<T>(x))
 
 /**
  * Returns either the first truthy element of `x`, or `last(x)`
