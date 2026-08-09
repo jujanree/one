@@ -4,7 +4,7 @@ import { copy, same } from "../../../dist/src/array/array.js"
 
 import {
 	insert as copying_insert,
-	out as copying_out,
+	without as copying_out,
 	lastOut as copying_lastOut,
 	replace as copying_replace
 } from "../../../dist/src/array/array.js"

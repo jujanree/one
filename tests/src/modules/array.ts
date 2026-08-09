@@ -6,7 +6,6 @@ import { isArray } from "../../../dist/src/types/types.js"
 const {
 	isTuple,
 	isPair,
-	tuple,
 	same,
 	lastOut,
 	last,
@@ -14,7 +13,7 @@ const {
 	clear,
 	insert,
 	replace,
-	out,
+	without,
 	firstOut,
 	first,
 	copy,
@@ -25,7 +24,6 @@ const {
 	allocator,
 	recursiveSame,
 	substitute,
-	sort,
 	keys,
 	numbers,
 } = array
@@ -44,11 +42,6 @@ suite("array", () => {
 		assert(isPair([0, 1]))
 		assert(!isPair([0, 1, 2]))
 		assert(!isPair(false))
-	})
-
-	test("tuple", () => {
-		const X = getArray()
-		assert(same(tuple(...X), X))
 	})
 
 	test("lastOut", () => {
@@ -86,10 +79,10 @@ suite("array", () => {
 		assert(same(replace(X, 1, true), [0, true, 2, 3]))
 	})
 
-	test("out", () => {
+	test("without", () => {
 		const X = getArray()
-		assert(same(out(X, 0), [1, 2, 3]))
-		assert(same(out(out(X, 2), 1), [0, 3]))
+		assert(same(without(X, 0), [1, 2, 3]))
+		assert(same(without(without(X, 2), 1), [0, 3]))
 	})
 
 	test("firstOut", () => {
@@ -125,6 +118,13 @@ suite("array", () => {
 				X.map((x) => x ** 3),
 				X,
 				(x, y) => x === y! ** 3,
+			),
+		)
+		assert(
+			same(
+				X.map((x) => x + 1),
+				X,
+				(x, y, i) => x - 1 === y && y === X[i],
 			),
 		)
 	})
@@ -189,16 +189,6 @@ suite("array", () => {
 
 		assert(same(S1([33, 17]), [33, 24, 25, 17]))
 		assert(same(S2(["O", "S"]), ["O", "R", "C", "S"]))
-	})
-
-	test("sort", () => {
-		assert(same(sort([3, 2, 1]), [1, 2, 3]))
-		assert(
-			same(
-				sort([1, 2, 3], (a: number, b: number) => b - a),
-				[3, 2, 1],
-			),
-		)
 	})
 
 	test("keys", () => {

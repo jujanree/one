@@ -28,14 +28,10 @@
 		26. types.verifyAbstractConstructor
 
 	* To JSDoc:
-		18. array.fill
-		19. array.from
-		20. array.repeat
 		21. object.descriptor.GetterDescriptor
 		22. object.classes.attachConst
 		23. object.classes.attachGetter
 		24. types.verifyConstructor
-		25. array.zeros
 		26. types.AbstractConstructor
 		27. types.verifyAbstractConstructor
 		28. types.FunctionalConstructor

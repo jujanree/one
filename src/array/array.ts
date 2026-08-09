@@ -1,7 +1,6 @@
 import assert from "assert"
 import { equals } from "../boolean/boolean.js"
 import { constant } from "../functional/constant.js"
-import { difference } from "../number/number.js"
 import { isArray } from "../types/types.js"
 
 export type Pair<A = any, B = A> = [A, B]
@@ -60,58 +59,54 @@ type _TupleOf<
 						: _TupleOf<Type, [...LowLim, Type], UpLim, Rem>)
 
 /**
- * Returns a predicate, purpose of which is to indicate that the argument `x` is a `Tuple`,
+ * Returns a predicate, that indicates that the argument `x` is a `Tuple`,
  * with `.length` being precisely `n`.
  */
 export const isTuple =
-	<Items extends number>(n: number) =>
+	<Items extends number>(n: Items) =>
 	<Type>(x: any): x is Tuple<Type, Items> =>
 		isArray(x) && x.length === n
 
 /**
- * A predicate, purpose of which is to determine that the given item is an array of length 2.
+ * A predicate, that determines if the given item is an array of length 2.
  */
 export const isPair = isTuple(2) as <A = any, B = any>(
 	x: any,
 ) => x is Pair<A, B>
 
 /**
- * A type-only no-op function, purpose of which is to treat the given arguments as an array of respective specific type.
- */
-export const tuple = <T extends readonly any[]>(...args: T): T => args
-
-/**
- * A function for creating a copy of the given array without the last `count` elements (by default - 1)
+ * A function that creates a copy of the given array without the last `count` elements (default: `1`)
  */
 export const lastOut = <Type = any>(x: readonly Type[], count = 1) =>
 	x.slice(0, x.length - count)
 
 /**
- * A function for obtaining the last element of the given array.
+ * Returns the last element of `x`
  */
 export const last = <Type = any>(x: readonly Type[]) => x[lastIndex(x)]
 
 /**
- * Sets the value of the last element of the array `x` to be `v`.
+ * Sets the last index of `x` to `v`.
  * @returns `v`
  */
 export const setLast = <T = any>(x: T[], v: T) => (x[lastIndex(x)] = v)
 
 /**
- * A function for mutating the given array via setting its` `.length` to `0`.
+ * Sets the `.length` of `x` to `0`
  */
 export const clear = <Type = any>(x: Type[]) => (x.length = 0)
 
 /**
- * A function for creating a copy of the array with `values` inserted into it at `index`, and `replaceNum(x)` items skipped.
+ * Creates a copy of the array with `values` inserted into it at `index`,
+ * and `replaced(x)` items skipped immediately afterwards.
  */
 export const insertion =
-	(replaceNum: (x: readonly any[]) => number) =>
+	(replaced: (x: readonly any[]) => number) =>
 	<Type = any>(x: readonly Type[], index: number, ...values: Type[]) =>
 		x
 			.slice(0, index)
 			.concat(values)
-			.concat(x.slice(index + replaceNum(x)))
+			.concat(x.slice(index + replaced(x)))
 
 /**
  * Same as `insertion(constant(0))`. Creates a copy, which is a result of inserting items at a given index without any removal
@@ -124,16 +119,17 @@ export const insert = insertion(constant(0))
 export const replace = insertion(constant(1))
 
 /**
- * Creates a copy of a given array, which is a result of removal of `count` items from the given index (default - a single item);
+ * Creates a copy of `target`, which is a result of removal of `count` items at the given `index`
+ * (default `count = 1`).
  */
-export const out = <Type = any>(
-	array: readonly Type[],
+export const without = <Type = any>(
+	target: readonly Type[],
 	index: number,
 	count = 1,
-) => array.slice(0, index).concat(array.slice(index + count))
+) => target.slice(0, index).concat(target.slice(index + count))
 
 /**
- * Creates a copy of a given array, with the first `count` items removed (by default - 1)
+ * Creates a copy of a given array, with the first `count` items removed (by default - `1`)
  */
 export const firstOut = <Type = any>(x: readonly Type[], count = 1) =>
 	x.slice(count)
@@ -154,8 +150,9 @@ export const copy = <Type = any>(x: readonly Type[]) => x.slice()
 export const empty = (): [] => []
 
 /**
- * Conducts the comparison of two iterables `a` and `b`
- * by converting them to arrays and using element-by-element `pred(a[i], b[i], i)`.
+ * Compares two iterables `a` and `b`
+ * by converting them to arrays and using
+ * element-by-element `pred(a[i], b[i], i)`.
  *
  * For comparison to yield `true`, it is required for both arrays to have the same length.
  *
@@ -164,12 +161,18 @@ export const empty = (): [] => []
 export const same = <T = any>(
 	a: Iterable<T>,
 	b: Iterable<T>,
-	pred: (x?: T, y?: T, i?: number) => boolean = equals,
+	pred: (x: T, y: T, i: number) => boolean = equals,
 ) => {
-	const [aarr, barr] = [a, b].map((x) => Array.from(x))
-	return (
-		aarr.length === barr.length && aarr.every((x, i) => pred(x, barr[i], i))
-	)
+	let i = 0
+	const bIter = b[Symbol.iterator]()
+
+	for (const aCurr of a) {
+		const bCurr = bIter.next()
+		if (bCurr.done) return false
+		if (!pred(aCurr, bCurr.value, i++)) return false
+	}
+
+	return !!bIter.next().done
 }
 
 /**
@@ -181,7 +184,7 @@ export const unique = <T = any>(x: Iterable<T>) => Array.from(new Set<T>(x))
 /**
  * Returns either the first truthy element of `x`, or `last(x)`
  */
-export const or = <T = any>(x: T[]) => {
+export const or = <T = any>(x: readonly T[]) => {
 	for (const curr of x) if (curr) return curr
 	return last(x)
 }
@@ -208,19 +211,20 @@ export const allocator =
 export const lastIndex = (array: readonly any[]) => array.length - 1
 
 /**
- * @returns whether the given array is empty
+ * Returns whether `array` is empty
  */
-export const isEmpty = (array: readonly any[]) => !array.length
+export const isEmpty = (array: readonly any[]) => array.length === 0
 
 /**
- * Recursively applies `array.same(a[i], b[i], i)` for `a[i]` and `b[i]` - arrays,
- * to the given arrays `a` and `b` (otherwise, applying `pred(a[i], b[i], i)`),
- * and returns the result.
+ * Recursively verifies that `a` and `b` are "the same" in
+ * terms of provided `pred` (i.e. it runs `pred(x, y, i)` on all
+ * non-array elements and descends further with a new call of
+ * `recursiveSame(x, y, pred)` otherwise).
  */
 export const recursiveSame = <T = any>(
 	a: readonly T[],
 	b: readonly T[],
-	pred: (x?: T, y?: T, i?: number) => boolean = equals,
+	pred: (x: T, y: T, i: number) => boolean = equals,
 ) =>
 	a.length === b.length &&
 	a.every((ax, i) =>
@@ -230,13 +234,10 @@ export const recursiveSame = <T = any>(
 	)
 
 /**
- * Calls `array.sort(order)` with `order` defaulting to `number.difference`
+ * Sets `target[writeIndexes[i]]` to `values[i]` for every
+ * available index (note: lengths of `values` and `writeIndexes`
+ * must be equal).
  */
-export const sort = <T = any>(
-	array: T[],
-	order: (a: any, b: any) => number = difference,
-) => array.sort(order)
-
 export const fill = <T = any>(
 	target: T[],
 	writeIndexes: readonly number[],
@@ -248,9 +249,14 @@ export const fill = <T = any>(
 }
 
 /**
- * Creates a new function, which creates a new array of length `n`, indexes of which
- * defined by the `indexes` array (note: which is pre-ordered), are filled with `values`,
- * the remaining ones being filled by the values of the `x` array
+ * Creates a function for partial filling of an array
+ * determined by `indexes` (with `n` being the max fillable index)
+ * and `values` (first part of the arguments out of two).
+ *
+ * The `remainder` is the rest of the arguments, yet unfilled.
+ *
+ * NOTE: arguments in `values` are indexed by `filledIndexes`,
+ * similarly `remainder` is indexed by its complement.
  */
 export const substitute = (n: number, indexes: readonly number[]) => {
 	const filledIndexes = indexes.toSorted().filter((x) => x < n)
@@ -270,10 +276,13 @@ export const substitute = (n: number, indexes: readonly number[]) => {
 }
 
 /**
- * Returns the array of keys for the given array `x`
+ * Returns an array of keys of `x`
  */
 export const keys = <T = any>(x: readonly T[]) => Array.from(x.keys())
 
+/**
+ * Returns an array of zeros of length n
+ */
 export const zeros = (n: number) => Array(n).fill(0)
 
 /**
@@ -281,15 +290,22 @@ export const zeros = (n: number) => Array(n).fill(0)
  */
 export const numbers = (n: number) => zeros(n).map((_x, i) => i)
 
+/**
+ * Creates an array of given `length` with each element defined
+ * by calls to `f(i)`, where `i` is the element index.
+ */
 export const from = <T = any>(length: number, f: (i: number) => T) =>
 	Array.from({ length }, (_v, i) => f(i))
 
-export const repeat = <T = any>(source: readonly T[], times: number) => {
-	assert(times >= 0)
-	if (times === 0) return []
+/**
+ * Creates a new array that is the repetition of `source` `n` times.
+ */
+export const repeat = <T = any>(source: readonly T[], n: number) => {
+	assert(n >= 0)
+	if (n === 0) return []
 
 	const origLen = source.length
-	const newLen = origLen * times
+	const newLen = origLen * n
 	const repeated = Array<T>(newLen)
 	for (let i = 0; i < newLen; ++i) repeated[i] = source[i % origLen]
 	return repeated
