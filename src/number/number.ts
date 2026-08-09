@@ -45,8 +45,17 @@ export const makeEven = (x: number) => 2 * x
  */
 export const difference = (a: number = 0, ...b: number[]) => a - sum(...b)
 
+/**
+ * Returns `x > 0`
+ */
 export const isPositive = (x: number) => x > 0
 
+/**
+ * Returns `x < 0`
+ */
 export const isNegative = (x: number) => x < 0
 
+/**
+ * Returns `x === 0`
+ */
 export const isZero = (x: number) => x === 0
