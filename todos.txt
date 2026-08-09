@@ -1,5 +1,4 @@
 * Future [v1.0.0]:
-	[note: the version is maj
 	* To test:
 		1. string.id.camelCase
 		2. string.id.PascalCase
@@ -29,14 +28,6 @@
 		26. types.verifyAbstractConstructor
 
 	* To JSDoc:
-		1. string.id.camelCase
-		2. string.id.PascalCase
-		3. string.id.kebabcase
-		4. string.id.snake_case
-		5. string.id.MACRO_CASE
-		6. string.id.flatcase
-		7. string.id.TRAIN_CASE
-		8. string.id.HttpCase
 		9. boolean.geq
 		10. boolean.ge
 		11. boolean.le
@@ -62,7 +53,11 @@
 		31. types.BasicFunction
 		32. types.ArrayMapper
 
-	* TODO: fix the publish pipeline (replace the expired NPM_TOKEN secret, update version to 1.0.0 right before publishing)
+	* TODO: fix the publish pipeline
+		1. replace the expired NPM_TOKEN secret
+		2. update version to 1.0.0 right before publishing [already have the workflow]
+
+	* Update wiki [all the links - new AND old]
 
 	Fix:
 			4. JSDOC:

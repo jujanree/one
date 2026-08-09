@@ -90,7 +90,15 @@ export const multiSplit = (x: string, splitBy: string[]) => {
 	return orig.split(finalDelim)
 }
 
+/**
+ * Namespace for formatting multi-word string identifiers
+ */
 export namespace id {
+	/**
+	 * Formats the words into an id using camelCase.
+	 *
+	 * Example: `camelCase("something", "wicked", "here") -> "somethingWickedHere"`
+	 */
 	export const camelCase = (...words: string[]) => {
 		if (words.length === 0) return ""
 		let result: string = words[0].toLowerCase()
@@ -98,30 +106,65 @@ export namespace id {
 		return result
 	}
 
+	/**
+	 * Formats the words into an id using PascalCase.
+	 *
+	 * Example: `PascalCase("something", "wicked", "here") -> "SomethingWickedHere"`
+	 */
 	export const PascalCase = (...words: string[]) => {
 		return words.map((x) => capitalize(x)).join("")
 	}
 
+	/**
+	 * Formats the words into an id using kebab-case.
+	 *
+	 * Example: `kebabcase("Something", "WICKED", "here") -> "something-wicked-here"`
+	 */
 	export const kebabcase = (...words: string[]) => {
 		return words.map((x) => x.toLowerCase()).join("-")
 	}
 
+	/**
+	 * Formats the words into an id using snake_case.
+	 *
+	 * Example: `snake_case("something", "WickeD", "herE") -> "something_wicked_here"`
+	 */
 	export const snake_case = (...words: string[]) => {
 		return words.map((x) => x.toLowerCase()).join("_")
 	}
 
+	/**
+	 * Formats the words into an id using MACRO_CASE.
+	 *
+	 * Example: `MACRO_CASE("something", "wicked", "here") -> "SOMETHING_WICKED_HERE"`
+	 */
 	export const MACRO_CASE = (...words: string[]) => {
 		return words.map((x) => x.toUpperCase()).join("_")
 	}
 
+	/**
+	 * Formats the words into an id using flatcase.
+	 *
+	 * Example: `flatcase("Something", "WICKED", "herE") -> "somethingwickedhere"`
+	 */
 	export const flatcase = (...words: string[]) => {
 		return words.map((x) => x.toLowerCase()).join("")
 	}
 
+	/**
+	 * Formats the words into an id using TRAIN-CASE.
+	 *
+	 * Example: `TRAIN_CASE("something", "wicked", "here") -> "SOMETHING-WICKED-HERE"`
+	 */
 	export const TRAIN_CASE = (...words: string[]) => {
-		return words.map((x) => x.toUpperCase()).join("_")
+		return words.map((x) => x.toUpperCase()).join("-")
 	}
 
+	/**
+	 * Formats the words into an id using Http-Case.
+	 *
+	 * Example: `HttpCase("something", "WiCked", "herE") -> "Something-Wicked-Here"`
+	 */
 	export const HttpCase = (...words: string[]) => {
 		return words.map((x) => capitalize(x)).join("-")
 	}
