@@ -1,17 +1,17 @@
 import { constant } from "../functional/constant.js"
 
 /**
- * The functional version of `!x`
+ * Returns `!x`
  */
-export const not: (x: any) => boolean = (x: any) => !x
+export const not = (x: any) => !x
 
 /**
- * Returns `true`. Good for functional applications
+ * Returns `true`
  */
 export const T = constant<true>(true)
 
 /**
- * Returns `false`. Good for functional applications
+ * Returns `false`
  */
 export const F = constant<false>(false)
 
@@ -25,10 +25,22 @@ export const equals = (x: any, y: any) => x === y
  */
 export const eqcurry = (x: any) => (y: any) => equals(x, y)
 
+/**
+ * Returns `x <= y`
+ */
 export const leq = <T = any>(x: T, y: T) => x <= y
 
+/**
+ * Returns `x >= y`
+ */
 export const geq = <T = any>(x: T, y: T) => x >= y
 
-export const ge = <T = any>(x: T, y: T) => x > y
+/**
+ * Returns `x > y`
+ */
+export const gt = <T = any>(x: T, y: T) => x > y
 
-export const le = <T = any>(x: T, y: T) => x < y
+/**
+ * Returns `x < y`
+ */
+export const lt = <T = any>(x: T, y: T) => x < y
