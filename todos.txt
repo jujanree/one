@@ -28,8 +28,6 @@
 		26. types.verifyAbstractConstructor
 
 	* To JSDoc:
-		16. map.keys
-		17. map.values
 		18. array.fill
 		19. array.from
 		20. array.repeat
