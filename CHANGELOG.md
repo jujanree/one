@@ -32,8 +32,7 @@
    3. repeat
    4. zeros
 8. object:
-   1. descriptor:
-      1. GetterDescriptor
+   1. descriptor - replacing completely with a new version (based off composition)
    2. classes:
       1. attachConst
       2. attachGetter
@@ -57,3 +56,4 @@
 7. removing `array.tuple` (little utility)
 8. renaming `array.out` to `array.without` (breaking imports)
 9. removing `array.sort` (little utility)
+10. completely replacing the `object.descriptor` submodule
