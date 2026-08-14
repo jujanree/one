@@ -266,7 +266,7 @@ export function findOwnMissing(inobj: object, atobj: object) {
 }
 
 /**
- * Allocates a new empty array
+ * Allocates a new empty object
  */
 export const empty = () => ({})
 

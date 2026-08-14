@@ -1,5 +1,5 @@
 import type { Constructor } from "../types/types.js"
-import { ConstDescriptor, GetterDescriptor } from "./descriptor.js"
+import { Getter, Value } from "./descriptor.js"
 import {
 	extendPrototype,
 	propertyDescriptors,
@@ -65,14 +65,22 @@ export const calledDelegate =
 	(called: any, ...delegateArgs: any[]) =>
 		called[delegatePropName][delegateMethodName].call(called, ...delegateArgs)
 
+/**
+ * Adds a property non-configurable, non-writable, non-enumerable 
+ * property `name` onto `x.prototype` defined by the constant `value`. 
+ */
 export const attachConst = <T = any>(
 	x: Constructor,
 	name: PropertyKey,
 	value: T,
-) => protoProp(x, name, ConstDescriptor(value))
+) => protoProp(x, name, Value(value))
 
+/**
+ * Adds a non-configurable, non-enumerable, non-settable 
+ * property `name` onto `x.prototype` defined by getter `get`.
+ */
 export const attachGetter = <T = any>(
 	x: Constructor,
 	name: PropertyKey,
 	get: () => T,
-) => protoProp(x, name, GetterDescriptor(get))
+) => protoProp(x, name, Getter(get))

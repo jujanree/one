@@ -20,17 +20,14 @@
 		18. array.fill
 		19. array.from
 		20. array.repeat
-		21. object.descriptor.GetterDescriptor
-		22. object.classes.attachConst
-		23. object.classes.attachGetter
-		24. types.verifyConstructor
-		25. array.zeros
-		26. types.verifyAbstractConstructor
+		21. object.classes.attachConst
+		22. object.classes.attachGetter
+		23. types.verifyConstructor
+		24. array.zeros
+		25. types.verifyAbstractConstructor
+		26. object.descriptor [everything]
 
 	* To JSDoc:
-		21. object.descriptor.GetterDescriptor
-		22. object.classes.attachConst
-		23. object.classes.attachGetter
 		24. types.verifyConstructor
 		26. types.AbstractConstructor
 		27. types.verifyAbstractConstructor
@@ -46,9 +43,11 @@
 
 	* Update wiki [all the links - new AND old]
 
-	Fix:
-			4. JSDOC:
-				Fix bad jsdoc:
-					1. fix the copypaste (example: 'object.empty' jsdoc is copypaste of 'array.empty');
-					2. make it more descriptive
-					3. add missing (listed above)
+	Fix JSDOC:
+		1. simplify, improve discriptiveness
+		2. add missing (listed above)
+		3. modules left:
+			* inplace
+			* object
+			* types
+			* functional
