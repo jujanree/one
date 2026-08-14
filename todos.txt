@@ -27,16 +27,6 @@
 		25. types.verifyAbstractConstructor
 		26. object.descriptor [everything]
 
-	* To JSDoc:
-		24. types.verifyConstructor
-		26. types.AbstractConstructor
-		27. types.verifyAbstractConstructor
-		28. types.FunctionalConstructor
-		29. types.MapReturnType
-		30. types.AnyFunction
-		31. types.BasicFunction
-		32. types.ArrayMapper
-
 	* TODO: fix the publish pipeline
 		1. replace the expired NPM_TOKEN secret
 		2. update version to 1.0.0 right before publishing [already have the workflow]

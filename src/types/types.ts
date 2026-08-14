@@ -2,6 +2,7 @@ import assert from "assert"
 import { not } from "../boolean/boolean.js"
 import { structCheck } from "../object/main.js"
 import { isEmpty } from "../string/string.js"
+import { isGeneratorFunction } from "util/types"
 
 /**
  * A type for representing a non-abstract constructor
@@ -11,24 +12,43 @@ export type Constructor<
 	Args extends any[] = any[],
 > = (new (...args: Args) => T) & { prototype: T }
 
+/**
+ * A type for representing an abstract constructor
+ */
 export type AbstractConstructor<
 	T extends object = any,
 	Args extends any[] = any[],
 > = (abstract new (...args: Args) => T) & { prototype: T }
 
+/**
+ * A type for representing a function constructor
+ */
 export type FunctionConstructor<
 	T extends object = any,
 	Args extends any[] = any[],
 > = (this: T, ...args: Args) => T | void
 
+/**
+ * A type for mapping a list of function types to a list of their return types.
+ */
 export type MapReturnType<T extends readonly AnyFunction[]> = {
 	[K in keyof T]: ReturnType<T[K]>
 }
 
+/**
+ * A type for representing an arbitrary function.
+ */
 export type AnyFunction = (...args: any[]) => any
 
+/**
+ * A type for representing an unary function
+ */
 export type BasicFunction<In = any, Out = any> = (arg: In) => Out
 
+/**
+ * A type for specifying a function that takes multiple arguments
+ * and returns an array.
+ */
 export type ArrayMapper<In extends any[] = any[], Out extends any[] = any[]> = (
 	...args: In
 ) => Out
@@ -51,8 +71,9 @@ export const isNumber = (x: any): x is number => typeof x === "number"
 /**
  * Returns whether `x` is a function
  */
-export const isFunction = <T extends AnyFunction = AnyFunction>(x: any): x is T =>
-	typeof x === "function"
+export const isFunction = <T extends AnyFunction = AnyFunction>(
+	x: any,
+): x is T => typeof x === "function"
 
 /**
  * Returns whether `x` is a string primitive
@@ -142,31 +163,46 @@ export const isFalsy = not as (x: any) => x is Falsy
  */
 export const isStruct = (x: any) => isObject(x) && x
 
+/**
+ * Checks if a given object is an iterable (specifically,
+ * whether it has a generator function for the value of `Symbol.iterator`)
+ */
 export const isIterable = structCheck<Iterable<any>>({
-	[Symbol.iterator]: isFunction,
+	[Symbol.iterator]: isGeneratorFunction,
 })
 
 function verifyPrototypePresence<
 	T extends object = any,
 	Args extends any[] = any[],
->(constructorMaker: () => FunctionConstructor<T, Args>) {
-	const constructor = constructorMaker()
+>(constructor: FunctionConstructor<T, Args>) {
 	assert(constructor.prototype)
 	return constructor
 }
 
+/**
+ * Treats a `FunctionConstructor<T, Args>` as a `Constructor<T, Args>`
+ * (for passing the TypeScript's issues with recognition of traditional
+ * function-constructors)
+ *
+ * Note: doesn't actually do anything, exists solely for type clarity
+ */
 export function verifyConstructor<
 	T extends object = any,
 	Args extends any[] = any[],
->(constructorMaker: () => FunctionConstructor<T, Args>): Constructor<T, Args> {
-	return verifyPrototypePresence(constructorMaker) as any // we don't actually know `new`-calls are valid
+>(constructor: FunctionConstructor<T, Args>): Constructor<T, Args> {
+	return verifyPrototypePresence(constructor) as any // we don't actually know `new`-calls are valid
 }
 
+/**
+ * Treats a `FunctionConstructor<T, Args>` as an `AbstractConstructor<T, Args>`
+ * (for passing the TypeScript's issues with recognition of traditional
+ * function-constructors)
+ *
+ * Note: doesn't actually do anything, exists solely for type clarity
+ */
 export function verifyAbstractConstructor<
 	T extends object = any,
 	Args extends any[] = any[],
->(
-	constructorMaker: () => FunctionConstructor<T, Args>,
-): AbstractConstructor<T, Args> {
-	return verifyPrototypePresence(constructorMaker) as any
+>(constructor: FunctionConstructor<T, Args>): AbstractConstructor<T, Args> {
+	return verifyPrototypePresence(constructor) as any
 }
