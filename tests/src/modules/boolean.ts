@@ -2,7 +2,7 @@ import test, { suite } from "node:test"
 import assert from "node:assert"
 
 import { boolean } from "../../../dist/main.js"
-const { not, T, F, equals, eqcurry } = boolean
+const { not, T, F, equals, eqcurry, leq, lt, geq, gt } = boolean
 
 suite("boolean", () => {
 	test("not", () => assert(not(false)))
@@ -21,5 +21,29 @@ suite("boolean", () => {
 		assert(!eqcurry({})({}))
 		assert(!eqcurry(true)(false))
 		assert(!eqcurry(null)(undefined))
+	})
+
+	test("leq", () => {
+		assert(leq(3, 5))
+		assert(leq(5, 5))
+		assert(!leq(6, 5))
+	})
+
+	test("lt", () => {
+		assert(lt(3, 5))
+		assert(!lt(5, 5))
+		assert(!lt(6, 5))
+	})
+
+	test("geq", () => {
+		assert(!geq(3, 5))
+		assert(geq(5, 5))
+		assert(geq(6, 5))
+	})
+
+	test("gt", () => {
+		assert(!gt(3, 5))
+		assert(!gt(5, 5))
+		assert(gt(6, 5))
 	})
 })

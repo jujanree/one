@@ -1,9 +1,5 @@
 * Future [v1.0.0]:
 	* To test:
-		9. boolean.geq
-		10. boolean.gt
-		11. boolean.lt
-		12. boolean.leq
 		13. number.isPositive
 		14. number.isNegative
 		15. number.isZero
@@ -12,12 +8,13 @@
 		18. array.fill
 		19. array.from
 		20. array.repeat
+		24. array.zeros
 		21. object.classes.attachConst
 		22. object.classes.attachGetter
-		23. types.verifyConstructor
-		24. array.zeros
-		25. types.verifyAbstractConstructor
 		26. object.descriptor [everything]
+		23. types.verifyConstructor
+		25. types.verifyAbstractConstructor
+		26. types.isIterable
 
 	* TODO: fix the publish pipeline
 		1. replace the expired NPM_TOKEN secret
