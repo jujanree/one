@@ -102,7 +102,7 @@ export namespace id {
 	export const camelCase = (...words: string[]) => {
 		if (words.length === 0) return ""
 		let result: string = words[0].toLowerCase()
-		for (const word of words) result += capitalize(word)
+		words.slice(1).forEach((word) => (result += capitalize(word)))
 		return result
 	}
 

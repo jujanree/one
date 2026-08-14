@@ -1,13 +1,5 @@
 * Future [v1.0.0]:
 	* To test:
-		1. string.id.camelCase
-		2. string.id.PascalCase
-		3. string.id.kebabcase
-		4. string.id.snake_case
-		5. string.id.MACRO_CASE
-		6. string.id.flatcase
-		7. string.id.TRAIN_CASE
-		8. string.id.HttpCase
 		9. boolean.geq
 		10. boolean.gt
 		11. boolean.lt
@@ -35,8 +27,7 @@
 
 	Fix JSDOC:
 		1. simplify, improve discriptiveness
-		2. add missing (listed above)
-		3. modules left:
+		2. modules left:
 			* inplace
 			* object
 			* types
