@@ -1,14 +1,13 @@
 * Future [v1.0.0]:
+	* TEST all the currently untested functions (including the ones from previous releases)
 	* To test:
-		13. number.isPositive
-		14. number.isNegative
-		15. number.isZero
+		* number.mod
 		16. map.keys
 		17. map.values
+
 		18. array.fill
 		19. array.from
 		20. array.repeat
-		24. array.zeros
 		21. object.classes.attachConst
 		22. object.classes.attachGetter
 		26. object.descriptor [everything]

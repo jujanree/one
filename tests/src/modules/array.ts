@@ -26,6 +26,7 @@ const {
 	substitute,
 	keys,
 	numbers,
+	zeros,
 } = array
 
 const getArray = () => [0, 1, 2, 3]
@@ -201,5 +202,11 @@ suite("array", () => {
 		const array = getArray()
 		assert(same(numbers(4), array))
 		assert(same(numbers(7), [0, 1, 2, 3, 4, 5, 6]))
+	})
+
+	test("zeros", () => {
+		const res = zeros(10)
+		assert.strictEqual(res.length, 10)
+		assert(res.every((x) => x === 0))
 	})
 })
