@@ -28,6 +28,8 @@ const {
 	numbers,
 	zeros,
 	fill,
+	repeat,
+	from,
 } = array
 
 const getArray = () => [0, 1, 2, 3]
@@ -222,5 +224,17 @@ suite("array", () => {
 		assert.strictEqual(arr2[3], 9)
 		assert.strictEqual(arr2[11], 0)
 		assert.strictEqual(arr2[19], 1)
+	})
+
+	test("repeat", () => {
+		const arrOrig = getArray()
+		const arrRepeated = repeat(arrOrig, 5)
+		assert.strictEqual(arrRepeated.length, arrOrig.length * 5)
+		assert(arrRepeated.every((x, i) => x === arrOrig[i % arrOrig.length]))
+	})
+
+	test("from", () => {
+		const arr = from(5, (i) => (i + 1) ** 2)
+		assert(same(arr, [1, 4, 9, 16, 25]))
 	})
 })
