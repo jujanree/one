@@ -5,7 +5,7 @@ import { map } from "../../../dist/main.js"
 import { same as array_same } from "../../../dist/src/array/array.js"
 import { same as object_same } from "../../../dist/src/object/main.js"
 
-const { kv, dekv, toObject } = map
+const { kv, dekv, toObject, keys, values } = map
 
 const getMap = () =>
 	new Map<any, any>([
@@ -45,4 +45,18 @@ suite("map", () => {
 	})
 
 	test("toObject", () => assert(object_same(toObject(objectMap()), getObject())))
+
+	test("keys", () => { 
+		const _map = getMap()
+		const keysOrig = _map.keys()
+		const keys1 = keys(_map)
+		assert(array_same(keysOrig, keys1))
+	})
+	
+	test("values", () => { 
+		const _map = getMap()
+		const valuesOrig = _map.values()
+		const values1 = values(_map)
+		assert(array_same(valuesOrig, values1))
+	})
 })

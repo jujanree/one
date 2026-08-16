@@ -1,11 +1,9 @@
 * Future [v1.0.0]:
 	* TEST all the currently untested functions (including the ones from previous releases)
 	* To test:
-		* number.mod
-		16. map.keys
-		17. map.values
-
 		18. array.fill
+
+		* number.mod
 		19. array.from
 		20. array.repeat
 		21. object.classes.attachConst
