@@ -23,12 +23,18 @@ export const max = Math.max
 /**
  * @returns whether the given number is even
  */
-export const isEven = (x: number) => x % 2 === 0
+export const isEven = (x: number) => mod(x, 2) === 0
 
 /**
  * @returns whether the given number is odd
  */
-export const isOdd = (x: number) => x % 2 === 1
+export const isOdd = (x: number) => mod(x, 2) === 1
+
+/** 
+ * Performs the `x mod base` operation, with a guaranteed 
+ * positive output. 
+ */
+export const mod = (x: number, base: number) => Math.abs(x % base)
 
 /**
  * Using the given number `x`, constructs and returns a new number guaranteed to be odd - `2 * x + 1`

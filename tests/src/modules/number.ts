@@ -3,7 +3,18 @@ import assert from "node:assert"
 
 import { number } from "../../../dist/main.js"
 
-const { sum, product, min, max } = number
+const {
+	sum,
+	product,
+	min,
+	max,
+	isEven,
+	isNegative,
+	isOdd,
+	isPositive,
+	isZero,
+	mod,
+} = number
 
 suite("number", () => {
 	test("sum", () => {
@@ -26,5 +37,39 @@ suite("number", () => {
 	test("max", () => {
 		assert.strictEqual(max(20, 40, 1), 40)
 		assert.strictEqual(max(Infinity, 3), Infinity)
+	})
+
+	test("isEven", () => {
+		assert(isEven(2))
+		assert(!isEven(1))
+		assert(isEven(-2))
+		assert(!isEven(-3))
+		assert(isEven(0))
+	})
+
+	test("isOdd", () => {
+		assert(!isOdd(2))
+		assert(isOdd(1))
+		assert(!isOdd(-2))
+		assert(isOdd(-3))
+		assert(!isOdd(0))
+	})
+
+	test("isZero", () => {
+		assert(isZero(0))
+		assert(!isZero(-1))
+		assert(!isZero(1))
+	})
+
+	test("isNegative", () => {
+		assert(isNegative(-1))
+		assert(!isNegative(0))
+		assert(!isNegative(1))
+	})
+
+	test("isPositive", () => {
+		assert(!isPositive(-1))
+		assert(!isPositive(0))
+		assert(isPositive(1))
 	})
 })
