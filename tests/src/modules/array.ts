@@ -27,6 +27,7 @@ const {
 	keys,
 	numbers,
 	zeros,
+	fill,
 } = array
 
 const getArray = () => [0, 1, 2, 3]
@@ -208,5 +209,18 @@ suite("array", () => {
 		const res = zeros(10)
 		assert.strictEqual(res.length, 10)
 		assert(res.every((x) => x === 0))
+	})
+
+	test("fill", () => {
+		const arr1 = getArray()
+		fill(arr1, [0, 2], [11, 5])
+		assert(same(arr1, [11, 1, 5, 3]))
+
+		const arr2 = []
+		fill(arr2, [11, 19, 3], [0, 1, 9])
+		assert.strictEqual(arr2.length, 20)
+		assert.strictEqual(arr2[3], 9)
+		assert.strictEqual(arr2[11], 0)
+		assert.strictEqual(arr2[19], 1)
 	})
 })
