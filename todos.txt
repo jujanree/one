@@ -1,7 +1,6 @@
 * Future [v1.0.0]:
 	* TEST all the currently untested functions (including the ones from previous releases)
 	* To test:
-		* number.mod
 		21. object.classes.attachConst
 		22. object.classes.attachGetter
 		26. object.descriptor [everything]

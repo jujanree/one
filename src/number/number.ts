@@ -1,3 +1,5 @@
+import assert from "assert"
+
 /**
  * Sums all the given numbers and returns the result
  */
@@ -30,11 +32,17 @@ export const isEven = (x: number) => mod(x, 2) === 0
  */
 export const isOdd = (x: number) => mod(x, 2) === 1
 
-/** 
- * Performs the `x mod base` operation, with a guaranteed 
- * positive output. 
+/**
+ * Performs the `x mod base` operation, with a guaranteed
+ * non-negative output.
  */
-export const mod = (x: number, base: number) => Math.abs(x % base)
+export const mod = (x: number, base: number) => {
+	assert.notStrictEqual(base, 0)
+	const signmod = x % base
+	if (base === 1 || signmod === 0) return 0
+	if (x >= 0) return signmod
+	return Math.abs(base) + signmod
+}
 
 /**
  * Using the given number `x`, constructs and returns a new number guaranteed to be odd - `2 * x + 1`

@@ -72,4 +72,30 @@ suite("number", () => {
 		assert(!isPositive(0))
 		assert(isPositive(1))
 	})
+
+	suite("mod", () => {
+		test("x > 0", () => {
+			assert.strictEqual(mod(4, 2), 0)
+			assert.strictEqual(mod(4, -5), 4)
+			assert.strictEqual(mod(3, 2), 1)
+			assert.strictEqual(mod(2, 2), 0)
+			assert.strictEqual(mod(15, 6), 3)
+			assert.strictEqual(mod(10, 1), 0)
+		})
+
+		test("x < 0", () => {
+			assert.strictEqual(mod(-3, 2), 1)
+			assert.strictEqual(mod(-5, -3), 1)
+			assert.strictEqual(mod(-5, 3), 1)
+			assert.strictEqual(mod(-2, -2), 0)
+			assert.strictEqual(mod(-15, -6), 3)
+			assert.strictEqual(mod(-10, 1), 0)
+		})
+
+		test("x = 0", () => {
+			assert.strictEqual(mod(0, 5), 0)
+			assert.strictEqual(mod(0, 1), 0)
+			assert.strictEqual(mod(0, -10), 0)
+		})
+	})
 })
