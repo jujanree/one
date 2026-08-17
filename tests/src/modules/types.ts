@@ -1,6 +1,7 @@
 import assert from "node:assert"
 import test, { suite } from "node:test"
 import { types } from "../../../dist/main.js"
+import { isGeneratorFunction } from "node:util/types"
 
 const {
 	isNumber,
@@ -19,6 +20,7 @@ const {
 	isNumberConvertible,
 	isTruthy,
 	isFalsy,
+	isIterable,
 } = types
 
 suite("type", () => {
@@ -119,5 +121,23 @@ suite("type", () => {
 
 		assert(!isFalsy(true))
 		assert(!isFalsy(1))
+	})
+
+	test("isIterable", () => {
+		assert(isIterable([]))
+		assert(isIterable(""))
+		assert(
+			isIterable({
+				[Symbol.iterator]: function* () {
+					yield 4
+				},
+			}),
+		)
+		assert(isIterable(new Set()))
+		assert(isIterable(new Map()))
+		assert(!isIterable(3))
+		assert(!isIterable(true))
+		assert(!isIterable({}))
+		assert(!isIterable(Symbol("c")))
 	})
 })

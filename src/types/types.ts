@@ -2,7 +2,6 @@ import assert from "assert"
 import { not } from "../boolean/boolean.js"
 import { structCheck } from "../object/main.js"
 import { isEmpty } from "../string/string.js"
-import { isGeneratorFunction } from "util/types"
 
 /**
  * A type for representing a non-abstract constructor
@@ -163,13 +162,17 @@ export const isFalsy = not as (x: any) => x is Falsy
  */
 export const isStruct = (x: any) => isObject(x) && x
 
-/**
- * Checks if a given object is an iterable (specifically,
- * whether it has a generator function for the value of `Symbol.iterator`)
- */
-export const isIterable = structCheck<Iterable<any>>({
-	[Symbol.iterator]: isGeneratorFunction,
+const isIterableObject = structCheck<Iterable<any>>({
+	[Symbol.iterator]: isFunction,
 })
+
+/**
+ * Checks if a given entity is an iterable (specifically,
+ * whether it's either a string or an object with a function 
+ * for the value of `Symbol.iterator`)
+ */
+export const isIterable = <T = any>(x: any): x is Iterable<T> =>
+	isString(x) || isIterableObject(x)
 
 function verifyPrototypePresence<
 	T extends object = any,

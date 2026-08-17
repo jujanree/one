@@ -1,12 +1,13 @@
 * Future [v1.0.0]:
 	* TEST all the currently untested functions (including the ones from previous releases)
 	* To test:
+		26. types.isIterable
+
 		21. object.classes.attachConst
 		22. object.classes.attachGetter
 		26. object.descriptor [everything]
 		23. types.verifyConstructor [static test]
 		25. types.verifyAbstractConstructor [static test]
-		26. types.isIterable
 
 	* TODO: fix the publish pipeline
 		1. replace the expired NPM_TOKEN secret
