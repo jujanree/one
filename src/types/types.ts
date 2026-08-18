@@ -168,7 +168,7 @@ const isIterableObject = structCheck<Iterable<any>>({
 
 /**
  * Checks if a given entity is an iterable (specifically,
- * whether it's either a string or an object with a function 
+ * whether it's either a string or an object with a function
  * for the value of `Symbol.iterator`)
  */
 export const isIterable = <T = any>(x: any): x is Iterable<T> =>

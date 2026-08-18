@@ -1,7 +1,6 @@
 import assert from "node:assert"
 import test, { suite } from "node:test"
 import { types } from "../../../dist/main.js"
-import { isGeneratorFunction } from "node:util/types"
 
 const {
 	isNumber,
@@ -23,7 +22,7 @@ const {
 	isIterable,
 } = types
 
-suite("type", () => {
+suite("types", () => {
 	test("isNumber", () => {
 		assert(isNumber(9))
 		assert(!isNumber("s"))
