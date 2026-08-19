@@ -1,8 +1,10 @@
 {
 	"name": "@jujanree/one",
 	"version": "0.5.0",
-	"description": "A utility npm library that provides beautiful solutions to routine tasks over JavaScript types.",
-	"keywords": ["utils"],
+	"description": "A modern utility library providing one-function solutions to routine JavaScript/TypeScript tasks",
+	"keywords": [
+		"utils"
+	],
 	"homepage": "https://github.com/jujanree/one#readme",
 	"bugs": {
 		"url": "https://github.com/jujanree/one/issues"

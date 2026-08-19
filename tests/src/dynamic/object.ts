@@ -11,6 +11,7 @@ import {
 	isNumber,
 	isString,
 	isTruthy,
+	verifyConstructor,
 } from "../../../dist/src/types/types.js"
 
 import { object } from "../../../dist/main.js"
@@ -47,6 +48,8 @@ const {
 	delegateMethod,
 	delegateProperty,
 	calledDelegate,
+	attachConst,
+	attachGetter,
 } = object.classes
 
 const s = Symbol("R")
@@ -778,6 +781,33 @@ suite("object", () => {
 
 			assert.strictEqual(callDelegate(c1, 3), 15)
 			assert.strictEqual(callDelegate(c2, 3), 9)
+		})
+
+		test("attachGetter", () => {
+			function f(a: any) {
+				a.a = 11
+			}
+
+			interface AObj {
+				readonly a: number
+			}
+
+			const get = () => 10
+			function _A() {}
+			const A = verifyConstructor<AObj>(_A)
+			attachGetter(A, "a", get)
+
+			const a = new A()
+			assert.strictEqual(a.a, 10)
+
+			let failed = false
+			try {
+				f(a)
+				failed = true
+			} catch {}
+			assert(!failed)
+
+			assert.strictEqual(a.a, 10)
 		})
 	})
 
