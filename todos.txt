@@ -1,7 +1,6 @@
 * Future [v1.0.0]:
 	* TEST all the currently untested functions (including the ones from previous releases)
 	* To test:
-		21. object.classes.attachConst
 		26. object.descriptor:
 			1. `Value()`-descriptor [with property behaviour, obviously]
 			2. `Enumerable()`

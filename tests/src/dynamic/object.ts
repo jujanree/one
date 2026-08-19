@@ -809,6 +809,32 @@ suite("object", () => {
 
 			assert.strictEqual(a.a, 10)
 		})
+
+		test("attachConst", () => {
+			interface AObj {
+				readonly a: number
+			}
+
+			function f(a: any) {
+				a.a = 11
+			}
+
+			function _A() {}
+			const A = verifyConstructor<AObj>(_A)
+			attachConst(A, "a", 10)
+
+			const a = new A()
+			assert.strictEqual(a.a, 10)
+			
+			let failed = false
+			try {
+				f(a)
+				failed = true
+			} catch { }
+			assert(!failed)
+			
+			assert.strictEqual(a.a, 10)
+		})
 	})
 
 	suite("descriptor", () => {
