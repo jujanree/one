@@ -2,7 +2,7 @@ import test, { suite } from "node:test"
 import { types } from "../../../dist/main.js"
 import assert from "assert"
 
-const { verifyConstructor } = types
+const { verifyConstructor, verifyAbstractConstructor } = types
 
 suite("types", () => {
 	suite("verifyConstructor", () => {
@@ -30,7 +30,6 @@ suite("types", () => {
 			// a1.x = 11
 			// a2.m++
 		})
-
 		test("non-`this`-having function (non-constructor)", () => {
 			interface CObject {}
 
@@ -41,5 +40,51 @@ suite("types", () => {
 			} catch {}
 			assert(!failed)
 		})
+	})
+
+	test("verifyAbstractConstructor", () => {
+		interface XObj {
+			a(x: number): boolean
+		}
+
+		interface YObj extends XObj {
+			getMod(): number
+		}
+
+		function _X(m: number): XObj | void {
+			this._m = Math.abs(m)
+		}
+
+		_X.prototype.a = function (x: number) {
+			return x > 0 && x % this._m === 1
+		}
+
+		const X = verifyAbstractConstructor(_X)
+
+		class Y extends X implements YObj {
+			// note: have to declare [NOT DEFINE] all the non-public fields and methods
+			declare private readonly _m: number
+
+			getMod(): number {
+				return this._m
+			}
+
+			constructor(
+				m: number,
+				readonly k: number,
+			) {
+				super(m)
+			}
+		}
+
+		const y = new Y(5, 3)
+		assert.strictEqual(y.a(10), false)
+		assert.strictEqual(y.a(6), true)
+		assert.strictEqual(y.a(1), true)
+		assert.strictEqual(y.getMod(), 5)
+		assert.strictEqual(y.k, 3)
+
+		// Should raise an error (can't create instances of abstract classes)
+		// const x = new X(5)
 	})
 })
