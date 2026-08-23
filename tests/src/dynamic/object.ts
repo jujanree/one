@@ -5,7 +5,7 @@ import {
 	recursiveSame as array_recursiveSame,
 	same as array_same,
 } from "../../../dist/src/array/array.js"
-import type { KeyValues } from "../../../dist/src/object/main.js"
+import { propDefine, type KeyValues } from "../../../dist/src/object/main.js"
 import {
 	isArray,
 	isNumber,
@@ -39,6 +39,7 @@ const {
 	protoProp,
 	extendPrototype,
 	propertyDescriptors,
+	descriptor,
 } = object
 
 const {
@@ -64,13 +65,15 @@ const methFunction = () => console.log("rumpus")
 const bs = Symbol("Nabe")
 
 const getPrototypeObject = () => {
-	const protoObj = {
+	const target = {
 		[bs]: "55",
 		1919: "kr40al",
 		meth: methFunction,
 	}
-	Object.setPrototypeOf(protoObj, getObject())
-	return protoObj
+	const proto = getObject()
+	Object.setPrototypeOf(proto, {})
+	Object.setPrototypeOf(target, proto)
+	return target
 }
 
 const kvTests: any = {
@@ -825,19 +828,43 @@ suite("object", () => {
 
 			const a = new A()
 			assert.strictEqual(a.a, 10)
-			
+
 			let failed = false
 			try {
 				f(a)
 				failed = true
-			} catch { }
+			} catch {}
 			assert(!failed)
-			
+
 			assert.strictEqual(a.a, 10)
 		})
 	})
 
 	suite("descriptor", () => {
+		test("Value", () => {
+			const desc = {
+				...descriptor.Value(10),
+			}
+
+			const a: any = { b: 11 }
+			propDefine(a, "a", desc)
+
+			assert.strictEqual(a.a, 10)
+			assert.strictEqual(a.b, 11)
+
+			a.b = 12
+
+			let failed = false
+			try {
+				a.a = 11
+				failed = true
+			} catch {}
+			assert(!failed)
+
+			assert.strictEqual(a.b, 12)
+			assert.strictEqual(a.a, 10)
+		})
+
 		// TODO: finish
 	})
 })

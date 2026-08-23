@@ -142,57 +142,83 @@ export function structCheck<Type extends object = object>(
 }
 
 /**
- * Returns the list of keys of a given object [includes the prototypes]
+ * Returns the list of keys of a given object [includes the prototypes
+ * and non-enumerables, without `Object.prototype` (unless otherwise specified)]
  */
-export function keys(object: object): FinalKeys {
-	const props: FinalKeys = recursiveStringKeys(object)
-	props.push(...recursiveSymbolKeys(object))
+export function keys(
+	object: object,
+	includeObject: boolean = false,
+): FinalKeys {
+	const props: FinalKeys = recursiveStringKeys(object, includeObject)
+	props.push(...recursiveSymbolKeys(object, includeObject))
 	return props
 }
 
 /**
  * Returns the array of object values [includes the prototypes]
  */
-export function values(object: object) {
-	const vals: any[] = recursiveStringValues(object)
-	vals.push(...recursiveSymbolValues(object))
+export function values(object: object, includeObject: boolean = false) {
+	const vals: any[] = recursiveStringValues(object, includeObject)
+	vals.push(...recursiveSymbolValues(object, includeObject))
 	return vals
 }
 
 /**
- * Returns the array of string keys of a given object [includes the prototypes]
+ * Returns the array of string keys of a given object
+ * [includes the prototypes and non-enumerables, hence "recursive"]
  */
-export function recursiveStringKeys(object: object) {
-	const props: string[] = []
-	for (const p in object) props.push(p)
-	return props
+export function recursiveStringKeys(
+	object: object,
+	includeObject: boolean = false,
+) {
+	return recursiveIterate(object, Object.getOwnPropertyNames, includeObject)
 }
 
-/**
- * Returns the array of values of a given object at string keys [includes the prototypes]
- */
-export function recursiveStringValues(object: object) {
-	const props: any[] = []
-	for (const p in object) props.push(object[p])
-	return props
-}
-
-/**
- * Returns the array of symbol keys of a given object [includes the prototypes]
- */
-export function recursiveSymbolKeys(object: object) {
-	const symbolProperties = Object.getOwnPropertySymbols(object)
+export function recursiveIterate<T = any>(
+	object: object,
+	iter: (object: object) => T[],
+	includeObject: boolean = false,
+) {
+	const values = iter(object)
 	let proto: object
-	while ((proto = prototype(object)))
-		symbolProperties.push(...Object.getOwnPropertySymbols((object = proto)))
-	return symbolProperties
+	while ((proto = prototype(object))) {
+		if (!includeObject && proto === Object.prototype) break
+		values.push(...iter((object = proto)))
+	}
+	return values
 }
 
 /**
- * Returns the array of values of a given object at symbol keys [includes the prototypes]
+ * Returns the array of values of a given object at
+ * string keys [includes the prototypes and non-enumerables]
  */
-export function recursiveSymbolValues(object: object) {
-	return recursiveSymbolKeys(object).map((key) => object[key])
+export function recursiveStringValues(
+	object: object,
+	includeObject: boolean = false,
+) {
+	return recursiveStringKeys(object, includeObject).map((key) => object[key])
+}
+
+/**
+ * Returns the array of symbol keys of a given object
+ * [includes the prototypes and non-enumerables]
+ */
+export function recursiveSymbolKeys(
+	object: object,
+	includeObject: boolean = false,
+) {
+	return recursiveIterate(object, Object.getOwnPropertySymbols, includeObject)
+}
+
+/**
+ * Returns the array of values of a given object at symbol keys
+ * [includes the prototypes and non-enumerables]
+ */
+export function recursiveSymbolValues(
+	object: object,
+	includeObject: boolean = false,
+) {
+	return recursiveSymbolKeys(object).map((key) => object[key], includeObject)
 }
 
 /**

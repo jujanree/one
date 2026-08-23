@@ -1,13 +1,25 @@
 * Future [v1.0.0]:
-	* TEST all the currently untested functions (including the ones from previous releases)
+	* [list and] TEST all the currently untested functions (including the ones from previous releases):
+		* array
+		* inplace
+		* map
+		* number
+		* boolean
+		* functional
+		* string
+		* types
+		* object
+
 	* To test:
 		26. object.descriptor:
-			1. `Value()`-descriptor [with property behaviour, obviously]
-			2. `Enumerable()`
+			2. `Enumerable()`:
+				1. one creates two descriptors - with and without Enumerable(); both use 'Value()'
+				2. check that:
+					1. enumerable is recognized by `targetObject.propertyIsEnumerable` and the other isn't
+					2. enumerable is shown by `targetObject.property`
 			3. `Writable()`
 			4. `Configurable()`
-			5. `Value()` + `Configurable()` + `Writable()` + `Enumerable()`
-			6. `Configurable()` + `Writable()`
+				1. two descriptors - one with 'Writable()', another with 'Configurable()'
 			7. `Get()`
 			8. `Set()`
 			9. `Get()` + `Set()`
@@ -17,6 +29,7 @@
 		1. replace the expired NPM_TOKEN secret
 		2. update version to 1.0.0 right before publishing
 			[already have the workflow]
+		3. fix the publish variables (they could be outdated)
 
 	* Update wiki [all the links - new AND old]
 

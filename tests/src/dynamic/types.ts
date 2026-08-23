@@ -134,6 +134,7 @@ suite("types", () => {
 		)
 		assert(isIterable(new Set()))
 		assert(isIterable(new Map()))
+		assert(!isIterable(null))
 		assert(!isIterable(3))
 		assert(!isIterable(true))
 		assert(!isIterable({}))
