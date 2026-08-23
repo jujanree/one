@@ -1,16 +1,30 @@
 * Future [v1.0.0]:
-	* [list and] TEST all the currently untested functions (including the ones from previous releases):
-		* array
-		* inplace
-		* map
-		* number
-		* boolean
-		* functional
-		* string
-		* types
-		* object
+	* to jsdoc:
+		1. object.recursiveIterate
 
-	* To test:
+	* TEST all the remaining currently untested functions from prev. releases:
+		* array:
+			1. insertion
+			2. lastIndex
+			3. isEmpty
+		* inplace:
+			1. firstOut
+		* number:
+			1. makeOdd
+			2. makeEven
+			3. difference
+		* string:
+			1. lastIndex
+			2. charCodeAt
+		* types:
+			1. isStruct
+		* object:
+			1. recursiveIterate
+		* functional:
+			1. nil
+			2. negate
+
+	* To test [new]:
 		26. object.descriptor:
 			2. `Enumerable()`:
 				1. one creates two descriptors - with and without Enumerable(); both use 'Value()'
