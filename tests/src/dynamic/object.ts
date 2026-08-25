@@ -14,7 +14,7 @@ import {
 	verifyConstructor,
 } from "../../../dist/src/types/types.js"
 
-import { array, object } from "../../../dist/main.js"
+import { object } from "../../../dist/main.js"
 import { argWaster } from "../../../dist/src/functional/functional.js"
 const {
 	kv,
@@ -237,7 +237,7 @@ suite("object", () => {
 		})
 
 		test("with empty structs [isStrict = true, optional = []]", () => {
-			const emptyStrict = structCheck({}, [], [], true)
+			const emptyStrict = structCheck({}, [], true, [])
 
 			const emptyStrictTest = (emptyStrict: (x: any) => boolean) => {
 				assert(!emptyStrict({ K: "S", R: 2 }))
@@ -253,7 +253,7 @@ suite("object", () => {
 		})
 
 		test("with empty structs [isStrict = true, optional != []]", () => {
-			const emptyOptional = structCheck([], [], shapeKeys, true)
+			const emptyOptional = structCheck([], [], true, shapeKeys)
 
 			const emptyOptionalTest = (emptyOptional: (x: any) => boolean) => {
 				emptyAllowing(emptyOptional)
@@ -295,10 +295,10 @@ suite("object", () => {
 		})
 
 		test("with non-empty structs [isStrict = true, optional = []]", () =>
-			nonEmptyStrictTest(structCheck(shapeObj, [], [], true)))
+			nonEmptyStrictTest(structCheck(shapeObj, [], true, [])))
 
 		test("with non-empty structs [isStrict = true, optional != []]", () => {
-			const nonEmptyOptional = structCheck(shapeObj, [], optionalKeys, true)
+			const nonEmptyOptional = structCheck(shapeObj, [], true, optionalKeys)
 
 			const nonEmptyOptionalTest = (nonEmptyOptional: (x: any) => boolean) => {
 				nonEmptyStrictTest(nonEmptyOptional)

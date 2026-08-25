@@ -1,5 +1,9 @@
 ## Function Types Update
 
+### General
+
+1. improving test coverage
+
 ### Added:
 
 1. proper support for `readonly T[]` array types
@@ -53,7 +57,8 @@
 4. renaming `array.uniqueArr` to `array.unique` (breaking imports)
 5. removing `array.propPreserve` (breaking the code that uses it)
 6. moving `Constructor` type to `types` (breaking imports)
-7. removing `array.tuple` (little utility)
+7. removing `array.tuple` (reason: little utility)
 8. renaming `array.out` to `array.without` (breaking imports)
-9. removing `array.sort` (little utility)
-10. completely replacing the `object.descriptor` submodule
+9. removing `array.sort` (reason: little utility)
+10. completely replacing the `object.descriptor` submodule (breaking imports)
+11. fix: adding the non-enumerable strings into `object.keys()` result (change of behaviour in old code)

@@ -1,7 +1,7 @@
 import { equals, T } from "../boolean/boolean.js"
 import { isArray, isStruct, TypePredicate } from "../types/types.js"
 
-import { same as array_same, Pair } from "../array/array.js"
+import { same as array_same, difference, Pair, unique } from "../array/array.js"
 import type { Constructor } from "../types/types.js"
 
 /**
@@ -112,14 +112,15 @@ export const dekv = <T extends any = any>([keys, values]: KeyValues<T>): Record<
 export function structCheck<Type extends object = object>(
 	properties: ShapeArg,
 	lacks: KeyArray = [],
-	optional: KeyArray = [],
 	isStrict = false,
+	optional: KeyArray = [],
 ): TypePredicate<Type> {
 	const isPropArr = isArray(properties)
 	const [props, propsPredicateArrays] = (
-		isPropArr ? [Array.from(new Set(properties)), []] : kv(properties)
+		isPropArr ? [unique(properties), []] : kv(properties)
 	) as [PropertyKey[], ((x: any) => any)[]]
 
+	const optionalProps = new Set(optional)
 	const predicatesPresent = (x: object) =>
 		propsPredicateArrays.every((pred, i) => (pred || T)(x[props[i]]))
 
@@ -135,9 +136,7 @@ export function structCheck<Type extends object = object>(
 		const propCount = props.length
 		if (propCount === keyCount) return true
 		if (keyCount - propCount > optional.length) return false
-
-		const difference = Array.from(new Set(currKeys).difference(new Set(props)))
-		return difference.every((key) => optional.includes(key))
+		return difference(currKeys, props).every((key) => optionalProps.has(key))
 	}
 }
 

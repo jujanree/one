@@ -310,3 +310,6 @@ export const repeat = <T = any>(source: readonly T[], n: number) => {
 	for (let i = 0; i < newLen; ++i) repeated[i] = source[i % origLen]
 	return repeated
 }
+
+export const difference = <T = any>(source: Iterable<T>, subset: Iterable<T>) =>
+	Array.from(new Set(source).difference(new Set(subset)))
