@@ -14,7 +14,7 @@ import {
 	verifyConstructor,
 } from "../../../dist/src/types/types.js"
 
-import { object } from "../../../dist/main.js"
+import { array, object } from "../../../dist/main.js"
 import { argWaster } from "../../../dist/src/functional/functional.js"
 const {
 	kv,
@@ -842,10 +842,7 @@ suite("object", () => {
 
 	suite("descriptor", () => {
 		test("Value", () => {
-			const desc = {
-				...descriptor.Value(10),
-			}
-
+			const desc = descriptor.Value(10)
 			const a: any = { b: 11 }
 			propDefine(a, "a", desc)
 
@@ -863,6 +860,32 @@ suite("object", () => {
 
 			assert.strictEqual(a.b, 12)
 			assert.strictEqual(a.a, 10)
+		})
+
+		test("Enumerable", () => {
+			const desc1 = descriptor.Value(11)
+			const desc2 = {
+				...descriptor.Value(12),
+				...descriptor.Enumerable(),
+			}
+
+			interface C {
+				readonly b: number
+				readonly a?: number
+				readonly c?: number
+			}
+
+			const a: C = { b: 11 }
+			propDefine(a, "a", desc1)
+			propDefine(a, "c", desc2)
+
+			assert(!a.propertyIsEnumerable("a"))
+			assert(a.propertyIsEnumerable("b"))
+			assert(a.propertyIsEnumerable("c"))
+
+			const props: string[] = []
+			for (const p in a) props.push(p)
+			assert(array_same(props, ["b", "c"]))
 		})
 
 		// TODO: finish

@@ -26,18 +26,16 @@
 
 	* To test [new]:
 		26. object.descriptor:
-			2. `Enumerable()`:
-				1. one creates two descriptors - with and without Enumerable(); both use 'Value()'
-				2. check that:
-					1. enumerable is recognized by `targetObject.propertyIsEnumerable` and the other isn't
-					2. enumerable is shown by `targetObject.property`
-			3. `Writable()`
-			4. `Configurable()`
-				1. two descriptors - one with 'Writable()', another with 'Configurable()'
-			7. `Get()`
-			8. `Set()`
-			9. `Get()` + `Set()`
-			10. `Get()` + `Set()` + `Configurable()`
+			* `Writable()`
+				* one with `Writable()`, another without - ensure that writes to one are legal and to another - not
+			* `Configurable()`
+				1. two descriptors - one without, another with 'Configurable()'
+				2. check that the first cannot be re-configured
+				3. check that the second can be reconfigured
+			* `Get()`
+			* `Set()`
+			* `Get()` + `Set()` + `Configurable()`:
+				* replace a setter in the getter/setter pair on an object by utilizing `Conrigurable()`
 
 	* TODO: fix the publish pipeline
 		1. replace the expired NPM_TOKEN secret

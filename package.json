@@ -23,7 +23,7 @@
 		"debug-all": "npm run debug && npm run test-debug"
 	},
 	"devDependencies": {
-		"@types/node": "^22.19.19",
+		"@types/node": "^26.3.0",
 		"typescript": "^6.0.3"
 	}
 }
