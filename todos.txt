@@ -9,10 +9,6 @@
 		7. testing.Range
 
 	* TEST all the remaining currently untested functions from prev. releases:
-		EASY:
-			* testing:
-				1. Range
-
 		* array:
 			1. insertion
 			2. difference

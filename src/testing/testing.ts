@@ -30,10 +30,18 @@ export function assertForEach<T, X extends Iterable<T>>(
 
 export class Range {
 	declare readonly to: number
-	declare readonly from: number;
+	declare readonly from: number
+	declare private readonly limit: (i: number, lim: number) => boolean
+
+	private static less = (i: number, lim: number) => i < lim
+	private static greater = (i: number, lim: number) => i > lim
+
+	private isWithin(i: number) {
+		return this.limit(i, this.to)
+	}
 
 	*[Symbol.iterator]() {
-		for (let i = this.from; i < this.to; i += this.step) yield i
+		for (let i = this.from; this.isWithin(i); i += this.step) yield i
 	}
 
 	constructor(
@@ -41,6 +49,8 @@ export class Range {
 		to?: number,
 		readonly step: number = 1,
 	) {
+		assert.notStrictEqual(step, 0)
+
 		if (!isNumber(to)) {
 			to = from
 			from = 0
@@ -48,5 +58,9 @@ export class Range {
 
 		this.from = from
 		this.to = to
+		this.limit = this.step > 0 ? Range.less : Range.greater
+
+		// against infinite loops
+		assert(this.isWithin(this.from))
 	}
 }

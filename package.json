@@ -16,12 +16,12 @@
 	"types": "./dist/main.d.ts",
 	"scripts": {
 		"build": "npx tsc --project .",
-		"tests-build": "cd tests && npx tsc --project . && cd ..",
-		"build-debug": "npx tsc --project ./ts/debug.json",
-		"tests-debug": "cd tests && npx tsc --project ../ts/test-debug.json && cd ..",
-		"build-all": "npm run build && npm run tests-build",
-		"debug-all": "npm run build-debug && npm run tests-debug",
-		"tests-built": "cd tests/out/ && node all.js"
+		"build-tests": "cd tests && npx tsc --project . && cd ..",
+		"debug-build": "npx tsc --project ./ts/debug.json",
+		"debug-tests": "cd tests && npx tsc --project ../ts/test-debug.json && cd ..",
+		"build-all": "npm run build && npm run build-tests",
+		"debug-all": "npm run debug-build && npm run debug-tests",
+		"tests": "cd tests/out/ && node all.js"
 	},
 	"devDependencies": {
 		"@types/node": "^26.3.0",
