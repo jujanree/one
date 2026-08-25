@@ -19,7 +19,7 @@
 		"tests-build": "cd tests && npx tsc --project . && cd ..",
 		"build-debug": "npx tsc --project ./ts/debug.json",
 		"tests-debug": "cd tests && npx tsc --project ../ts/test-debug.json && cd ..",
-		"all": "npm run build && npm run tests-build",
+		"build-all": "npm run build && npm run tests-build",
 		"debug-all": "npm run build-debug && npm run tests-debug",
 		"tests-built": "cd tests/out/ && node all.js"
 	},

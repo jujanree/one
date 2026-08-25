@@ -20,6 +20,7 @@ const {
 	isTruthy,
 	isFalsy,
 	isIterable,
+	isStruct,
 } = types
 
 suite("types", () => {
@@ -52,8 +53,9 @@ suite("types", () => {
 
 	test("isObject", () => {
 		assert(isObject({}))
+		assert(isObject([]))
 		assert(isObject(null))
-		assert(isObject(new String("james rockerfeller")))
+		assert(isObject(new String("")))
 		assert(!isObject(90))
 	})
 
@@ -139,5 +141,14 @@ suite("types", () => {
 		assert(!isIterable(true))
 		assert(!isIterable({}))
 		assert(!isIterable(Symbol("c")))
+	})
+
+	test("isStruct", () => {
+		assert(isStruct({}))
+		assert(isStruct([]))
+		assert(!isStruct(null))
+		assert(!isStruct(undefined))
+		assert(!isStruct(5))
+		assert(!isStruct("abc"))
 	})
 })

@@ -10,8 +10,6 @@
 
 	* TEST all the remaining currently untested functions from prev. releases:
 		EASY:
-			* types:
-				1. isStruct
 			* testing:
 				1. Range
 
