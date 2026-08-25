@@ -12,6 +12,8 @@ const {
 	cover,
 	isEmpty,
 	multiSplit,
+	lastIndex,
+	lastOut,
 } = string
 
 const {
@@ -148,5 +150,15 @@ suite("string", () => {
 			assert.strictEqual(flatcase("OnE", "Two", "THREE"), "onetwothree")
 			assert.strictEqual(flatcase("somethingsome"), "somethingsome")
 		})
+	})
+
+	test("lastIndex", () => {
+		assert.strictEqual(lastIndex("ABCD"), 3)
+		assert.strictEqual(lastIndex(""), -1)
+	})
+
+	test("lastOut", () => {
+		assert.strictEqual(lastOut("Hello!"), "Hello")
+		assert.strictEqual(lastOut(""), "")
 	})
 })

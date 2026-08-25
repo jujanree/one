@@ -16,14 +16,16 @@
 	"types": "./dist/main.d.ts",
 	"scripts": {
 		"build": "npx tsc --project .",
-		"test": "cd tests && npx tsc --project . && cd ..",
-		"debug": "npx tsc --project ./ts/debug.json",
-		"test-debug": "cd tests && npx tsc --project ../ts/test-debug.json && cd ..",
-		"all": "npm run build && npm run test",
-		"debug-all": "npm run debug && npm run test-debug"
+		"tests-build": "cd tests && npx tsc --project . && cd ..",
+		"build-debug": "npx tsc --project ./ts/debug.json",
+		"tests-debug": "cd tests && npx tsc --project ../ts/test-debug.json && cd ..",
+		"all": "npm run build && npm run tests-build",
+		"debug-all": "npm run build-debug && npm run tests-debug",
+		"tests-built": "cd tests/out/ && node all.js"
 	},
 	"devDependencies": {
 		"@types/node": "^26.3.0",
+		"oxfmt": "^0.65.0",
 		"typescript": "^6.0.3"
 	}
 }

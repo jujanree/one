@@ -14,6 +14,8 @@ const {
 	isPositive,
 	isZero,
 	mod,
+	makeOdd,
+	makeEven,
 } = number
 
 suite("number", () => {
@@ -97,5 +99,19 @@ suite("number", () => {
 			assert.strictEqual(mod(0, 1), 0)
 			assert.strictEqual(mod(0, -10), 0)
 		})
+	})
+
+	test("makeEven", () => {
+		assert.strictEqual(makeEven(5), 10)
+		assert.strictEqual(makeEven(6), 12)
+		assert.strictEqual(makeEven(-1), -2)
+		assert.strictEqual(makeEven(0), 0)
+	})
+
+	test("makeOdd", () => {
+		assert.strictEqual(makeOdd(5), 11)
+		assert.strictEqual(makeOdd(6), 13)
+		assert.strictEqual(makeOdd(-1), -1)
+		assert.strictEqual(makeOdd(0), 1)
 	})
 })

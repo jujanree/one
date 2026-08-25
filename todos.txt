@@ -9,28 +9,28 @@
 		7. testing.Range
 
 	* TEST all the remaining currently untested functions from prev. releases:
+		EASY:
+			* types:
+				1. isStruct
+			* testing:
+				1. Range
+
 		* array:
 			1. insertion
 			2. difference
 		* inplace:
 			1. firstOut
 		* number:
-			1. makeOdd
-			2. makeEven
-			3. difference
+			1. difference
 		* string:
-			1. lastIndex
-			2. charCodeAt
-		* types:
-			1. isStruct
+			1. charCodeAt
 		* object:
 			1. recursiveIterate
 		* functional:
 			1. nil
 			2. negate
 		* testing:
-			1. Range
-			2. assertForEach
+			1. assertForEach
 				* test it alongside `Range`
 				[note: `Range` exists specifically to mimic two-counter loops,
 					like when trying to test a `assert.strictEqual(x.read(i), known[j])` thing,
