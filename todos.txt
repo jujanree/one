@@ -5,8 +5,6 @@
 	* TEST all the remaining currently untested functions from prev. releases:
 		* array:
 			1. insertion
-			2. lastIndex
-			3. isEmpty
 		* inplace:
 			1. firstOut
 		* number:

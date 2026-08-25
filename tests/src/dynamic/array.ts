@@ -30,6 +30,8 @@ const {
 	fill,
 	repeat,
 	from,
+	isEmpty,
+	lastIndex
 } = array
 
 const getArray = () => [0, 1, 2, 3]
@@ -236,5 +238,19 @@ suite("array", () => {
 	test("from", () => {
 		const arr = from(5, (i) => (i + 1) ** 2)
 		assert(same(arr, [1, 4, 9, 16, 25]))
+	})
+
+	test("isEmpty", () => {
+		assert(isEmpty([]))
+		assert(!isEmpty([1]))
+
+		const pseudoEmpty = Array(10).fill(11)
+		pseudoEmpty.length = 0
+		assert(isEmpty(pseudoEmpty))
+	})
+
+	test("lastIndex", () => { 
+		assert.strictEqual(lastIndex([]), -1)
+		assert.strictEqual(lastIndex([1, 2, 3, 4]), 3)
 	})
 })
