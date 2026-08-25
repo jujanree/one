@@ -14,8 +14,10 @@ import {
 	verifyConstructor,
 } from "../../../dist/src/types/types.js"
 
-import { object } from "../../../dist/main.js"
+import { object, testing } from "../../../dist/main.js"
 import { argWaster } from "../../../dist/src/functional/functional.js"
+
+const { assertThrows } = testing
 const {
 	kv,
 	same,
@@ -802,14 +804,7 @@ suite("object", () => {
 
 			const a = new A()
 			assert.strictEqual(a.a, 10)
-
-			let failed = false
-			try {
-				f(a)
-				failed = true
-			} catch {}
-			assert(!failed)
-
+			assertThrows(() => f(a))
 			assert.strictEqual(a.a, 10)
 		})
 
@@ -828,14 +823,7 @@ suite("object", () => {
 
 			const a = new A()
 			assert.strictEqual(a.a, 10)
-
-			let failed = false
-			try {
-				f(a)
-				failed = true
-			} catch {}
-			assert(!failed)
-
+			assertThrows(() => f(a))
 			assert.strictEqual(a.a, 10)
 		})
 	})
@@ -851,13 +839,7 @@ suite("object", () => {
 
 			a.b = 12
 
-			let failed = false
-			try {
-				a.a = 11
-				failed = true
-			} catch {}
-			assert(!failed)
-
+			assertThrows(() => (a.a = 11))
 			assert.strictEqual(a.b, 12)
 			assert.strictEqual(a.a, 10)
 		})

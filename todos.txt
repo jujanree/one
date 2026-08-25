@@ -2,6 +2,7 @@
 	* to jsdoc:
 		1. object.recursiveIterate
 		2. array.difference
+		3. testing.assertThrows
 
 	* TEST all the remaining currently untested functions from prev. releases:
 		* array:
