@@ -3,6 +3,10 @@
 		1. object.recursiveIterate
 		2. array.difference
 		3. testing.assertThrows
+		4. testing.assertGreaterThan
+		5. testing.assertLessThan
+		6. testing.assertForEach
+		7. testing.Range
 
 	* TEST all the remaining currently untested functions from prev. releases:
 		* array:
@@ -24,6 +28,14 @@
 		* functional:
 			1. nil
 			2. negate
+		* testing:
+			1. Range
+			2. assertForEach
+				* test it alongside `Range`
+				[note: `Range` exists specifically to mimic two-counter loops,
+					like when trying to test a `assert.strictEqual(x.read(i), known[j])` thing,
+					and `j` runs from 0 to CountOfItems, and `i` runs from `from` to `from + CountOfItems`
+				]
 
 	* To test [new]:
 		26. object.descriptor:
