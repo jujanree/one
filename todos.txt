@@ -1,28 +1,27 @@
 * Future [v1.0.0]:
-	* to jsdoc:
-		1. object.recursiveIterate
-		2. array.difference
-
-	* TEST all the remaining currently untested functions from prev. releases:
+	* CURRENT [test]:
 		* array:
-			1. insertion
-			2. difference
-		* number:
 			1. difference
-		* string:
-			1. charCodeAt
-		* object:
-			1. recursiveIterate
-		* functional:
-			1. nil
-			2. negate
 		* testing:
 			1. assertForEach
-				* test it alongside `Range`
+				* test it with `Range` and an `Array`
 				[note: `Range` exists specifically to mimic two-counter loops,
 					like when trying to test a `assert.strictEqual(x.read(i), known[j])` thing,
 					and `j` runs from 0 to CountOfItems, and `i` runs from `from` to `from + CountOfItems`
 				]
+
+
+	* to jsdoc:
+		1. object.recursiveIterate
+		2. array.difference
+
+	* TEST all the remaining currently untested functions (including from prev. releases):
+		* array:
+			1. insertion
+		* string:
+			1. charCodeAt
+		* object:
+			1. recursiveIterate
 
 	* To test [new]:
 		26. object.descriptor:
@@ -32,9 +31,9 @@
 				1. two descriptors - one without, another with 'Configurable()'
 				2. check that the first cannot be re-configured
 				3. check that the second can be reconfigured
-			* `Get()`
-			* `Set()`
-			* `Get()` + `Set()` + `Configurable()`:
+			* `Setter()`
+			* `Getter()` + `Setter()` + `Configurable()`:
+				* (serves more as a practical example-verification of setter-replacement, than a proper Equivalence Partition test)
 				* replace a setter in the getter/setter pair on an object by utilizing `Conrigurable()`
 
 	* TODO: fix the publish pipeline
@@ -48,7 +47,6 @@
 	Fix JSDOC:
 		1. simplify, improve discriptiveness
 		2. modules left:
-			* inplace
 			* object
 			* types
 			* functional
