@@ -16,6 +16,7 @@ const {
 	mod,
 	makeOdd,
 	makeEven,
+	difference,
 } = number
 
 suite("number", () => {
@@ -113,5 +114,11 @@ suite("number", () => {
 		assert.strictEqual(makeOdd(6), 13)
 		assert.strictEqual(makeOdd(-1), -1)
 		assert.strictEqual(makeOdd(0), 1)
+	})
+
+	test("difference", () => {
+		assert.strictEqual(difference(10, 2, 3, 4, 5), -4)
+		assert.strictEqual(difference(-11, -3, -4, -5), 1)
+		assert.strictEqual(difference(0, 1, 20, -9, -8, 5), -9)
 	})
 })
