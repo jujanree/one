@@ -50,8 +50,12 @@
 	5. BasicFunction
 	6. AnyFunction
 	7. ArrayMapper
-10. testing:
+10. testing (new modul):
 	1. assertThrowing
+	2. assertForEach
+	3. assertGreaterThan
+	4. assertLessThan
+	5. Range
 
 ### Breaking:
 
