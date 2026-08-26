@@ -72,3 +72,4 @@
 9. removing `array.sort` (reason: little utility)
 10. completely replacing the `object.descriptor` submodule (breaking imports)
 11. fix: adding the non-enumerable strings into `object.keys()` result (change of behaviour in old code)
+12. removing `object.recursiveStringValues` and `object.recursiveSymbolValues` (breaking imports; reason: redundant)

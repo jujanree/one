@@ -197,17 +197,6 @@ export function recursiveSymbolKeys(
 }
 
 /**
- * Returns the array of values of a given object at symbol keys
- * [includes the prototypes and non-enumerables]
- */
-export function recursiveSymbolValues(
-	object: object,
-	includeObject: boolean = false,
-) {
-	return recursiveSymbolKeys(object).map((key) => object[key], includeObject)
-}
-
-/**
  * Returns the pair of own keys and own properties of a given object
  */
 export const ownProperties = (object: object): [FinalKeys, any[]] => [
