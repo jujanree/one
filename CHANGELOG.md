@@ -3,10 +3,11 @@
 ### General
 
 1. improving test coverage
+2. improving poorly-worded jsdoc
 
 ### Added:
 
-1. proper support for `readonly T[]` array types
+1. proper support for `readonly T[]` array types for non-mutating functions
 2. proper support for function-param generics for many functions
 3. string:
 	1. id:
@@ -50,6 +51,7 @@
 	5. BasicFunction
 	6. AnyFunction
 	7. ArrayMapper
+	8. isIterable
 10. testing (new modul):
 	1. assertThrowing
 	2. assertForEach
