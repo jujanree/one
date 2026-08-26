@@ -16,6 +16,7 @@ import {
 
 import { object, testing } from "../../../dist/main.js"
 import { argWaster } from "../../../dist/src/functional/functional.js"
+import { sum } from "../../../dist/src/number/number.js"
 
 const { assertThrows } = testing
 const {
@@ -41,6 +42,7 @@ const {
 	protoProp,
 	extendPrototype,
 	propertyDescriptors,
+	recursiveIterate,
 	descriptor,
 } = object
 
@@ -353,6 +355,27 @@ suite("object", () => {
 				kvTests.symbol.prototype[0],
 			),
 		)
+	})
+
+	test("recursiveIterate", () => {
+		const x = {
+			ijk: "",
+			lmnop: "",
+		}
+		const proto2 = { qrs: "", tuvw: "", xy: "", z: "" }
+		const proto1 = { a: "", bcd: "", efgh: "" }
+		Object.setPrototypeOf(proto1, proto2)
+		Object.setPrototypeOf(x, proto1)
+
+		const propLengths = recursiveIterate(
+			x,
+			(proto) =>
+				Object.getOwnPropertyNames(proto).map((keyName) => keyName.length),
+			false,
+		)
+
+		assert.strictEqual(sum(...propLengths), 26)
+		assert(same(propLengths, [3, 5, 1, 3, 4, 3, 4, 2, 1]))
 	})
 
 	test("ownProperties", () => {

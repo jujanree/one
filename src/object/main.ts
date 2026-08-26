@@ -156,10 +156,8 @@ export function keys(
 /**
  * Returns the array of object values [includes the prototypes]
  */
-export function values(object: object, includeObject: boolean = false) {
-	const vals: any[] = recursiveStringValues(object, includeObject)
-	vals.push(...recursiveSymbolValues(object, includeObject))
-	return vals
+export function values(object: object, includeObject: boolean = false): any[] {
+	return keys(object, includeObject).map(valueGetter(object))
 }
 
 /**
@@ -185,17 +183,6 @@ export function recursiveIterate<T = any>(
 		values.push(...iter((object = proto)))
 	}
 	return values
-}
-
-/**
- * Returns the array of values of a given object at
- * string keys [includes the prototypes and non-enumerables]
- */
-export function recursiveStringValues(
-	object: object,
-	includeObject: boolean = false,
-) {
-	return recursiveStringKeys(object, includeObject).map((key) => object[key])
 }
 
 /**
@@ -349,12 +336,17 @@ export function withoutProperties(...props: ObjectKey[]) {
 }
 
 /**
- * Returns a function for obtaining `x[name]`
+ * Returns a function for obtaining `x[key]`
+ */
+export const valueGetter = (x: object) => (key: ObjectKey) => x[key]
+
+/**
+ * Returns a function for obtaining `x[key]`
  */
 export const prop =
-	(name: string) =>
+	(key: ObjectKey) =>
 	(x: object): any =>
-		x[name]
+		x[key]
 
 /**
  * Alias of 'Object.defineProperty'

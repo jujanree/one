@@ -2,15 +2,13 @@
 	* CURRENT [test]:
 		* array:
 			1. insertion
-		* object:
-			1. recursiveIterate
 
 	* to jsdoc:
 		1. object.recursiveIterate
 		2. array.difference
 
 	* To test [new]:
-		26. object.descriptor:
+		* object.descriptor:
 			* `Writable()`
 				* one with `Writable()`, another without - ensure that writes to one are legal and to another - not
 			* `Configurable()`
