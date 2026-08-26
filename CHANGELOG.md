@@ -52,7 +52,7 @@
 	6. AnyFunction
 	7. ArrayMapper
 	8. isIterable
-10. testing (new modul):
+10. testing (new module):
 	1. assertThrowing
 	2. assertForEach
 	3. assertGreaterThan
