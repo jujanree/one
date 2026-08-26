@@ -1,19 +1,13 @@
 * Future [v1.0.0]:
 	* CURRENT [test]:
 		* array:
-			1. difference
+			1. insertion
+		* object:
+			1. recursiveIterate
 
 	* to jsdoc:
 		1. object.recursiveIterate
 		2. array.difference
-
-	* TEST all the remaining currently untested functions (including from prev. releases):
-		* array:
-			1. insertion
-		* string:
-			1. charCodeAt
-		* object:
-			1. recursiveIterate
 
 	* To test [new]:
 		26. object.descriptor:

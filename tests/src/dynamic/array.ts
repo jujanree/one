@@ -32,6 +32,7 @@ const {
 	from,
 	isEmpty,
 	lastIndex,
+	difference,
 } = array
 
 const getArray = () => [0, 1, 2, 3]
@@ -252,5 +253,16 @@ suite("array", () => {
 	test("lastIndex", () => {
 		assert.strictEqual(lastIndex([]), -1)
 		assert.strictEqual(lastIndex([1, 2, 3, 4]), 3)
+	})
+
+	test("difference", () => {
+		assert(
+			same(difference(["A", "B", "C", "D", "E", "F"], ["C", "B", "F"]), [
+				"A",
+				"D",
+				"E",
+			]),
+		)
+		assert(same(difference([], [12345]), []))
 	})
 })
