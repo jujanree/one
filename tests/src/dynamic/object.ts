@@ -870,6 +870,27 @@ suite("object", () => {
 			assert(array_same(props, ["b", "c"]))
 		})
 
+		test("Getter", () => {
+			const desc = descriptor.Getter(function () {
+				return Math.sqrt(this.x ** 2 + this.y ** 2)
+			})
+
+			interface Point {
+				readonly x: number
+				readonly y: number
+				readonly diagonal?: number
+			}
+
+			const point: Point = {
+				x: 13,
+				y: 84,
+			}
+
+			propDefine(point, "diagonal", desc)
+			assert.strictEqual(point.diagonal, 85)
+			assertThrows(() => ((point as any).diagonal = () => 0))
+		})
+
 		// TODO: finish
 	})
 })
