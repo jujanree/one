@@ -35,7 +35,7 @@ export function assertLessThan<T = any>(a: T, b: T) {
  * `iter` itself being available inside the body of `pred` via the
  * third argument.
  */
-export function assertForEach<T, X extends Iterable<T>>(
+export function assertForEach<T, X extends Iterable<T> = Iterable<T>>(
 	iter: X,
 	pred: (x: T, i: number, iter: X) => boolean,
 ) {

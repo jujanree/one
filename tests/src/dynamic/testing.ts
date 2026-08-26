@@ -1,6 +1,7 @@
 import assert from "assert"
 import test, { suite } from "node:test"
 import { array, testing } from "../../../dist/main.js"
+import { assertForEach } from "../../../dist/src/testing/testing.js"
 
 const { Range, assertThrows } = testing
 
@@ -61,5 +62,12 @@ suite("testing", () => {
 		test("failure to initialize (step < 0, from < to)", () => {
 			assertThrows(() => new Range(5, 10, -1))
 		})
+	})
+
+	test("assertForEach", () => {
+		assertThrows(() => assertForEach([true, false, false], (x) => !!x))
+		assertThrows(() => assertForEach([true, true, false], (x) => !!x))
+		assertForEach([true, true, true], (x) => !!x)
+		assertForEach<number>(new Range(10), (x, i) => x === i)
 	})
 })

@@ -2,14 +2,6 @@
 	* CURRENT [test]:
 		* array:
 			1. difference
-		* testing:
-			1. assertForEach
-				* test it with `Range` and an `Array`
-				[note: `Range` exists specifically to mimic two-counter loops,
-					like when trying to test a `assert.strictEqual(x.read(i), known[j])` thing,
-					and `j` runs from 0 to CountOfItems, and `i` runs from `from` to `from + CountOfItems`
-				]
-
 
 	* to jsdoc:
 		1. object.recursiveIterate

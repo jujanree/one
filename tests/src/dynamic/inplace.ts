@@ -28,7 +28,10 @@ suite("inplace", () => {
 		const array = getArray() as any[]
 		const oldlength = array.length
 		assert(
-			same(copying_insert(array, 2, "R", true), insert(array, 2, "R", true)),
+			same(
+				copying_insert(array, 2, ["R", true]),
+				insert(array, 2, ["R", true]),
+			),
 		)
 		assert.strictEqual(array.length, oldlength + 2)
 	})
@@ -72,8 +75,8 @@ suite("inplace", () => {
 		const oldlength = array.length
 		assert(
 			same(
-				copying_replace(array, 3, "S", "D", true),
-				replace(array, 3, "S", "D", true),
+				copying_replace(array, 3, ["S", "D", true]),
+				replace(array, 3, ["S", "D", true]),
 			),
 		)
 		assert.strictEqual(oldlength + 2, array.length)

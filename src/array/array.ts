@@ -102,7 +102,7 @@ export const clear = <Type = any>(x: Type[]) => (x.length = 0)
  */
 export const insertion =
 	(replaced: (x: readonly any[]) => number) =>
-	<Type = any>(x: readonly Type[], index: number, ...values: Type[]) =>
+	<Type = any>(x: readonly Type[], index: number, values: Type[]) =>
 		x
 			.slice(0, index)
 			.concat(values)

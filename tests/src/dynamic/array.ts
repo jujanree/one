@@ -31,7 +31,7 @@ const {
 	repeat,
 	from,
 	isEmpty,
-	lastIndex
+	lastIndex,
 } = array
 
 const getArray = () => [0, 1, 2, 3]
@@ -75,14 +75,14 @@ suite("array", () => {
 
 	test("insert", () => {
 		const X = getArray()
-		assert(same(insert(X, 1, -1, -2, -3), [0, -1, -2, -3, 1, 2, 3]))
-		assert(same(insert(X, 0, 14, 29), [14, 29, 0, 1, 2, 3]))
+		assert(same(insert(X, 1, [-1, -2, -3]), [0, -1, -2, -3, 1, 2, 3]))
+		assert(same(insert(X, 0, [14, 29]), [14, 29, 0, 1, 2, 3]))
 	})
 
 	test("replace", () => {
 		const X: any[] = getArray()
-		assert(same(replace(X, 0, "R", "A", "9"), ["R", "A", "9", 1, 2, 3]))
-		assert(same(replace(X, 1, true), [0, true, 2, 3]))
+		assert(same(replace(X, 0, ["R", "A", "9"]), ["R", "A", "9", 1, 2, 3]))
+		assert(same(replace(X, 1, [true]), [0, true, 2, 3]))
 	})
 
 	test("without", () => {
@@ -249,7 +249,7 @@ suite("array", () => {
 		assert(isEmpty(pseudoEmpty))
 	})
 
-	test("lastIndex", () => { 
+	test("lastIndex", () => {
 		assert.strictEqual(lastIndex([]), -1)
 		assert.strictEqual(lastIndex([1, 2, 3, 4]), 3)
 	})
