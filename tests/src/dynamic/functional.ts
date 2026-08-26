@@ -29,6 +29,7 @@ const {
 	has,
 	argWaster,
 	argFiller,
+	negate,
 } = functional
 
 suite("functional", () => {
@@ -247,5 +248,18 @@ suite("functional", () => {
 
 		assert.strictEqual(filler(4), 539)
 		assert.strictEqual(filler(6), 891)
+	})
+
+	test("negate", () => {
+		function T(a: number, b: number, c: number) {
+			return a + b ** 2 === c
+		}
+
+		const negT = negate(T)
+
+		assert(T(10, 2, 14))
+		assert(!T(10, 2, 15))
+		assert(!negT(10, 2, 14))
+		assert(negT(10, 2, 15))
 	})
 })
