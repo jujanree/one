@@ -1,6 +1,6 @@
 import assert from "assert"
 import { not } from "../boolean/boolean.js"
-import { structCheck } from "../object/main.js"
+import { Shape } from "../object/main.js"
 import { isEmpty } from "../string/string.js"
 
 /**
@@ -162,9 +162,10 @@ export const isFalsy = not as (x: any) => x is Falsy
  */
 export const isStruct = (x: any) => isObject(x) && x
 
-const isIterableObject = structCheck<Iterable<any>>({
-	[Symbol.iterator]: isFunction,
-})
+const isIterableObject = new Shape.Builder<object & Iterable<any>>()
+	.add(Symbol.iterator, isFunction)
+	.build()
+	.asPredicate()
 
 /**
  * Checks if a given entity is an iterable (specifically,

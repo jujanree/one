@@ -6,8 +6,81 @@
 	* to jsdoc:
 		1. object.recursiveIterate
 		2. array.difference
+		3. array.ArraySet
+		4. object.Shape:
+			Use the following as a staring point (old `structCheck` docs):
+
+				/**
+ 				* Creates a predicate checking if `x` is an object of a given shape.
+ 				*
+ 				* For `true`, mandates that argument be of `typeof x === "object"`. For `null`, returns `false`
+ 				*
+ 				* @param properties The verified object shape. If an array - items from the array are treated as keys to be checked for presence on the passed `x`. Otherwise - a shape object, keys of which are properties to be present on `x`, and values of which are to pass the respective property's assigned predicate (if applicable). Defaults to `[]`
+ 				* @param lacks The array of keys to be shown to definitively not be present on the object. Checked before `optional`. Defaults to `[]`
+ 				* @param optional The array of properties to be allowed on the object in the event that `isStrict` is set to `true`. Defaults to `[]`
+ 				* @param isStrict The flag for indicating whether the shape to be checked for is "strict", meaning - whether any properties other than `properties` and `optional` are allowed. Defaults to `false`
+ 				*
+ 				* @example
+ 				*
+ 				* interface IThing {
+ 				* 	eatable: any
+ 				* 	fruit: bool
+ 				* }
+ 				*
+ 				* interface Fruit extends IThing {
+ 				* 	eatable: true
+ 				* 	fruit: true
+ 				* }
+ 				*
+ 				* interface Shelf extends IThing {
+ 				* 	fruit: false
+ 				* 	eatable: "maybe???"
+ 				* 	robust: true
+ 				* }
+ 				*
+ 				* const makeThing = (eatable: any, fruit: bool): IThing => ({ eatable, fruit })
+ 				* const makeFruit = (): Fruit => makeThing(true, true)
+ 				* const makeShelf = (): Shelf => { ...makeThing("maybe???", false), robust: true }
+ 				*
+ 				* const isThing = structCheck<IThing>({
+ 				* 	eatable: T,
+ 				* 	fruit: isBoolean,
+ 				* })
+ 				*
+ 				* const isThingExact = structCheck<IThing>({
+ 				* 	eatable: T,
+ 				* 	fruit: isBoolean,
+ 				* }, [], [], true)
+ 				*
+ 				* const isFruit = structCheck<Fruit>({
+ 				* 	eatable: eqcurry(true),
+ 				* 	fruit: eqcurry(true),
+ 				* })
+ 				*
+ 				* const isShelf = structCheck<Shelf>({
+ 				* 	eatable: eqcurry("maybe???"),
+ 				* 	fruit: eqcurry(false)
+ 				* })
+ 				*
+ 				* const apple = makeFruit()
+ 				* const shelf = makeShelf()
+ 				*
+ 				* isThing(shelf) // true
+ 				* isFruit(shelf) // false
+ 				* isShelf(shelf) // true
+ 				*
+ 				* isThing(fruit) // true
+ 				* isFruit(fruit) // true
+ 				* isShelf(fruit) // false
+ 				*/
+		5. object.Shape.Builder
 
 	* To test [new]:
+		* object.Shape.Builder
+		* object.Shape [note: test SEPARATELY from `object.Shape.Builder`]
+			Base it on the test of `structCheck` (since Shape is effectively a
+				refactoring of it).
+		* array.ArraySet
 		* object.descriptor:
 			* `Writable()`
 				* one with `Writable()`, another without - ensure that writes to one are legal and to another - not
@@ -33,7 +106,5 @@
 	Fix JSDOC:
 		1. simplify, improve discriptiveness
 		2. modules left:
-			* object:
-				* main
 			* types
 			* functional

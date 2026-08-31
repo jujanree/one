@@ -313,3 +313,24 @@ export const repeat = <T = any>(source: readonly T[], n: number) => {
 
 export const difference = <T = any>(source: Iterable<T>, subset: Iterable<T>) =>
 	Array.from(new Set(source).difference(new Set(subset)))
+
+export const intersection = <T = any>(
+	first: Iterable<T>,
+	second: Iterable<T>,
+) => new Set(first).intersection(new Set(second))
+
+export class ArraySet<T = any> {
+	readonly asSet: Set<T>
+
+	has(item: T) {
+		return this.asSet.has(item)
+	}
+
+	get length(): number {
+		return this.asArray.length
+	}
+
+	constructor(readonly asArray: T[]) {
+		this.asSet = new Set(asArray)
+	}
+}

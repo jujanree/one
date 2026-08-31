@@ -37,12 +37,14 @@
 	3. repeat
 	4. zeros
 	5. difference
+	6. ArraySet
 8. object:
 	1. descriptor - replacing completely with a new version (based off composition)
 	2. classes:
 		1. attachConst
 		2. attachGetter
 	3. recursiveIterate
+	4. Shape
 9. types:
 	1. verifyConstructor
 	2. verifyAbstractConstructor
@@ -73,3 +75,6 @@
 10. completely replacing the `object.descriptor` submodule (breaking imports)
 11. fix: adding the non-enumerable strings into `object.keys()` result (change of behaviour in old code)
 12. removing `object.recursiveStringValues` and `object.recursiveSymbolValues` (breaking imports; reason: redundant)
+13. replacing `object.structCheck` with `object.Shape` (breaking imports; reason: cleaner to use)
+14. renaming various other functions
+15. removing `object.ownValues` (reason: redundant)

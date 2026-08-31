@@ -1,43 +1,49 @@
 import { equals, T } from "../boolean/boolean.js"
-import { isArray, isStruct, TypePredicate } from "../types/types.js"
+import { isStruct, TypePredicate } from "../types/types.js"
 
-import { same as array_same, difference, Pair, unique } from "../array/array.js"
+import assert from "node:assert"
+import {
+	same as array_same,
+	ArraySet,
+	difference,
+	intersection,
+	Pair,
+} from "../array/array.js"
 import type { Constructor } from "../types/types.js"
 
 /**
- * A type for representing a pair of object's keys-values
+ * Represents a pair of object's keys-array and values-array
  */
 export type KeyValues<T extends any = any> = Pair<KeyArray, T[]>
 
 /**
- * Type for representing a converted object key
+ * Represents an object key after automatic `number -> string` conversion
  */
 export type ObjectKey = string | symbol
+
 export type FinalKeys = ObjectKey[]
 
-/**
- * Type for representing an object key
- */
 export type KeyArray = PropertyKey[]
 
 /**
- * Type for representing a shape of an object
+ * Represents an object shape (property-presence-wise and, possibly,
+ * predicate-wise for some or all properties)
  */
 export type ShapeArg =
 	| KeyArray
 	| { [x: PropertyKey]: ((x?: any) => boolean) | null | undefined }
 
 /**
- * Returns the pair of keys and values of the given object
+ * Returns `[keys(obj), values(obj)]`
  */
-export function kv(obj: object): [(string | symbol)[], any[]] {
+export function kv<V = any>(obj: Record<any, V>): KeyValues<V> {
 	return [keys(obj), values(obj)]
 }
 
 /**
- * Creates a new object using the pair of keys and values
+ * Creates a new object using `KeysValues<T>`
  */
-export const dekv = <T extends any = any>([keys, values]: KeyValues<T>): Record<
+export const dekv = <T = any>([keys, values]: KeyValues<T>): Record<
 	ObjectKey,
 	T
 > => {
@@ -46,103 +52,96 @@ export const dekv = <T extends any = any>([keys, values]: KeyValues<T>): Record<
 	return result
 }
 
-/**
- * Creates a predicate for type-checking object-shapes.
- *
- * For `true`, mandates that argument be of `typeof x === "object"`. For `null`, returns `false`
- *
- * @param properties The basic object shape. If an array - items from the array are treated as keys to be checked for presence on the passed `x`. Otherwise - an object, keys of which correspond to property names to be proven to be present, and to be passing of the predicates assigned to the respective keys. Defaults to `[]`
- * @param lacks The array of keys to be shown to definitively not be present on the object. Checked before `optional`. Defaults to `[]`
- * @param optional The array of properties to be allowed on the object in the event that `isStrict` is set to `true`. Defaults to `[]`
- * @param isStrict The flag for indicating whether the shape to be checked for is "strict", meaning - whether any properties other than `properties` and `optional` are allowed. Defaults to `false`
- *
- * @example
- *
- * interface IThing {
- * 	eatable: any
- * 	fruit: bool
- * }
- *
- * interface Fruit extends IThing {
- * 	eatable: true
- * 	fruit: true
- * }
- *
- * interface Shelf extends IThing {
- * 	fruit: false
- * 	eatable: "maybe???"
- * 	robust: true
- * }
- *
- * const makeThing = (eatable: any, fruit: bool): IThing => ({ eatable, fruit })
- * const makeFruit = (): Fruit => makeThing(true, true)
- * const makeShelf = (): Shelf => { ...makeThing("maybe???", false), robust: true }
- *
- * const isThing = structCheck<IThing>({
- * 	eatable: T,
- * 	fruit: isBoolean,
- * })
- *
- * const isThingExact = structCheck<IThing>({
- * 	eatable: T,
- * 	fruit: isBoolean,
- * }, [], [], true)
- *
- * const isFruit = structCheck<Fruit>({
- * 	eatable: eqcurry(true),
- * 	fruit: eqcurry(true),
- * })
- *
- * const isShelf = structCheck<Shelf>({
- * 	eatable: eqcurry("maybe???"),
- * 	fruit: eqcurry(false)
- * })
- *
- * const apple = makeFruit()
- * const shelf = makeShelf()
- *
- * isThing(shelf) // true
- * isFruit(shelf) // false
- * isShelf(shelf) // true
- *
- * isThing(fruit) // true
- * isFruit(fruit) // true
- * isShelf(fruit) // false
- */
-export function structCheck<Type extends object = object>(
-	properties: ShapeArg,
-	lacks: KeyArray = [],
-	isStrict = false,
-	optional: KeyArray = [],
-): TypePredicate<Type> {
-	const isPropArr = isArray(properties)
-	const [props, propsPredicateArrays] = (
-		isPropArr ? [unique(properties), []] : kv(properties)
-	) as [PropertyKey[], ((x: any) => any)[]]
+export class Shape<T extends object = any> {
+	private readonly optional: ArraySet<PropertyKey>
 
-	const optionalProps = new Set(optional)
-	const predicatesPresent = (x: object) =>
-		propsPredicateArrays.every((pred, i) => (pred || T)(x[props[i]]))
+	asPredicate(): TypePredicate<T> {
+		return (x: any): x is T => this.verify(x)
+	}
 
-	return (x: any): x is Type => {
+	verify(x: any): boolean {
 		if (!isStruct(x)) return false
-		if (!props.every((p) => p in x)) return false
-		if (lacks.some((p) => p in x)) return false
-		if (!predicatesPresent(x)) return false
-		if (!isStrict) return true
+		if (!this.properties.every((p) => p in x)) return false
+		if (this.lacks.some((p) => p in x)) return false
+		if (!this.verifyValues(x)) return false
+		if (!this.isStrict) return true
 
 		const currKeys = keys(x)
 		const keyCount = currKeys.length
-		const propCount = props.length
+		const propCount = this.properties.length
 		if (propCount === keyCount) return true
-		if (keyCount - propCount > optional.length) return false
-		return difference(currKeys, props).every((key) => optionalProps.has(key))
+		if (keyCount - propCount > this.optional.length) return false
+		return difference(currKeys, this.properties).every((key) =>
+			this.optional.has(key),
+		)
+	}
+
+	private verifyValues(x: object) {
+		return this.predicates.every((p, i) => (p || T)(x[this.properties[i]]))
+	}
+
+	constructor(
+		private readonly properties: KeyArray,
+		private readonly predicates: ((x: any) => any)[],
+		private readonly lacks: KeyArray = [],
+		private readonly isStrict = false,
+		optional: KeyArray = [],
+	) {
+		this.optional = new ArraySet(optional)
+	}
+}
+
+export namespace Shape {
+	export class Builder<T extends object = any> {
+		private isStrict = false
+		private readonly added: KeyArray
+		private readonly predicates: ((x: any) => any)[]
+		private readonly removed: KeyArray
+		private readonly optionals: KeyArray
+
+		add(property: PropertyKey, predicate?: (x: any) => any) {
+			this.added.push(property)
+			this.predicates.push(predicate || T)
+			return this
+		}
+
+		remove(property: PropertyKey) {
+			this.removed.push(property)
+			return this
+		}
+
+		makeStrict() {
+			this.isStrict = true
+			return this
+		}
+
+		optional(property: PropertyKey) {
+			this.optionals.push(property)
+			return this
+		}
+
+		private assertPropsCompatible() {
+			assert.strictEqual(intersection(this.removed, this.added).size, 0)
+		}
+
+		build() {
+			this.assertPropsCompatible()
+			return new Shape<T>(
+				this.added,
+				this.predicates,
+				this.removed,
+				this.isStrict,
+				this.optionals,
+			)
+		}
 	}
 }
 
 /**
- * Returns the list of keys of a given object [includes the prototypes
- * and non-enumerables, without `Object.prototype` (unless otherwise specified)]
+ * Returns a list of object's keys [
+ * 	includes the prototypes and non-enumerables,
+ * 	without `Object.prototype` (unless otherwise specified)
+ * ]
  */
 export function keys(
 	object: object,
@@ -186,7 +185,7 @@ export function recursiveIterate<T = any>(
 }
 
 /**
- * Returns the array of symbol keys of a given object
+ * Returns an array of object's `symbol`-keys
  * [includes the prototypes and non-enumerables]
  */
 export function recursiveSymbolKeys(
@@ -197,12 +196,12 @@ export function recursiveSymbolKeys(
 }
 
 /**
- * Returns the pair of own keys and own properties of a given object
+ * Returns a pair of
  */
-export const ownProperties = (object: object): [FinalKeys, any[]] => [
-	ownKeys(object),
-	ownValues(object),
-]
+export const ownProperties = (object: object): [FinalKeys, any[]] => {
+	const own = ownKeys(object)
+	return [own, own.map((k) => object[k])]
+}
 
 /**
  * Returns the own keys of a given object
@@ -211,13 +210,6 @@ export function ownKeys(object: object) {
 	const keys: (string | symbol)[] = Object.getOwnPropertyNames(object)
 	keys.push(...Object.getOwnPropertySymbols(object))
 	return keys
-}
-
-/**
- * Returns the own values of a given object
- */
-export function ownValues(object: object) {
-	return ownKeys(object).map((key) => object[key])
 }
 
 /**
@@ -233,8 +225,10 @@ export function prototype(o: any): any {
 export const copy = <T extends object = object>(x: T) => ({ ...x })
 
 /**
- * Returns the object containing all the property descriptors on a given object `object` [includes the prototypes, respects inheritance],
- * up to the point of meeting the object of `commonPrototype` in the prototype chain (defaults to `Object.prototype`).
+ * Returns the object containing all the property descriptors on a given object `object`
+ * [includes the prototypes, respects inheritance],
+ * up to the point of meeting the object of `commonPrototype` in the prototype chain
+ * (defaults to `Object.prototype`).
  */
 export function propertyDescriptors(
 	object: object,
@@ -246,7 +240,7 @@ export function propertyDescriptors(
 	while (prototype(currPrototype) !== commonPrototype)
 		final = {
 			...final,
-			...findOwnMissing(
+			...getOwnMissing(
 				final,
 				Object.getOwnPropertyDescriptors(
 					(currPrototype = prototype(currPrototype)),
@@ -258,21 +252,22 @@ export function propertyDescriptors(
 }
 
 /**
- * Returns a new object containing all the own properties of `atobj` not present in `inobj`
+ * Returns a new object containing all the own properties of `source`
+ * not found in `target`
  */
-export function findOwnMissing(inobj: object, atobj: object) {
-	const final: object = empty()
-	for (const x of ownKeys(atobj)) if (!(x in inobj)) final[x] = atobj[x]
-	return final
+export function getOwnMissing(target: object, source: object) {
+	const result: object = empty()
+	for (const x of ownKeys(source)) if (!(x in target)) result[x] = source[x]
+	return result
 }
 
 /**
- * Allocates a new empty object
+ * Returns a new empty object
  */
 export const empty = () => ({})
 
 /**
- * Creates a function that returns the shallow copy of `object` [useful for preserving the object's]
+ * Curries shallow copying of `object`
  */
 export const allocator =
 	<T extends object = object>(object: T) =>
@@ -280,8 +275,10 @@ export const allocator =
 		copy(object)
 
 /**
- * Returns whether the two given objects are the same up to direct equivalence of keys' names,
- * and equivalence of values' arrays via 'array.same' with `pred` predicate
+ * Compares two objects by precise key equality (includes order), and
+ * `pred(vx[i], vy[i], i)` for `vx`, `vy` - values of `x` and `y` respectively.
+ *
+ * `pred` defaults to equality
  */
 export const same = (
 	x: object,
@@ -290,10 +287,8 @@ export const same = (
 ) => array_same(keys(x), keys(y)) && array_same(values(x), values(y), pred)
 
 /**
- * Recursively compares the two objects `x` and `y`, applying
- * `pred(x[i], y[i], i)` on all the values of `x` and `y` that aren't objects themselves.
- *
- * `pred` defaults to `equals`
+ * Recursive version of `object.same` (every pair of object elements (x[i], y[i])
+ * must also meet the criteria of `recursiveSame(x[i], y[i], pred)`)
  */
 export function recursiveSame(
 	x: object,
@@ -312,25 +307,25 @@ export function recursiveSame(
 }
 
 /**
- * Returns a copy of a given object without the provided properties `props`
+ * Returns a copy of a given object without the `props`
  */
 export function withoutProperties(...props: ObjectKey[]) {
-	const propsSet = new Set(props)
+	const toRemove = new Set(props)
 	return function (object: object) {
 		const newObj: object = empty()
 		for (const prop of keys(object))
-			if (!propsSet.has(prop)) newObj[prop] = object[prop]
+			if (!toRemove.has(prop)) newObj[prop] = object[prop]
 		return newObj
 	}
 }
 
 /**
- * Returns a function for obtaining `x[key]`
+ * Curries `x[key]`
  */
 export const valueGetter = (x: object) => (key: ObjectKey) => x[key]
 
 /**
- * Returns a function for obtaining `x[key]`
+ * Curries `x[key]`
  */
 export const prop =
 	(key: ObjectKey) =>
@@ -348,8 +343,7 @@ export const propDefine = Object.defineProperty
 export const propsDefine = Object.defineProperties
 
 /**
- * Defines a property with a name `name` and value described by the property-descriptor `value`
- * on the `Extended.prototype`
+ * Defines a property with a name `name` and `value` on `Extended.prototype`
  */
 export const protoProp = (
 	Extended: Constructor,
@@ -358,7 +352,8 @@ export const protoProp = (
 ) => propDefine(Extended.prototype, name, value)
 
 /**
- * Defines the properties described by the given property-descriptor-map `properties` on `Extended.prototype`
+ * Applies a given `PropertyDescriptorMap` on `Extended.prototype`
+ * [defines new properties]
  */
 export const extendPrototype = (
 	Extended: Constructor,

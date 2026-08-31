@@ -31,11 +31,10 @@ const {
 	recursiveSymbolKeys,
 	ownProperties,
 	ownKeys,
-	ownValues,
 	copy,
 	recursiveSame,
 	withoutProperties,
-	findOwnMissing,
+	getOwnMissing,
 	allocator,
 	toMap,
 	prop,
@@ -395,13 +394,6 @@ suite("object", () => {
 		)
 	})
 
-	test("ownValues", () => {
-		assert(array_same(ownValues(getObject()), kvTests.own[1]))
-		assert(
-			array_same(ownValues(getPrototypeObject()), kvTests.ownOnly.prototype[1]),
-		)
-	})
-
 	test("copy", () => {
 		const X = getObject()
 		assert.notStrictEqual(copy(X), X)
@@ -492,11 +484,11 @@ suite("object", () => {
 			))
 	})
 
-	test("findOwnMissing", () => {
+	test("getOwnMissing", () => {
 		const iterator = function* () {}
 		assert(
 			same(
-				findOwnMissing(getObject(), {
+				getOwnMissing(getObject(), {
 					A: "17",
 					B: false,
 					[Symbol.iterator]: iterator,
