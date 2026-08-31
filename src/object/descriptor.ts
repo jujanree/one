@@ -1,10 +1,10 @@
 /**
- * Returns a `{ enumerable: true }` property descriptor
+ * Returns an `{ enumerable: true }` property descriptor
  */
 export const Enumerable = (): PropertyDescriptor => ({ enumerable: true })
 
 /**
- * Returns a non-enumerable, non-configurable, non-writable, getter-only property descriptor
+ * Returns a `{ get }` property descriptor
  */
 export const Getter = <T = any>(get: () => T): PropertyDescriptor => ({
 	get,

@@ -34,8 +34,6 @@
 		1. simplify, improve discriptiveness
 		2. modules left:
 			* object:
-				* descriptor
 				* main
-				* toMap
 			* types
 			* functional
