@@ -1,19 +1,22 @@
 # one
 
-'one' is a JavaScript library purposed for serving as an alias space for tiny and frequently recurring tasks.
+'one' is a TypeScript utility library. Its primary targets are: 
+
+1. runtime typechecker functions (including for precise object shapes)
+2. prototypes manipulation
+3. common expressions on built-in types
+4. functional programming idioms
+5. simplified standard function names/signatures
+6. inplace modification of arrays
 
 ## Installation
 
 ```
-npm install @hgargg-0710/one
+npm install @jujanree/one
 ```
 
 ## Documentation
 
-The documentation is presently located at the [GitHub Wiki](https://github.com/HGARgG-0710/one/wiki). 
+See [the Wiki](https://github.com/jujanree/one/wiki)
 
-Current library version is v0.5
-
-## TypeScript support
-
-Library has full TypeScript and in-editor type support.  
+Lib version: v0.5
