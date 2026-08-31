@@ -51,8 +51,8 @@ const {
 	withoutConstructor,
 	mixin,
 	delegateMethod,
-	delegateProperty,
-	calledDelegate,
+	delegateGetter,
+	applyDelegate,
 	attachConst,
 	attachGetter,
 } = object.classes
@@ -777,7 +777,7 @@ suite("object", () => {
 			const b = new B(13)
 			const c = new C(b)
 
-			const getProperty = delegateProperty("b")("r").bind(c)
+			const getProperty = delegateGetter("b")("r").bind(c)
 			assert.strictEqual(getProperty(), 13)
 
 			b.r = 1119
@@ -805,10 +805,10 @@ suite("object", () => {
 			const b2 = new B(4)
 			const c2 = new C(b2, 3)
 
-			const callDelegate = calledDelegate("b")("meth1")
+			const callDelegate = applyDelegate("b")("meth1")
 
-			assert.strictEqual(callDelegate(c1, 3), 15)
-			assert.strictEqual(callDelegate(c2, 3), 9)
+			assert.strictEqual(callDelegate(c1, [3]), 15)
+			assert.strictEqual(callDelegate(c2, [3]), 9)
 		})
 
 		test("attachGetter", () => {

@@ -28,9 +28,14 @@
 
 	* Update wiki [all the links - new AND old]
 
+	* 'git rebase -i' the current release's commits once all else is done
+
 	Fix JSDOC:
 		1. simplify, improve discriptiveness
 		2. modules left:
-			* object
+			* object:
+				* descriptor
+				* main
+				* toMap
 			* types
 			* functional
