@@ -78,3 +78,4 @@
 13. replacing `object.structCheck` with `object.Shape` (breaking imports; reason: cleaner to use)
 14. renaming various other functions
 15. removing `object.ownValues` (reason: redundant)
+16. renaming: `trivialCompose` to `compose`

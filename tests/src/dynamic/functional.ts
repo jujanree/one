@@ -15,7 +15,7 @@ const {
 	or,
 	id,
 	and,
-	trivialCompose,
+	compose,
 	iterations,
 	sequence,
 	repeat,
@@ -90,7 +90,7 @@ suite("functional", () => {
 
 	test("trivialCompose", () => {
 		assert.strictEqual(
-			trivialCompose(
+			compose(
 				(x: string) => x + "S",
 				(x: number) => String(x + 1),
 			)(8),
@@ -98,7 +98,7 @@ suite("functional", () => {
 		)
 
 		assert.strictEqual(
-			trivialCompose(
+			compose(
 				(x: number) => x - 7,
 				(x: number) => x ** 2,
 				(...x: number[]) => max(...x) + 5,

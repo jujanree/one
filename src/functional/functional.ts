@@ -33,7 +33,7 @@ export const and =
 /**
  * Returns the function composition of the `fs` functions.
  */
-export const trivialCompose =
+export const compose =
 	<FF extends BasicFunction, FL extends AnyFunction>(
 		...fs: [FF, ...AnyFunction[], FL]
 	) =>
@@ -188,6 +188,6 @@ export const argWaster =
  */
 export const negate = <F extends AnyFunction>(
 	f: F,
-): ((...args: Parameters<F>) => boolean) => trivialCompose(not, f)
+): ((...args: Parameters<F>) => boolean) => compose(not, f)
 
 export * from "./constant.js"
