@@ -1,7 +1,7 @@
 import assert from "node:assert"
 import test, { suite } from "node:test"
 
-import { same } from "../../../dist/src/array/array.js"
+import { numbers, same } from "../../../dist/src/array/array.js"
 import { max, product, sum } from "../../../dist/src/number/number.js"
 import {
 	isNumber,
@@ -10,22 +10,21 @@ import {
 } from "../../../dist/src/types/types.js"
 
 import { functional } from "../../../dist/main.js"
+import { T } from "../../../dist/src/boolean/boolean.js"
 
 const {
 	or,
 	id,
 	and,
 	compose,
-	iterations,
 	sequence,
-	repeat,
+	loopOver,
 	arrayCompose,
-	cache,
+	toMap,
 	tupleSlice,
 	tuplePick,
 	constant,
-	cached,
-	copy,
+	bind,
 	has,
 	argWaster,
 	argFiller,
@@ -107,15 +106,6 @@ suite("functional", () => {
 		)
 	})
 
-	test("iterations", () => {
-		const f = (i: number) => i ** 2
-		const iter1 = iterations(f, 5)
-		const iter2 = iterations(f, 10, 3)
-
-		assert(same(iter1, [0, 1, 2, 3, 4].map(f)))
-		assert(same(iter2, [0, 3, 6, 9].map(f)))
-	})
-
 	test("sequence", () =>
 		assert(
 			same(
@@ -128,9 +118,9 @@ suite("functional", () => {
 			),
 		))
 
-	test("repeat", () => {
+	test("loopOver", () => {
 		let i = 0
-		repeat((j: number) => (i += j), 11)
+		loopOver((j: number) => (i += j), numbers(11))
 		assert.strictEqual(i, 55)
 	})
 
@@ -145,8 +135,8 @@ suite("functional", () => {
 		assert.strictEqual(f(10), 7120.5)
 	})
 
-	test("cache", () => {
-		const prequoted = cache(
+	test("toMap", () => {
+		const prequoted = toMap(
 			(quote: string) => (a: string) => `${quote}${a}`,
 			["'", '"'],
 		)
@@ -178,7 +168,7 @@ suite("functional", () => {
 
 		const picked = tuplePick(f1, f2)
 
-		const s1 = picked(null, (x) => x % 2 === 1)
+		const s1 = picked(T, (x) => x % 2 === 1)
 		const s2 = picked(
 			(x, i: number) => i < 3,
 			(x, i: number) => x > 7 && i % 2 === 0,
@@ -188,20 +178,13 @@ suite("functional", () => {
 		assert(same(s2(3, 5, 10, 9, 40), [18, 400]))
 	})
 
-	test("cached", () => {
-		const cachedRoot = cached((x: number) => x ** (1 / 2))
-		const cacheSize = 100000
-		for (let i = 0; i < cacheSize; ++i) cachedRoot(i)
-		assert.strictEqual(cachedRoot.cache.size, cacheSize)
-	})
-
 	test("constant", () => {
 		assert.strictEqual(constant(5)(), 5)
 		assert.strictEqual(constant(false)(), false)
 		assert.strictEqual(constant("49")(), "49")
 	})
 
-	test("copy", () => {
+	test("bind", () => {
 		function F() {}
 		function S() {
 			if (this && this.r) {
@@ -211,14 +194,17 @@ suite("functional", () => {
 		}
 		const T = { r: 329 }
 
-		assert.notStrictEqual(copy(F), F)
-		assert.strictEqual(copy(S, T)(), 342)
+		assert.notStrictEqual(bind(F, null), F)
+		assert.strictEqual(bind(S, T)(), 342)
 	})
 
 	test("has", () => {
 		const hasF = has(new Set(["2929", 13]))
 		assert(!hasF(10))
-		assert(!hasF(null))
+
+		// uncommenting this should cause a compiler error
+		// assert(!hasF(null))
+
 		assert(hasF("2929"))
 		assert(hasF(13))
 	})

@@ -4,6 +4,7 @@
 			1. insertion
 
 	* to jsdoc:
+		0. functional.jumps
 		1. object.recursiveIterate
 		2. array.difference
 		3. array.ArraySet
@@ -102,8 +103,3 @@
 	* Update wiki [all the links - new AND old]
 
 	* 'git rebase -i' the current release's commits once all else is done
-
-	Fix JSDOC:
-		1. simplify, improve discriptiveness
-		2. modules left:
-			* functional

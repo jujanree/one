@@ -35,6 +35,15 @@ export type MapReturnType<T extends readonly AnyFunction[]> = {
 }
 
 /**
+ * A predicate intended to filter items in an `In[]`
+ */
+export type Filter<In = any> = (
+	value: In,
+	index: number,
+	array: In[],
+) => boolean
+
+/**
  * Represents an arbitrary function.
  */
 export type AnyFunction = (...args: any[]) => any

@@ -79,3 +79,6 @@
 14. renaming various other functions
 15. removing `object.ownValues` (reason: redundant)
 16. renaming: `trivialCompose` to `compose`
+17. simplified `functional.iterations` to `jumps` (reason: redundant, can use `jumps(...).map(f)` instead)
+18. renaming `functional.cache` to `functional.toMap` (reason: inaccurate name)
+19. renaming `functional.copy` to `functional.bind` (reason: inaccurate name)
