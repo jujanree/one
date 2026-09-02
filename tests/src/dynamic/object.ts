@@ -930,6 +930,25 @@ suite("object", () => {
 			assert.strictEqual(obj.y, 3)
 		})
 
+		test("Writable", () => {
+			interface A {
+				a?: number
+				readonly b?: number
+			}
+
+			const a: A = {}
+
+			propDefine(a, "a", { ...descriptor.Writable(), ...descriptor.Value(10) })
+			propDefine(a, "b", descriptor.Value(10))
+
+			assert.strictEqual(a.a, 10)
+			assert.strictEqual(a.b, 10)
+			
+			a.a = 0
+			assert.strictEqual(a.a, 0)
+			assertThrows(() => ((a as any).b = 0))
+		})
+
 		// TODO: finish
 	})
 })

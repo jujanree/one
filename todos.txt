@@ -83,13 +83,10 @@
 				refactoring of it).
 		* array.ArraySet
 		* object.descriptor:
-			* `Writable()`
-				* one with `Writable()`, another without - ensure that writes to one are legal and to another - not
 			* `Configurable()`
 				1. two descriptors - one without, another with 'Configurable()'
 				2. check that the first cannot be re-configured
 				3. check that the second can be reconfigured
-			* `Setter()`
 			* `Getter()` + `Setter()` + `Configurable()`:
 				* (serves more as a practical example-verification of setter-replacement, than a proper Equivalence Partition test)
 				* replace a setter in the getter/setter pair on an object by utilizing `Conrigurable()`
