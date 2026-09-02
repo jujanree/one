@@ -1,7 +1,7 @@
 import assert from "assert"
 import { not } from "../boolean/boolean.js"
-import { Shape } from "../object/main.js"
 import { isEmpty } from "../string/string.js"
+import { isString } from "./isString.js"
 
 /**
  * Represents a non-abstract constructor of given signature
@@ -76,18 +76,6 @@ export type Falsy = false | 0 | "" | null | undefined
 export const isNumber = (x: any): x is number => typeof x === "number"
 
 /**
- * Returns whether `x` is a function
- */
-export const isFunction = <T extends AnyFunction = AnyFunction>(
-	x: any,
-): x is T => typeof x === "function"
-
-/**
- * Returns whether `x` is a string primitive
- */
-export const isString = (x: any): x is string => typeof x === "string"
-
-/**
  * Returns whether `x` is a boolean primitive
  */
 export const isBoolean = (x: any): x is boolean => typeof x === "boolean"
@@ -96,12 +84,6 @@ export const isBoolean = (x: any): x is boolean => typeof x === "boolean"
  * Returns whether `x` is a symbol primitive
  */
 export const isSymbol = (x: any): x is symbol => typeof x === "symbol"
-
-/**
- * Returns whether `x` is an object (`null` included)
- */
-export const isObject = <Type extends object = object>(x: any): x is Type =>
-	typeof x === "object"
 
 /**
  * Returns whether `x` is `null`
@@ -122,11 +104,6 @@ export const isNullary = (x: any): x is undefined | null => x == null
  * Returns `typeof x`
  */
 export const typeOf = (x: any) => typeof x
-
-/**
- * Returns whether `x` is an `Array`
- */
-export const isArray = <Type = any>(x: any): x is Type[] => x instanceof Array
 
 /**
  * Returns whether `x` is a `Set`
@@ -165,23 +142,6 @@ export const isTruthy = (x: any) => !!x
  */
 export const isFalsy = not as (x: any) => x is Falsy
 
-/**
- * Returns either `x` if it's a non-`null` object, or `false`, if it isn't
- */
-export const isStruct = (x: any) => isObject(x) && x
-
-const isIterableObject = new Shape.Builder<object & Iterable<any>>()
-	.add(Symbol.iterator, isFunction)
-	.build()
-	.asPredicate()
-
-/**
- * Returns whether a given entity is an iterable (either a
- * string or an object with a defined function-valued [Symbol.iterator])
- */
-export const isIterable = <T = any>(x: any): x is Iterable<T> =>
-	isString(x) || isIterableObject(x)
-
 function verifyPrototypePresence<
 	T extends object = any,
 	Args extends any[] = any[],
@@ -217,3 +177,9 @@ export function verifyAbstractConstructor<
 >(constructor: FunctionConstructor<T, Args>): AbstractConstructor<T, Args> {
 	return verifyPrototypePresence(constructor) as any
 }
+
+export * from "./isArray.js"
+export * from "./isFunction.js"
+export * from "./isString.js"
+export * from "./isIterable.js"
+export * from "./isStruct.js"

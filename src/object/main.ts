@@ -1,5 +1,6 @@
 import { equals, T } from "../boolean/boolean.js"
-import { isStruct, TypePredicate } from "../types/types.js"
+import { type TypePredicate } from "../types/types.js"
+import { isStruct } from "../types/isStruct.js"
 
 import assert from "node:assert"
 import {
@@ -94,10 +95,10 @@ export class Shape<T extends object = any> {
 export namespace Shape {
 	export class Builder<T extends object = any> {
 		private isStrict = false
-		private readonly added: KeyArray
-		private readonly predicates: ((x: any) => any)[]
-		private readonly removed: KeyArray
-		private readonly optionals: KeyArray
+		private readonly added: KeyArray = []
+		private readonly predicates: ((x: any) => any)[] = []
+		private readonly removed: KeyArray = []
+		private readonly optionals: KeyArray = []
 
 		add(property: PropertyKey, predicate?: (x: any) => any) {
 			this.added.push(property)

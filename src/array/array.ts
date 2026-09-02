@@ -1,7 +1,7 @@
 import assert from "assert"
 import { equals } from "../boolean/boolean.js"
 import { constant } from "../functional/constant.js"
-import { isArray } from "../types/types.js"
+import { isArray } from "../types/isArray.js"
 
 export type Pair<A = any, B = A> = [A, B]
 export type Pairs<A = any, B = A> = Pair<A, B>[]
@@ -311,13 +311,13 @@ export const repeat = <T = any>(source: readonly T[], n: number) => {
 	return repeated
 }
 
-export const difference = <T = any>(source: Iterable<T>, subset: Iterable<T>) =>
-	Array.from(new Set(source).difference(new Set(subset)))
+export function difference<T = any>(source: Iterable<T>, subset: Iterable<T>) {
+	return Array.from(new Set(source).difference(new Set(subset)))
+}
 
-export const intersection = <T = any>(
-	first: Iterable<T>,
-	second: Iterable<T>,
-) => new Set(first).intersection(new Set(second))
+export function intersection<T = any>(first: Iterable<T>, second: Iterable<T>) {
+	return new Set(first).intersection(new Set(second))
+}
 
 export class ArraySet<T = any> {
 	readonly asSet: Set<T>
