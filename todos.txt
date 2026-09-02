@@ -106,5 +106,4 @@
 	Fix JSDOC:
 		1. simplify, improve discriptiveness
 		2. modules left:
-			* types
 			* functional

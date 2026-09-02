@@ -4,7 +4,7 @@ import { Shape } from "../object/main.js"
 import { isEmpty } from "../string/string.js"
 
 /**
- * A type for representing a non-abstract constructor
+ * Represents a non-abstract constructor of given signature
  */
 export type Constructor<
 	T extends object = any,
@@ -12,7 +12,7 @@ export type Constructor<
 > = (new (...args: Args) => T) & { prototype: T }
 
 /**
- * A type for representing an abstract constructor
+ Representing an abstract constructor of given signature
  */
 export type AbstractConstructor<
 	T extends object = any,
@@ -20,7 +20,7 @@ export type AbstractConstructor<
 > = (abstract new (...args: Args) => T) & { prototype: T }
 
 /**
- * A type for representing a function constructor
+ * Represents a function constructor
  */
 export type FunctionConstructor<
 	T extends object = any,
@@ -28,42 +28,41 @@ export type FunctionConstructor<
 > = (this: T, ...args: Args) => T | void
 
 /**
- * A type for mapping a list of function types to a list of their return types.
+ * Maps a list of function types to a list of their return types.
  */
 export type MapReturnType<T extends readonly AnyFunction[]> = {
 	[K in keyof T]: ReturnType<T[K]>
 }
 
 /**
- * A type for representing an arbitrary function.
+ * Represents an arbitrary function.
  */
 export type AnyFunction = (...args: any[]) => any
 
 /**
- * A type for representing an unary function
+ * Represents an unary function with given input and output types
  */
 export type BasicFunction<In = any, Out = any> = (arg: In) => Out
 
 /**
- * A type for specifying a function that takes multiple arguments
- * and returns an array.
+ * Represents a function that takes veriable argument number and returns an array
  */
 export type ArrayMapper<In extends any[] = any[], Out extends any[] = any[]> = (
 	...args: In
 ) => Out
 
 /**
- * Type for signifying one-variable type predicates
+ * Represents a one-variable type predicate
  */
 export type TypePredicate<Type = any> = (x?: any) => x is Type
 
 /**
- * A type of all the items `x`, such that `!x` is truthy
+ * Represents values, for which `!x` evaluates to `true`
  */
 export type Falsy = false | 0 | "" | null | undefined
 
 /**
- * Returns whether a given `x` is a number primitive
+ * Returns whether `x` is a numeric primitive
  */
 export const isNumber = (x: any): x is number => typeof x === "number"
 
@@ -90,7 +89,7 @@ export const isBoolean = (x: any): x is boolean => typeof x === "boolean"
 export const isSymbol = (x: any): x is symbol => typeof x === "symbol"
 
 /**
- * Returns whether `x` is an object
+ * Returns whether `x` is an object (`null` included)
  */
 export const isObject = <Type extends object = object>(x: any): x is Type =>
 	typeof x === "object"
@@ -106,7 +105,7 @@ export const isNull = (x: any): x is null => x === null
 export const isUndefined = (x: any): x is undefined => x === undefined
 
 /**
- * Returns whether `x == null`
+ * Returns whether `x == null` evaluates to `true`
  */
 export const isNullary = (x: any): x is undefined | null => x == null
 
@@ -148,12 +147,12 @@ export function isNumberConvertible(x: any): boolean {
 }
 
 /**
- * Returns whether `x` is a truthy value
+ * Returns whether `!!x` evaluates to `true`
  */
 export const isTruthy = (x: any) => !!x
 
 /**
- * Checks whether the given `x` is `Falsy`
+ * Returns whether the given `x` is `Falsy`
  */
 export const isFalsy = not as (x: any) => x is Falsy
 
@@ -168,9 +167,8 @@ const isIterableObject = new Shape.Builder<object & Iterable<any>>()
 	.asPredicate()
 
 /**
- * Checks if a given entity is an iterable (specifically,
- * whether it's either a string or an object with a function
- * for the value of `Symbol.iterator`)
+ * Returns whether a given entity is an iterable (either a
+ * string or an object with a defined function-valued [Symbol.iterator])
  */
 export const isIterable = <T = any>(x: any): x is Iterable<T> =>
 	isString(x) || isIterableObject(x)
